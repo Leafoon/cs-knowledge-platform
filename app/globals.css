@@ -11,12 +11,13 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
-    
+
     html {
         scroll-behavior: smooth;
     }
-    
+
     @media (prefers-reduced-motion: reduce) {
+
         *,
         *::before,
         *::after {
@@ -185,4 +186,73 @@
 .animate-fade-in {
     animation: fade-in 0.5s ease-out forwards;
     opacity: 0;
+}
+
+@layer components {
+
+    /* Markdown Alerts */
+    .markdown-alert {
+        @apply border-l-4 p-4 my-4 rounded-r-lg bg-opacity-10 dark:bg-opacity-10;
+    }
+
+    .markdown-alert-note {
+        @apply border-blue-500 bg-blue-50 text-blue-800 dark:text-blue-200;
+    }
+
+    .markdown-alert-tip {
+        @apply border-green-500 bg-green-50 text-green-800 dark:text-green-200;
+    }
+
+    .markdown-alert-important {
+        @apply border-purple-500 bg-purple-50 text-purple-800 dark:text-purple-200;
+    }
+
+    .markdown-alert-warning {
+        @apply border-yellow-500 bg-yellow-50 text-yellow-800 dark:text-yellow-200;
+    }
+
+    .markdown-alert-caution {
+        @apply border-red-500 bg-red-50 text-red-800 dark:text-red-200;
+    }
+
+    .markdown-alert p {
+        @apply m-0;
+    }
+
+    .markdown-alert p:first-child {
+        @apply font-bold mb-1 flex items-center gap-2;
+    }
+
+    /* Add icons using before pseudo-element is tricky with just CSS classes if we want SVG, 
+     but we can use text or emoji for now, or just rely on color */
+
+    .markdown-alert-note p:first-child::before {
+        content: "ℹ️ Note";
+        @apply text-blue-600 mr-2;
+    }
+
+    .markdown-alert-tip p:first-child::before {
+        content: "💡 Tip";
+        @apply text-green-600 mr-2;
+    }
+
+    .markdown-alert-important p:first-child::before {
+        content: "💜 Important";
+        @apply text-purple-600 mr-2;
+    }
+
+    .markdown-alert-warning p:first-child::before {
+        content: "⚠️ Warning";
+        @apply text-yellow-600 mr-2;
+    }
+
+    .markdown-alert-caution p:first-child::before {
+        content: "🛑 Caution";
+        @apply text-red-600 mr-2;
+    }
+}
+
+/* Make sure KaTeX content is visible */
+.katex-display {
+    @apply overflow-x-auto overflow-y-hidden py-2;
 }

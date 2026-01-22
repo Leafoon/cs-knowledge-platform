@@ -3,6 +3,7 @@
 import { ReactNode, useState } from "react";
 import { ScrollProgress } from "@/components/knowledge/ScrollProgress";
 import { TOC } from "@/components/knowledge/TOC";
+import { ModuleRightSidebar } from "@/components/knowledge/ModuleRightSidebar";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -85,8 +86,9 @@ export function ModuleLayoutClient({ children, toc }: ModuleLayoutClientProps) {
                     </div>
 
                     {/* Right sidebar space for future expansion */}
-                    <aside className="hidden 2xl:block w-64 shrink-0">
+                    <aside className="hidden 2xl:block w-64 shrink-0 relative">
                         {/* Reserved for related content, metadata, etc. */}
+                        <ModuleRightSidebar currentSection={activeId} />
                     </aside>
                 </div>
             </div>

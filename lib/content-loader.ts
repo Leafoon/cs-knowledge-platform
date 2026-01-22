@@ -4,7 +4,10 @@ import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";  // Add GFM support (tables, strikethrough, etc.)
+import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
+import { remarkAlerts } from "./remark-alerts";
+import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import rehypePrism from "rehype-prism-plus";
 import { Module, TOCItem } from "@/types/content";
@@ -70,8 +73,11 @@ export async function getModuleContent(moduleId: string) {
     // Process combined content
     const processedContent = await unified()
         .use(remarkParse)
-        .use(remarkGfm)  // Enable GFM features: tables, strikethrough, task lists, etc.
+        .use(remarkGfm)
+        .use(remarkMath)
+        .use(remarkAlerts)
         .use(remarkRehype, { allowDangerousHtml: true })  // Convert markdown to HTML AST
+        .use(rehypeKatex)
         .use(rehypePrism, { showLineNumbers: true, ignoreMissing: true })
         .use(rehypeStringify, { allowDangerousHtml: true })  // Stringify to HTML
         .process(combinedContent);

@@ -2,7 +2,41 @@
 
 import { useEffect, useRef, useMemo } from "react";
 import { createRoot } from "react-dom/client";
-import { InstructionCycleSimulator, VonNeumannArchitecture, ComputerEvolutionTimeline, SystemLayersVisualization, PythonInterpreterFlow, PythonObjectVisualizer, UnicodeEncodingVisualizer, ListResizingVisualizer, IntegerMemoryLayout, HashTableVisualizer, FunctionCallStackVisualizer, DecoratorExecutionFlow, GeneratorStateVisualizer, ExceptionHierarchyTree } from "@/components/interactive";
+import { 
+    InstructionCycleSimulator, VonNeumannArchitecture, ComputerEvolutionTimeline, SystemLayersVisualization, 
+    PythonInterpreterFlow, PythonObjectVisualizer, UnicodeEncodingVisualizer, ListResizingVisualizer, 
+    IntegerMemoryLayout, HashTableVisualizer, FunctionCallStackVisualizer, DecoratorExecutionFlow, 
+    GeneratorStateVisualizer, ExceptionHierarchyTree, ComputationalGraph, SequentialFlowVisualizer, 
+    BatchProcessor, TrainingSimulator, CheckpointSimulator, ProfilerVisualizer, AttentionMatrixVisualizer, 
+    ParallelVisualizer, QuantizationVisualizer, DistributedVisualizer, KernelFusionVisualizer, 
+    DispatcherVisualizer, TensorBroadcastingVisualizer, TensorStorageVisualizer, ActivationVisualizer, 
+    SamplerVisualizer, OptimizerPathVisualizer, TransferLearningVisualizer, TrainingDynamicsVisualizer, 
+    ConvolutionVisualizer, HookVisualizer, TorchScriptVisualizer, StridedMemoryVisualizer, CUDAStreamVisualizer,
+    // Transformers Components
+    TransformersEcosystemComparison, HuggingFaceEcosystemMap, VersionCompatibilityMatrix,
+    PipelineFlowVisualizer, GenerationParametersExplorer, TopKTopPVisualizer,
+    NERVisualizer, QuestionAnsweringVisualizer, PipelinePerformanceAnalyzer,
+    TokenizationVisualizer, TokenAlgorithmComparison, AttentionMaskBuilder,
+    ArchitectureExplorer, ConfigEditor, ModelOutputInspector,
+    ModelRepoStructureExplorer, CacheManagementVisualizer, PipelineInternalFlow,
+    DatasetPipeline, DataCollatorDemo, TrainingLoopVisualizer,
+    TrainingArgumentsExplorer, MixedPrecisionComparison, TrainingStepBreakdown,
+    CallbackFlow, LearningRateScheduler, TrainingMetricsPlot
+} from "@/components/interactive";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 interface ContentRendererProps {
     html: string;
@@ -24,6 +58,60 @@ const componentMap: Record<string, React.ComponentType> = {
     "DecoratorExecutionFlow": DecoratorExecutionFlow,
     "GeneratorStateVisualizer": GeneratorStateVisualizer,
     "ExceptionHierarchyTree": ExceptionHierarchyTree,
+    "ComputationalGraph": ComputationalGraph,
+    "SequentialFlowVisualizer": SequentialFlowVisualizer,
+    "BatchProcessor": BatchProcessor,
+    "TrainingSimulator": TrainingSimulator,
+    "CheckpointSimulator": CheckpointSimulator,
+    "ProfilerVisualizer": ProfilerVisualizer,
+    "AttentionMatrixVisualizer": AttentionMatrixVisualizer,
+    "ParallelVisualizer": ParallelVisualizer,
+    "QuantizationVisualizer": QuantizationVisualizer,
+    "DistributedVisualizer": DistributedVisualizer,
+    "KernelFusionVisualizer": KernelFusionVisualizer,
+    "DispatcherVisualizer": DispatcherVisualizer,
+    "TensorBroadcastingVisualizer": TensorBroadcastingVisualizer,
+    "TensorStorageVisualizer": TensorStorageVisualizer,
+    "ActivationVisualizer": ActivationVisualizer,
+    "SamplerVisualizer": SamplerVisualizer,
+    "OptimizerPathVisualizer": OptimizerPathVisualizer,
+    "TransferLearningVisualizer": TransferLearningVisualizer,
+    "TrainingDynamicsVisualizer": TrainingDynamicsVisualizer,
+    "ConvolutionVisualizer": ConvolutionVisualizer,
+    "HookVisualizer": HookVisualizer,
+    "TorchScriptVisualizer": TorchScriptVisualizer,
+    "StridedMemoryVisualizer": StridedMemoryVisualizer,
+    "CUDAStreamVisualizer": CUDAStreamVisualizer,
+    // Transformers Components
+    "TransformersEcosystemComparison": TransformersEcosystemComparison,
+    "HuggingFaceEcosystemMap": HuggingFaceEcosystemMap,
+    "VersionCompatibilityMatrix": VersionCompatibilityMatrix,
+    "PipelineFlowVisualizer": PipelineFlowVisualizer,
+    "GenerationParametersExplorer": GenerationParametersExplorer,
+    "TopKTopPVisualizer": TopKTopPVisualizer,
+    "NERVisualizer": NERVisualizer,
+    "QuestionAnsweringVisualizer": QuestionAnsweringVisualizer,
+    "PipelinePerformanceAnalyzer": PipelinePerformanceAnalyzer,
+    "TokenizationVisualizer": TokenizationVisualizer,
+    "TokenAlgorithmComparison": TokenAlgorithmComparison,
+    "AttentionMaskBuilder": AttentionMaskBuilder,
+    "ArchitectureExplorer": ArchitectureExplorer,
+    "ConfigEditor": ConfigEditor,
+    "ModelOutputInspector": ModelOutputInspector,
+    // Chapter 0 missing components
+    "ModelRepoStructureExplorer": ModelRepoStructureExplorer,
+    "CacheManagementVisualizer": CacheManagementVisualizer,
+    "PipelineInternalFlow": PipelineInternalFlow,
+    // Chapter 4-5 components
+    "DatasetPipeline": DatasetPipeline,
+    "DataCollatorDemo": DataCollatorDemo,
+    "TrainingLoopVisualizer": TrainingLoopVisualizer,
+    "TrainingArgumentsExplorer": TrainingArgumentsExplorer,
+    "MixedPrecisionComparison": MixedPrecisionComparison,
+    "TrainingStepBreakdown": TrainingStepBreakdown,
+    "CallbackFlow": CallbackFlow,
+    "LearningRateScheduler": LearningRateScheduler,
+    "TrainingMetricsPlot": TrainingMetricsPlot,
 };
 
 export function ContentRenderer({ html, moduleId }: ContentRendererProps) {
@@ -61,6 +149,12 @@ export function ContentRenderer({ html, moduleId }: ContentRendererProps) {
 
                     const root = createRoot(container);
                     root.render(<Component />);
+                } else {
+                    console.error(`Component "${componentName}" not found in componentMap`);
+                    (marker as HTMLElement).innerText = `[Error: Component "${componentName}" not found]`;
+                    (marker as HTMLElement).style.color = 'red';
+                    (marker as HTMLElement).style.border = '1px solid red';
+                    (marker as HTMLElement).style.padding = '8px';
                 }
             }
         });
