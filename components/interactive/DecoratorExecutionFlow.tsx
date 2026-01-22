@@ -23,7 +23,7 @@ const DecoratorExecutionFlow = () => {
                 </div>
                 
                 <div className="flex gap-2 mt-4">
-                    <Button onClick={() => setStep(Math.max(0, step - 1))} disabled={step === 0} variant='outline'>Pre</Button>
+                    <Button onClick={() => setStep(Math.max(0, step - 1))} disabled={step === 0} variant='secondary'>Pre</Button>
                     <Button onClick={() => setStep(Math.min(4, step + 1))} disabled={step === 4}>Next Step</Button>
                     <div className="text-sm self-center text-slate-500 ml-2">Step {step}/4</div>
                 </div>
