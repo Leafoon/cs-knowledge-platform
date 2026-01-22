@@ -1,0 +1,40 @@
+{
+    "modules": [
+        {
+            "id": "operating-system",
+            "title": "Operating System",
+            "description": "深入理解操作系统原理与实现机制",
+            "icon": "/icons/os.svg",
+            "color": "#667eea"
+        },
+        {
+            "id": "python",
+            "title": "Python",
+            "description": "Python 编程语言核心概念与实践",
+            "icon": "/icons/python.svg",
+            "color": "#3776ab"
+        },
+        {
+            "id": "pytorch",
+            "title": "PyTorch",
+            "description": "深度学习框架 PyTorch 原理与应用",
+            "icon": "/icons/pytorch.svg",
+            "color": "#ee4c2c"
+        },
+        {
+            "id": "computer-organization",
+            "title": "Computer Organization",
+            "description": "计算机组成原理完整教程",
+            "icon": "/icons/computer.svg",
+            "color": "#10b981"
+        },
+        {
+            "id": "linux-commands",
+            "title": "Linux Commands",
+            "description": "Linux 常用命令速查手册与实战指南",
+            "icon": "/icons/terminal.svg",
+            "color": "#f59e0b",
+            "externalLink": "/linux-commands.html"
+        }
+    ]
+}

@@ -1,0 +1,123 @@
+/* Syntax Highlighting - One Dark Pro Inspried */
+
+/* Base code block text */
+pre code {
+    color: #abb2bf;
+    text-shadow: none;
+    font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+}
+
+/* Tokens */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #5c6370;
+    font-style: italic;
+}
+
+.token.punctuation {
+    color: #abb2bf;
+}
+
+.token.delimiter {
+    color: #abb2bf;
+}
+
+.token.namespace {
+    color: #e5c07b;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #e06c75;
+}
+
+.token.boolean,
+.token.number {
+    color: #d19a66;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #98c379;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #56b6c2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #c678dd;
+}
+
+.token.function,
+.token.class-name {
+    color: #61afef;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e06c75;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+/* Line Highlighting (if used) */
+.code-line {
+    display: block;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    border-left: 4px solid transparent;
+}
+
+.code-line.line-highlight {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-left-color: #c678dd;
+}
+
+/* Line Numbers */
+.code-line.line-number::before {
+    display: inline-block;
+    width: 2rem;
+    text-align: right;
+    margin-right: 1rem;
+    color: #5c6370;
+    content: attr(line);
+    font-size: 0.85em;
+}
