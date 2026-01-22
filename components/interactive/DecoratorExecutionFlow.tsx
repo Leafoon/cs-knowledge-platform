@@ -8,7 +8,7 @@ const DecoratorExecutionFlow = () => {
 
     return (
         <Card className="p-6 my-8 bg-slate-50">
-            <h3 className="font-bold text-lg mb-4">Decorator "Onion" Model</h3>
+            <h3 className="font-bold text-lg mb-4">Decorator &ldquo;Onion&rdquo; Model</h3>
             <div className="flex flex-col items-center gap-4">
                 <div className={`p-4 border-2 border-dashed border-slate-300 rounded transition-all ${step >= 0 ? 'bg-blue-100 opacity-100' : 'opacity-0'}`}>
                     <span className="font-mono text-sm text-blue-700">@timer (Enter)</span>

@@ -94,7 +94,7 @@ const HashTableVisualizer = () => {
       </div>
 
       <div className="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm h-32 overflow-y-auto">
-        {log.length === 0 ? <span className="opacity-50">// Operations log...</span> : log.map((l, i) => <div key={i}>{'>'} {l}</div>)}
+        {log.length === 0 ? <span className="opacity-50">{/* Operations log... */}</span> : log.map((l, i) => <div key={i}>{'>'} {l}</div>)}
       </div>
     </Card>
   );
