@@ -23,12 +23,15 @@ export function Header() {
     return (
         <header className="sticky top-0 z-50 w-full border-b border-border-subtle bg-bg-elevated/80 backdrop-blur-sm">
             <div className="container mx-auto flex h-16 items-center justify-between px-6">
-                <Link href="/" className="flex items-center space-x-3 group">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center transition-transform group-hover:scale-110">
-                        <span className="text-white font-bold text-lg">CS</span>
+                <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center transition-transform group-hover:scale-110">
+                        <span className="text-white font-bold text-base sm:text-lg">CS</span>
                     </div>
-                    <span className="text-lg font-semibold text-text-primary">
+                    <span className="hidden sm:inline text-lg font-semibold text-text-primary">
                         Knowledge Platform
+                    </span>
+                    <span className="sm:hidden text-sm font-semibold text-text-primary">
+                        CS Notes
                     </span>
                 </Link>
 

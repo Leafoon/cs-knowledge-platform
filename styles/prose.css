@@ -2,7 +2,14 @@
 .prose-content {
     color: var(--text-primary);
     line-height: 1.8;
-    font-size: 16px;
+    font-size: 14px;
+    /* Smaller base on mobile */
+}
+
+@media (min-width: 640px) {
+    .prose-content {
+        font-size: 16px;
+    }
 }
 
 .prose-content>*+* {
