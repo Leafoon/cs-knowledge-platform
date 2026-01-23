@@ -227,7 +227,7 @@ export default function PagedAttentionVisualizer() {
               }`}
             >
               <div className="font-bold text-slate-800 mb-2">Request {request.id}</div>
-              <div className="text-xs text-slate-600 mb-3 font-mono">"{request.prompt}"</div>
+              <div className="text-xs text-slate-600 mb-3 font-mono">&quot;{request.prompt}&quot;</div>
 
               {requestBlocks.length > 0 ? (
                 <>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface CacheState {
@@ -20,14 +20,14 @@ export default function KVCacheDynamics() {
   const [showMemory, setShowMemory] = useState(true)
 
   const maxNewTokens = 10
-  const exampleTokens = ['world', '!', 'How', 'are', 'you', '?', 'I', 'am', 'fine', '.']
+  const exampleTokens = useMemo(() => ['world', '!', 'How', 'are', 'you', '?', 'I', 'am', 'fine', '.'], [])
 
   // 计算内存占用 (MB)
-  const calculateMemory = (seqLen: number) => {
+  const calculateMemory = useCallback((seqLen: number) => {
     // KV Cache: batch_size × n_layers × 2 (K+V) × seq_len × d_model × 2 bytes (fp16)
     const bytes = batchSize * nLayers * 2 * seqLen * dModel * 2
     return bytes / (1024 * 1024)
-  }
+  }, [batchSize, nLayers, dModel])
 
   // 生成过程
   useEffect(() => {

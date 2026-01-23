@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Token {
@@ -19,7 +19,7 @@ export default function MoERouting() {
   const [tokens, setTokens] = useState<Token[]>([])
   const [expertLoad, setExpertLoad] = useState<number[]>(Array(8).fill(0))
 
-  const exampleTokens = ['The', 'cat', 'sat', 'on', 'the', 'mat', 'because', 'it']
+  const exampleTokens = useMemo(() => ['The', 'cat', 'sat', 'on', 'the', 'mat', 'because', 'it'], [])
 
   // 初始化 tokens
   useEffect(() => {

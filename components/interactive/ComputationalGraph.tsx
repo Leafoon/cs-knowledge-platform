@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Node {
@@ -21,14 +21,14 @@ const ComputationalGraph = () => {
     // Initial state of our simple graph: y = (x + w) * 2
     // Let x=3, w=1 -> a=(3+1)=4 -> y=4*2=8
     // Backprop: dy/dy=1 -> dy/da=2 -> dy/dx=2, dy/dw=2
-    const nodesInitial: Record<string, Node> = {
+    const nodesInitial: Record<string, Node> = useMemo(() => ({
         'x': { id: 'x', label: 'x', value: 3, grad: 0, type: 'leaf', x: 50, y: 50 },
         'w': { id: 'w', label: 'w', value: 1, grad: 0, type: 'leaf', x: 50, y: 150 },
         'add': { id: 'add', label: '+', value: 0, grad: 0, type: 'op', x: 150, y: 100, inputs: ['x', 'w'], op: '+' },
         'mul': { id: 'mul', label: '*', value: 0, grad: 0, type: 'op', x: 250, y: 100, inputs: ['add', 'scalar'], op: '*' },
         'scalar': { id: 'scalar', label: '2', value: 2, grad: 0, type: 'leaf', x: 250, y: 40 },
         'y': { id: 'y', label: 'y', value: 0, grad: 0, type: 'output', x: 350, y: 100, inputs: ['mul'] }
-    };
+    }), []);
 
     const [nodes, setNodes] = useState(nodesInitial);
 

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Request {
@@ -34,7 +34,7 @@ export default function RequestQueueVisualizer() {
   ]
 
   // 添加新请求
-  const addRequest = () => {
+  const addRequest = useCallback(() => {
     const newRequest: Request = {
       id: Math.random().toString(36).substr(2, 9),
       text: exampleTexts[Math.floor(Math.random() * exampleTexts.length)],
@@ -42,7 +42,7 @@ export default function RequestQueueVisualizer() {
       status: 'queued',
     }
     setRequests(prev => [...prev, newRequest])
-  }
+  }, [exampleTexts])
 
   // 自动添加请求
   useEffect(() => {
