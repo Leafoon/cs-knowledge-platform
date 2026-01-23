@@ -141,7 +141,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
                   <span className="text-red-600">import os</span>
                   <br />
                   <span className="text-red-600">
-                    os.system('rm -rf /') # 危险！
+                    os.system(&apos;rm -rf /&apos;) # 危险！
                   </span>
                 </p>
               </div>
