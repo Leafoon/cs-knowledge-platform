@@ -141,7 +141,7 @@ export default function TrainerHookFlow() {
     } else {
       setIsPlaying(false)
     }
-  }, [currentStep, trainingSteps])
+  }, [currentStep])
 
   // 自动播放
   React.useEffect(() => {

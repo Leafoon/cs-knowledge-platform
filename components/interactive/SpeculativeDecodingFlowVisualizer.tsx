@@ -106,7 +106,7 @@ export default function SpeculativeDecodingFlowVisualizer() {
     }
 
     runDemo()
-  }, [isPlaying, K])
+  }, [isPlaying, K, sampleTokens])
 
   const phaseInfo = {
     draft: {

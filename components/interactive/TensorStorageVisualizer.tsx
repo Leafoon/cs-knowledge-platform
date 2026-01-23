@@ -138,7 +138,7 @@ const TensorStorageVisualizer = () => {
 
             <div className="mt-6 p-3 bg-yellow-50 border border-yellow-100 rounded text-xs text-yellow-800">
                 💡 <strong>关键点</strong>: 无论 Logical View 怎么变换（转置、切片），Physical Memory 中的数据从未移动！
-                PyTorch 只是修改了 <code>stride</code> 和 <code>offset</code>。这就是 "Zero-copy View" 的魔力。
+                PyTorch 只是修改了 <code>stride</code> 和 <code>offset</code>。这就是 &quot;Zero-copy View&quot; 的魔力。
             </div>
         </div>
     );

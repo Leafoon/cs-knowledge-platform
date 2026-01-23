@@ -115,9 +115,9 @@ const TorchScriptVisualizer = () => {
             </div>
 
             <div className="mt-4 text-xs text-text-tertiary">
-                * <strong>Tracing</strong>: "我看你跑了一遍，我就照着刚才的路记下来。" (只认路，不认图)
+                * <strong>Tracing</strong>: &quot;我看你跑了一遍，我就照着刚才的路记下来。&quot; (只认路，不认图)
                 <br />
-                * <strong>Scripting</strong>: "我阅读了你的源代码，理解了所有逻辑。" (理解全图)
+                * <strong>Scripting</strong>: &quot;我阅读了你的源代码，理解了所有逻辑。&quot; (理解全图)
             </div>
         </div>
     );

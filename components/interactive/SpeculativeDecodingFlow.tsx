@@ -200,7 +200,7 @@ export default function SpeculativeDecodingFlow() {
                     </div>
                     {!accepted[idx] && (
                       <div className="mt-2 text-xs text-slate-600 bg-white p-2 rounded">
-                        从 target model 的概率分布重新采样 → "branch"
+                        从 target model 的概率分布重新采样 → &quot;branch&quot;
                       </div>
                     )}
                   </motion.div>
@@ -228,7 +228,7 @@ export default function SpeculativeDecodingFlow() {
                 <div className="text-sm text-slate-600 mb-2">接受的tokens:</div>
                 <div className="flex gap-2 items-center mb-3">
                   <div className="font-mono bg-blue-50 px-3 py-2 rounded border border-blue-300">
-                    "AI"
+                    &quot;AI&quot;
                   </div>
                   {accepted.map((isAccepted, idx) => (
                     <React.Fragment key={idx}>
