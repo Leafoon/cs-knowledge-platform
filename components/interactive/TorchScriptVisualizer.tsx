@@ -96,7 +96,7 @@ const TorchScriptVisualizer = () => {
                                 <div className="p-2 border rounded bg-gray-50 dark:bg-slate-900 border-gray-200 text-xs">x</div>
                                 <div className="text-gray-400">↓</div>
                                 <div className="p-2 border border-dashed border-purple-300 bg-purple-50 dark:bg-purple-900/20 rounded w-full text-center">
-                                    <div className="text-[10px] text-purple-600 font-bold mb-1">prim::If (x > 0)</div>
+                                    <div className="text-[10px] text-purple-600 font-bold mb-1">prim::If (x {'>'} 0)</div>
                                     <div className="flex gap-2 justify-center">
                                         <div className="p-1 bg-white border rounded text-[9px]">Then: x * 2</div>
                                         <div className="p-1 bg-white border rounded text-[9px]">Else: x + 1</div>

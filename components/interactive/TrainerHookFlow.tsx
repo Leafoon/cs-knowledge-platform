@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Pause, RotateCcw, Zap, CheckCircle2, Circle, Code } from 'lucide-react'
 
@@ -131,7 +131,7 @@ export default function TrainerHookFlow() {
   }
 
   // 下一步
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     if (currentStep < trainingSteps.length - 1) {
       const newStep = currentStep + 1
       const currentHook = trainingSteps[newStep].hook as HookType
@@ -141,7 +141,7 @@ export default function TrainerHookFlow() {
     } else {
       setIsPlaying(false)
     }
-  }
+  }, [currentStep, trainingSteps])
 
   // 自动播放
   React.useEffect(() => {
@@ -365,7 +365,7 @@ export default function TrainerHookFlow() {
           </AnimatePresence>
         </div>
         {stepHistory.length === 0 && (
-          <p className="text-gray-400 text-sm">No steps executed yet. Click "Start" to begin.</p>
+          <p className="text-gray-400 text-sm">No steps executed yet. Click &quot;Start&quot; to begin.</p>
         )}
       </div>
 

@@ -197,7 +197,7 @@ export default function TokenAlgorithmComparison() {
               >
                 <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-2">输入</div>
                 <div className="font-mono text-sm text-neutral-900 dark:text-neutral-100 mb-3">
-                  "{example.input}"
+                  &quot;{example.input}&quot;
                 </div>
                 <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-2">输出</div>
                 <div className="flex flex-wrap gap-2">

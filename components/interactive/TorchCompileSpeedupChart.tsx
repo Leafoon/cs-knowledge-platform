@@ -215,10 +215,10 @@ export default function TorchCompileSpeedupChart() {
       <div className="mt-6 bg-slate-900 text-slate-100 p-4 rounded-lg font-mono text-sm">
         <div className="text-green-400 mb-2"># 启用 torch.compile</div>
         <div><span className="text-blue-400">import</span> torch</div>
-        <div className="mt-2">model = <span className="text-yellow-400">AutoModelForCausalLM</span>.from_pretrained(<span className="text-orange-400">"gpt2"</span>)</div>
+        <div className="mt-2">model = <span className="text-yellow-400">AutoModelForCausalLM</span>.from_pretrained(<span className="text-orange-400">&quot;gpt2&quot;</span>)</div>
         <div className="mt-2"><span className="text-purple-400">compiled_model</span> = torch.<span className="text-yellow-400">compile</span>(</div>
         <div className="ml-4">model,</div>
-        <div className="ml-4">mode=<span className="text-orange-400">"reduce-overhead"</span>,</div>
+        <div className="ml-4">mode=<span className="text-orange-400">&quot;reduce-overhead&quot;</span>,</div>
         <div className="ml-4">fullgraph=<span className="text-blue-400">True</span></div>
         <div>)</div>
         <div className="mt-2 text-slate-400"># 首次运行会编译（慢）</div>
