@@ -1,12 +1,25 @@
 import { getModuleContent, getModules } from "@/lib/content-loader";
 import { ContentRenderer } from "@/components/knowledge/ContentRenderer";
 import { Badge } from "@/components/ui/Badge";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
     const modules = getModules();
     return modules.map((module) => ({
         module: module.id,
     }));
+}
+
+// Loading component
+function ContentLoading() {
+    return (
+        <div className="flex items-center justify-center py-20">
+            <div className="flex flex-col items-center gap-4">
+                <div className="w-12 h-12 border-4 border-accent-primary/30 border-t-accent-primary rounded-full animate-spin" />
+                <p className="text-text-secondary text-lg font-medium">加载内容中...</p>
+            </div>
+        </div>
+    );
 }
 
 export default async function ModulePage({

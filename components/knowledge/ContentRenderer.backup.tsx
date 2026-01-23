@@ -1,43 +1,125 @@
 "use client";
 
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import { 
-    InstructionCycleSimulator, VonNeumannArchitecture, ComputerEvolutionTimeline, SystemLayersVisualization, 
-    PythonInterpreterFlow, PythonObjectVisualizer, UnicodeEncodingVisualizer, ListResizingVisualizer, 
-    IntegerMemoryLayout, HashTableVisualizer, FunctionCallStackVisualizer, DecoratorExecutionFlow, 
-    GeneratorStateVisualizer, ExceptionHierarchyTree, ComputationalGraph, SequentialFlowVisualizer, 
-    BatchProcessor, TrainingSimulator, CheckpointSimulator, ProfilerVisualizer, AttentionMatrixVisualizer, 
-    ParallelVisualizer, QuantizationVisualizer, DistributedVisualizer, KernelFusionVisualizer, 
-    DispatcherVisualizer, TensorBroadcastingVisualizer, TensorStorageVisualizer, ActivationVisualizer, 
-    SamplerVisualizer, OptimizerPathVisualizer, TransferLearningVisualizer, TrainingDynamicsVisualizer, 
-    ConvolutionVisualizer, HookVisualizer, TorchScriptVisualizer, StridedMemoryVisualizer, CUDAStreamVisualizer,
-    // Transformers Components
-    TransformersEcosystemComparison, HuggingFaceEcosystemMap, VersionCompatibilityMatrix,
-    PipelineFlowVisualizer, GenerationParametersExplorer, TopKTopPVisualizer,
-    NERVisualizer, QuestionAnsweringVisualizer, PipelinePerformanceAnalyzer,
-    TokenizationVisualizer, TokenAlgorithmComparison, AttentionMaskBuilder,
-    ArchitectureExplorer, ConfigEditor, ModelOutputInspector,
-    ModelRepoStructureExplorer, CacheManagementVisualizer, PipelineInternalFlow,
-    DatasetPipeline, DataCollatorDemo, TrainingLoopVisualizer,
-    TrainingArgumentsExplorer, MixedPrecisionComparison, TrainingStepBreakdown,
-    CallbackFlow, LearningRateScheduler, TrainingMetricsPlot,
-    // Chapter 6-7
-    PEFTMethodComparison, LoRAMatrixDecomposition, LoRARankSelector,
-    QLoRAQuantizationFlow, NF4DataTypeVisualizer, AdaLoraRankEvolution,
-    MemoryOptimizationComparison, PrecisionFormatComparison, FloatFormatBitLayout,
-    MixedPrecisionTrainingFlow, QuantizationProcessVisualizer, GradientAccumulationVisualizer,
-    PTQMethodComparison,
-    // Chapter 8 Distributed Training
-    DistributedTrainingNeedVisualizer, ParallelismStrategyComparison, DDPCommunicationFlow,
-    FSDPShardingVisualizer, DeepSpeedZeROStages, PipelineParallelismVisualizer,
-    TensorParallelismVisualizer,
-    // Chapter 9 Inference Optimization
-    InferenceMetricsVisualizer, KVCacheMechanismVisualizer, FlashAttentionIOComparison,
-    TorchCompileSpeedupChart, PagedAttentionVisualizer, SpeculativeDecodingFlow,
-    DeploymentStackComparison,
-    // Chapter 10 QLoRA
-    QLoRAInnovationTimeline, NF4EncodingVisualizer, DoubleQuantizationFlow,
+import { lazy, Suspense } from "react";
+
+// Loading fallback
+const ComponentLoading = () => (
+    <div className="flex items-center justify-center p-8 bg-bg-elevated/50 rounded-lg border border-border-subtle my-6">
+        <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-4 border-accent-primary/30 border-t-accent-primary rounded-full animate-spin" />
+            <p className="text-sm text-text-secondary">加载交互组件中...</p>
+        </div>
+    </div>
+);
+
+// 懒加载所有组件
+const lazyComponents = {
+    // Computer Organization
+    InstructionCycleSimulator: lazy(() => import('@/components/interactive').then(m => ({ default: m.InstructionCycleSimulator }))),
+    VonNeumannArchitecture: lazy(() => import('@/components/interactive').then(m => ({ default: m.VonNeumannArchitecture }))),
+    ComputerEvolutionTimeline: lazy(() => import('@/components/interactive').then(m => ({ default: m.ComputerEvolutionTimeline }))),
+    SystemLayersVisualization: lazy(() => import('@/components/interactive').then(m => ({ default: m.SystemLayersVisualization }))),
+    
+    // Python
+    PythonInterpreterFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.PythonInterpreterFlow }))),
+    PythonObjectVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.PythonObjectVisualizer }))),
+    UnicodeEncodingVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.UnicodeEncodingVisualizer }))),
+    ListResizingVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ListResizingVisualizer }))),
+    IntegerMemoryLayout: lazy(() => import('@/components/interactive').then(m => ({ default: m.IntegerMemoryLayout }))),
+    HashTableVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.HashTableVisualizer }))),
+    FunctionCallStackVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.FunctionCallStackVisualizer }))),
+    DecoratorExecutionFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.DecoratorExecutionFlow }))),
+    GeneratorStateVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.GeneratorStateVisualizer }))),
+    ExceptionHierarchyTree: lazy(() => import('@/components/interactive').then(m => ({ default: m.ExceptionHierarchyTree }))),
+    
+    // PyTorch
+    ComputationalGraph: lazy(() => import('@/components/interactive').then(m => ({ default: m.ComputationalGraph }))),
+    SequentialFlowVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.SequentialFlowVisualizer }))),
+    BatchProcessor: lazy(() => import('@/components/interactive').then(m => ({ default: m.BatchProcessor }))),
+    TrainingSimulator: lazy(() => import('@/components/interactive').then(m => ({ default: m.TrainingSimulator }))),
+    CheckpointSimulator: lazy(() => import('@/components/interactive').then(m => ({ default: m.CheckpointSimulator }))),
+    ProfilerVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ProfilerVisualizer }))),
+    AttentionMatrixVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.AttentionMatrixVisualizer }))),
+    ParallelVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ParallelVisualizer }))),
+    QuantizationVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.QuantizationVisualizer }))),
+    DistributedVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.DistributedVisualizer }))),
+    KernelFusionVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.KernelFusionVisualizer }))),
+    DispatcherVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.DispatcherVisualizer }))),
+    TensorBroadcastingVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TensorBroadcastingVisualizer }))),
+    TensorStorageVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TensorStorageVisualizer }))),
+    ActivationVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ActivationVisualizer }))),
+    SamplerVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.SamplerVisualizer }))),
+    OptimizerPathVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.OptimizerPathVisualizer }))),
+    TransferLearningVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TransferLearningVisualizer }))),
+    TrainingDynamicsVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TrainingDynamicsVisualizer }))),
+    ConvolutionVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ConvolutionVisualizer }))),
+    HookVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.HookVisualizer }))),
+    TorchScriptVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TorchScriptVisualizer }))),
+    StridedMemoryVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.StridedMemoryVisualizer }))),
+    CUDAStreamVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.CUDAStreamVisualizer }))),
+    
+    // Transformers Chapter 0-5
+    TransformersEcosystemComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.TransformersEcosystemComparison }))),
+    HuggingFaceEcosystemMap: lazy(() => import('@/components/interactive').then(m => ({ default: m.HuggingFaceEcosystemMap }))),
+    VersionCompatibilityMatrix: lazy(() => import('@/components/interactive').then(m => ({ default: m.VersionCompatibilityMatrix }))),
+    PipelineFlowVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.PipelineFlowVisualizer }))),
+    GenerationParametersExplorer: lazy(() => import('@/components/interactive').then(m => ({ default: m.GenerationParametersExplorer }))),
+    TopKTopPVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TopKTopPVisualizer }))),
+    NERVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.NERVisualizer }))),
+    QuestionAnsweringVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.QuestionAnsweringVisualizer }))),
+    PipelinePerformanceAnalyzer: lazy(() => import('@/components/interactive').then(m => ({ default: m.PipelinePerformanceAnalyzer }))),
+    TokenizationVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TokenizationVisualizer }))),
+    TokenAlgorithmComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.TokenAlgorithmComparison }))),
+    AttentionMaskBuilder: lazy(() => import('@/components/interactive').then(m => ({ default: m.AttentionMaskBuilder }))),
+    ArchitectureExplorer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ArchitectureExplorer }))),
+    ConfigEditor: lazy(() => import('@/components/interactive').then(m => ({ default: m.ConfigEditor }))),
+    ModelOutputInspector: lazy(() => import('@/components/interactive').then(m => ({ default: m.ModelOutputInspector }))),
+    ModelRepoStructureExplorer: lazy(() => import('@/components/interactive').then(m => ({ default: m.ModelRepoStructureExplorer }))),
+    CacheManagementVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.CacheManagementVisualizer }))),
+    PipelineInternalFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.PipelineInternalFlow }))),
+    DatasetPipeline: lazy(() => import('@/components/interactive').then(m => ({ default: m.DatasetPipeline }))),
+    DataCollatorDemo: lazy(() => import('@/components/interactive').then(m => ({ default: m.DataCollatorDemo }))),
+    TrainingLoopVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TrainingLoopVisualizer }))),
+    TrainingArgumentsExplorer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TrainingArgumentsExplorer }))),
+    MixedPrecisionComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.MixedPrecisionComparison }))),
+    TrainingStepBreakdown: lazy(() => import('@/components/interactive').then(m => ({ default: m.TrainingStepBreakdown }))),
+    CallbackFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.CallbackFlow }))),
+    LearningRateScheduler: lazy(() => import('@/components/interactive').then(m => ({ default: m.LearningRateScheduler }))),
+    TrainingMetricsPlot: lazy(() => import('@/components/interactive').then(m => ({ default: m.TrainingMetricsPlot }))),
+    
+    // Transformers Chapter 6-10
+    PEFTMethodComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.PEFTMethodComparison }))),
+    LoRAMatrixDecomposition: lazy(() => import('@/components/interactive').then(m => ({ default: m.LoRAMatrixDecomposition }))),
+    LoRARankSelector: lazy(() => import('@/components/interactive').then(m => ({ default: m.LoRARankSelector }))),
+    QLoRAQuantizationFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.QLoRAQuantizationFlow }))),
+    NF4DataTypeVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.NF4DataTypeVisualizer }))),
+    AdaLoraRankEvolution: lazy(() => import('@/components/interactive').then(m => ({ default: m.AdaLoraRankEvolution }))),
+    MemoryOptimizationComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.MemoryOptimizationComparison }))),
+    PrecisionFormatComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.PrecisionFormatComparison }))),
+    FloatFormatBitLayout: lazy(() => import('@/components/interactive').then(m => ({ default: m.FloatFormatBitLayout }))),
+    MixedPrecisionTrainingFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.MixedPrecisionTrainingFlow }))),
+    QuantizationProcessVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.QuantizationProcessVisualizer }))),
+    GradientAccumulationVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.GradientAccumulationVisualizer }))),
+    PTQMethodComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.PTQMethodComparison }))),
+    DistributedTrainingNeedVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.DistributedTrainingNeedVisualizer }))),
+    ParallelismStrategyComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.ParallelismStrategyComparison }))),
+    DDPCommunicationFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.DDPCommunicationFlow }))),
+    FSDPShardingVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.FSDPShardingVisualizer }))),
+    DeepSpeedZeROStages: lazy(() => import('@/components/interactive').then(m => ({ default: m.DeepSpeedZeROStages }))),
+    PipelineParallelismVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.PipelineParallelismVisualizer }))),
+    TensorParallelismVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.TensorParallelismVisualizer }))),
+    InferenceMetricsVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.InferenceMetricsVisualizer }))),
+    KVCacheMechanismVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.KVCacheMechanismVisualizer }))),
+    FlashAttentionIOComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.FlashAttentionIOComparison }))),
+    TorchCompileSpeedupChart: lazy(() => import('@/components/interactive').then(m => ({ default: m.TorchCompileSpeedupChart }))),
+    PagedAttentionVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.PagedAttentionVisualizer }))),
+    SpeculativeDecodingFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.SpeculativeDecodingFlow }))),
+    DeploymentStackComparison: lazy(() => import('@/components/interactive').then(m => ({ default: m.DeploymentStackComparison }))),
+    QLoRAInnovationTimeline: lazy(() => import('@/components/interactive').then(m => ({ default: m.QLoRAInnovationTimeline }))),
+    NF4EncodingVisualizer: lazy(() => import('@/components/interactive').then(m => ({ default: m.NF4EncodingVisualizer }))),
+    DoubleQuantizationFlow: lazy(() => import('@/components/interactive').then(m => ({ default: m.DoubleQuantizationFlow }))),
     PagedOptimizerVisualizer, LoRATargetModulesSelector, QLoRAMemoryOptimizationComparison,
     PEFTMethodComparisonTable,
     // Chapter 11 Mixed Precision Training
@@ -79,19 +161,7 @@ import {
     // Chapter 27 RLHF
     RLHFPipeline, DPOvsRLHF,
     // Chapter 28 Frontier Research
-    LongContextStrategies, MoERouting, AttentionPatternAnalyzer,
-    // Missing components - Chapter 0-1
-    TaskTypeGallery, ZeroShotClassificationDemo, TaskInferenceFlowchart,
-    // Missing components - PEFT & Quantization  
-    LoRAMemoryAccuracyTradeoff, FSDPScalingChart,
-    // Placeholder components
-    ExtremeLowMemoryTraining, FloatPrecisionRangeTradeoff, PrecisionLossComparison,
-    QuantizationMethodComparison, QuantizationMethodsComprehensiveComparison,
-    PerTensorVsPerChannelQuant, NF4vsINT4Comparison, DistributedMixedPrecision,
-    AccelerateWorkflowVisualizer, AcceleratorAPIDemo, ThreeDParallelismVisualizer,
-    CollectiveCommunicationPrimitives, TGIArchitectureDiagram, ModelExportDecisionTree,
-    BackendAutoSelector, OptimizationEffectComparison, ProfilerVisualizationDemo,
-    PEFTTrainingSpeedComparison
+    LongContextStrategies, MoERouting, AttentionPatternAnalyzer
 } from "@/components/interactive";
 
 
@@ -293,32 +363,6 @@ const componentMap: Record<string, React.ComponentType> = {
     "LongContextStrategies": LongContextStrategies,
     "MoERouting": MoERouting,
     "AttentionPatternAnalyzer": AttentionPatternAnalyzer,
-    // Missing components - Chapter 0-1
-    "TaskTypeGallery": TaskTypeGallery,
-    "ZeroShotClassificationDemo": ZeroShotClassificationDemo,
-    "TaskInferenceFlowchart": TaskInferenceFlowchart,
-    // Missing components - PEFT & Quantization
-    "LoRAMemoryAccuracyTradeoff": LoRAMemoryAccuracyTradeoff,
-    "FSDPScalingChart": FSDPScalingChart,
-    // Placeholder components
-    "ExtremeLowMemoryTraining": ExtremeLowMemoryTraining,
-    "FloatPrecisionRangeTradeoff": FloatPrecisionRangeTradeoff,
-    "PrecisionLossComparison": PrecisionLossComparison,
-    "QuantizationMethodComparison": QuantizationMethodComparison,
-    "QuantizationMethodsComprehensiveComparison": QuantizationMethodsComprehensiveComparison,
-    "PerTensorVsPerChannelQuant": PerTensorVsPerChannelQuant,
-    "NF4vsINT4Comparison": NF4vsINT4Comparison,
-    "DistributedMixedPrecision": DistributedMixedPrecision,
-    "AccelerateWorkflowVisualizer": AccelerateWorkflowVisualizer,
-    "AcceleratorAPIDemo": AcceleratorAPIDemo,
-    "ThreeDParallelismVisualizer": ThreeDParallelismVisualizer,
-    "CollectiveCommunicationPrimitives": CollectiveCommunicationPrimitives,
-    "TGIArchitectureDiagram": TGIArchitectureDiagram,
-    "ModelExportDecisionTree": ModelExportDecisionTree,
-    "BackendAutoSelector": BackendAutoSelector,
-    "OptimizationEffectComparison": OptimizationEffectComparison,
-    "ProfilerVisualizationDemo": ProfilerVisualizationDemo,
-    "PEFTTrainingSpeedComparison": PEFTTrainingSpeedComparison,
 };
 
 export function ContentRenderer({ html, moduleId }: ContentRendererProps) {

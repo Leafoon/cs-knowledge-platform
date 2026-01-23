@@ -77,7 +77,7 @@ export async function getModuleContent(moduleId: string) {
         .use(remarkMath)
         .use(remarkAlerts)
         .use(remarkRehype, { allowDangerousHtml: true })  // Convert markdown to HTML AST
-        .use(rehypeKatex)
+        .use(rehypeKatex, { strict: false })  // Disable strict mode to allow \\ in aligned/matrix environments
         .use(rehypePrism, { showLineNumbers: true, ignoreMissing: true })
         .use(rehypeStringify, { allowDangerousHtml: true })  // Stringify to HTML
         .process(combinedContent);
