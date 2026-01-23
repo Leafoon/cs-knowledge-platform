@@ -201,8 +201,8 @@ export default function ZeroShotClassificationDemo() {
             <div className="mt-6 bg-purple-50 border border-purple-200 rounded-lg p-4">
               <h5 className="font-bold text-purple-800 mb-2 text-sm">🔍 工作原理</h5>
               <p className="text-xs text-purple-700 leading-relaxed">
-                Zero-Shot 分类使用预训练的 NLI（自然语言推理）模型，将分类任务转化为<strong>"文本蕴含"</strong>问题：
-                检查"这段文本是关于 [标签] 的"这个假设的真实性。无需任何训练数据！
+                Zero-Shot 分类使用预训练的 NLI（自然语言推理）模型，将分类任务转化为<strong>&quot;文本蕴含&quot;</strong>问题：
+                检查&quot;这段文本是关于 [标签] 的&quot;这个假设的真实性。无需任何训练数据！
               </p>
             </div>
 

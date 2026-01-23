@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 
@@ -19,7 +19,7 @@ export default function TrainingLoopVisualizer() {
   const [step, setStep] = useState(1)
   const [loss, setLoss] = useState(0.5234)
 
-  const steps: TrainingStep[] = [
+  const steps: TrainingStep[] = useMemo(() => [
     { id: '1', name: '前向传播', description: 'outputs = model(**batch)', color: 'bg-blue-500', duration: 1000 },
     { id: '2', name: '计算损失', description: 'loss = outputs.loss', color: 'bg-purple-500', duration: 500 },
     { id: '3', name: '反向传播', description: 'loss.backward()', color: 'bg-pink-500', duration: 1200 },
@@ -27,7 +27,7 @@ export default function TrainingLoopVisualizer() {
     { id: '5', name: '优化器更新', description: 'optimizer.step()', color: 'bg-green-500', duration: 600 },
     { id: '6', name: '清零梯度', description: 'optimizer.zero_grad()', color: 'bg-cyan-500', duration: 400 },
     { id: '7', name: '学习率调度', description: 'scheduler.step()', color: 'bg-indigo-500', duration: 200 }
-  ]
+  ], [])
 
   useEffect(() => {
     if (!isPlaying) return

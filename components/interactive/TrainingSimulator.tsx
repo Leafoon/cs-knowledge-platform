@@ -123,9 +123,9 @@ const TrainingSimulator = () => {
                     <p className="text-xs text-text-tertiary leading-relaxed">
                         * 调整学习率并重置，观察收敛速度和稳定性。
                         <br />
-                        LR 太小 -> 收敛极慢
+                        LR 太小 {'->'} 收敛极慢
                         <br />
-                        LR 太大 -> Loss 震荡甚至发散
+                        LR 太大 {'->'} Loss 震荡甚至发散
                     </p>
                 </div>
 

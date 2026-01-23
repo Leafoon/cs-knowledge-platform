@@ -149,7 +149,7 @@ export default function TrainerHookFlow() {
       const timer = setTimeout(nextStep, 800)
       return () => clearTimeout(timer)
     }
-  }, [isPlaying, currentStep])
+  }, [isPlaying, currentStep, nextStep])
 
   // 生成示例代码
   const generateCode = () => {
