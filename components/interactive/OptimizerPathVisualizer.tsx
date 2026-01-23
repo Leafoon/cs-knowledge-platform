@@ -89,7 +89,7 @@ const OptimizerPathVisualizer = () => {
         }, 50);
 
         return () => clearInterval(interval);
-    }, [running]);
+    }, [running, startX]);
 
     // Canvas Rendering
     useEffect(() => {
@@ -200,7 +200,7 @@ const OptimizerPathVisualizer = () => {
                     <div className="p-3 bg-bg-surface rounded border border-border-subtle text-xs text-text-secondary leading-relaxed">
                         <p className="mb-2"><strong>观察重点：</strong></p>
                         <ul className="list-disc pl-4 space-y-1">
-                            <li>SGD 沿着梯度最陡峭的方向走（垂直于等高线），在狭长山谷中会剧烈震荡（所谓的 "Zig-Zag" 现象）。</li>
+                            <li>SGD 沿着梯度最陡峭的方向走（垂直于等高线），在狭长山谷中会剧烈震荡（所谓的 &quot;Zig-Zag&quot; 现象）。</li>
                             <li>Momentum 累积了惯性，能冲过震荡，但可能会冲过头（Overshoot）。</li>
                             <li>Adam 自适应调整每个维度的步长。在平坦方向（X轴）步子大，在陡峭方向（Y轴）步子小，因此能走出一条近乎直线的完美路径。</li>
                         </ul>

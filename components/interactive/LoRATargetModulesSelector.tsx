@@ -26,8 +26,8 @@ export default function LoRATargetModulesSelector() {
   }
 
   const totalParams = selectedModules.reduce((sum, name) => {
-    const module = modules.find(m => m.name === name)
-    return sum + (module?.params || 0)
+    const mod = modules.find(m => m.name === name)
+    return sum + (mod?.params || 0)
   }, 0)
 
   const presets = {
@@ -143,7 +143,7 @@ export default function LoRATargetModulesSelector() {
         <div className="ml-4">target_modules=[</div>
         {selectedModules.map((mod, idx) => (
           <div key={mod} className="ml-8">
-            <span className="text-orange-400">"{mod}"</span>{idx < selectedModules.length - 1 ? ',' : ''}
+            <span className="text-orange-400">&quot;{mod}&quot;</span>{idx < selectedModules.length - 1 ? ',' : ''}
           </div>
         ))}
         <div className="ml-4">],</div>

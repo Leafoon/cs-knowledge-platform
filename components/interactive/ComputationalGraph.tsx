@@ -65,7 +65,7 @@ const ComputationalGraph = () => {
         }
 
         setNodes(newNodes);
-    }, [step]);
+    }, [step, nodesInitial]);
 
     // Edges for rendering
     const edges = [

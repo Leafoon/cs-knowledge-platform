@@ -53,7 +53,7 @@ export default function RequestQueueVisualizer() {
     }, mode === 'sync' ? 500 : 200)
 
     return () => clearInterval(interval)
-  }, [isRunning, mode])
+  }, [isRunning, mode, addRequest])
 
   // 处理请求
   useEffect(() => {

@@ -73,7 +73,7 @@ export default function KVCacheMechanismVisualizer() {
           </div>
           <div>
             <div className="text-sm text-slate-600 mb-1">当前序列</div>
-            <div className="font-mono text-lg font-bold text-slate-800">"{currentSequence}"</div>
+            <div className="font-mono text-lg font-bold text-slate-800">&quot;{currentSequence}&quot;</div>
           </div>
           <div>
             <div className="text-sm text-slate-600 mb-1">计算次数</div>

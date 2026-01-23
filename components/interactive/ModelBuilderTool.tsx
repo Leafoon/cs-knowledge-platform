@@ -435,7 +435,7 @@ export default function ModelBuilderTool() {
           <li>• <strong>Attention + FFN</strong> pairs form Transformer layers</li>
           <li>• <strong>Pooler</strong> converts sequence to single vector (for classification)</li>
           <li>• <strong>Classification Head</strong> should be the last component</li>
-          <li>• Click "Export Code" to download complete PyTorch implementation</li>
+          <li>• Click &quot;Export Code&quot; to download complete PyTorch implementation</li>
         </ul>
       </div>
     </div>

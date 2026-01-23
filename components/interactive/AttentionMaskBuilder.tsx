@@ -31,7 +31,7 @@ export default function AttentionMaskBuilder() {
           return (
             <div key={idx} className="p-4 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
               <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-2">
-                序列 {idx + 1}: "{seq.text}"
+                序列 {idx + 1}: &quot;{seq.text}&quot;
               </div>
               <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${maxLen}, 1fr)` }}>
                 {mask.map((m, tidx) => (

@@ -74,7 +74,7 @@ const HookVisualizer = () => {
                             <div className="text-xs text-red-500 font-bold mb-1">🪝 Dictionary</div>
                             {capturedData.find(d => d.stage === 'hook') && (
                                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-[10px] bg-white px-2 py-1 rounded shadow text-text-primary font-mono border">
-                                    "activation": Tensor
+                                    &quot;activation&quot;: Tensor
                                 </motion.div>
                             )}
                         </motion.div>

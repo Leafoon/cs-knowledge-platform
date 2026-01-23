@@ -31,7 +31,7 @@ export default function MoERouting() {
       weights: []
     }))
     setTokens(initialTokens)
-  }, [])
+  }, [exampleTokens])
 
   // 模拟路由决策
   const simulateRouting = (tokenId: number) => {

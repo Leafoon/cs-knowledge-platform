@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 type Phase = 'draft' | 'verify' | 'accept' | 'reject'
@@ -20,7 +20,7 @@ export default function SpeculativeDecodingFlowVisualizer() {
   const [acceptedCount, setAcceptedCount] = useState(0)
   const [K, setK] = useState(5)
 
-  const sampleTokens = [
+  const sampleTokens = useMemo(() => [
     { text: 'Once', draftProb: 0.85, targetProb: 0.92 },
     { text: 'upon', draftProb: 0.78, targetProb: 0.81 },
     { text: 'a', draftProb: 0.92, targetProb: 0.95 },
@@ -28,7 +28,7 @@ export default function SpeculativeDecodingFlowVisualizer() {
     { text: 'there', draftProb: 0.42, targetProb: 0.38 },
     { text: 'lived', draftProb: 0.58, targetProb: 0.61 },
     { text: 'was', draftProb: 0.71, targetProb: 0.68 },
-  ]
+  ], [])
 
   const reset = () => {
     setIsPlaying(false)

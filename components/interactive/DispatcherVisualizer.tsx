@@ -46,7 +46,7 @@ const DispatcherVisualizer = () => {
                             <br />
                             idx = (CUDA, Float)
                             <br />
-                            -> ptr to aten::add_kernel
+                            {'->'} ptr to aten::add_kernel
                         </div>
                     )}
                 </div>

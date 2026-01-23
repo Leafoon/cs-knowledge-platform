@@ -168,7 +168,7 @@ export default function QuestionAnsweringVisualizer() {
             <div className="flex items-start gap-3">
               <span className="text-gray-400 w-20">原文片段:</span>
               <span className="text-gray-300 text-sm">
-                "...founded in <span className="text-green-300 font-bold">2016</span> by..."
+                &quot;...founded in <span className="text-green-300 font-bold">2016</span> by...&quot;
               </span>
             </div>
           </div>

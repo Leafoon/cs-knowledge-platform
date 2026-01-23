@@ -57,7 +57,7 @@ export default function SpeculativeDecodingFlow() {
       {/* 当前提示词 */}
       <div className="mb-6 p-4 bg-white rounded-lg shadow">
         <div className="text-sm text-slate-600 mb-1">当前输入</div>
-        <div className="font-mono text-lg font-bold text-slate-800">"AI"</div>
+        <div className="font-mono text-lg font-bold text-slate-800">&quot;AI&quot;</div>
         <div className="text-xs text-slate-500 mt-1">目标: 生成后续文本</div>
       </div>
 
@@ -78,7 +78,7 @@ export default function SpeculativeDecodingFlow() {
                 <h4 className="font-bold text-blue-800">初始状态</h4>
               </div>
               <div className="ml-11 text-sm text-slate-700">
-                输入序列: <span className="font-mono bg-blue-50 px-2 py-1 rounded">["AI"]</span>
+                输入序列: <span className="font-mono bg-blue-50 px-2 py-1 rounded">[&quot;AI&quot;]</span>
               </div>
             </motion.div>
           )}
@@ -185,7 +185,7 @@ export default function SpeculativeDecodingFlow() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="font-mono font-bold">"{token}"</div>
+                        <div className="font-mono font-bold">&quot;{token}&quot;</div>
                         {accepted[idx] ? (
                           <CheckCircle className="w-5 h-5 text-green-600" />
                         ) : (

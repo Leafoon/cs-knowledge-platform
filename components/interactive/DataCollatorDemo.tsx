@@ -71,7 +71,7 @@ export default function DataCollatorDemo() {
             动态 Padding
           </div>
           <div className="text-xs mt-1 opacity-75">
-            padding="longest"
+            padding=&quot;longest&quot;
           </div>
         </button>
         <button
@@ -87,7 +87,7 @@ export default function DataCollatorDemo() {
             固定 Padding
           </div>
           <div className="text-xs mt-1 opacity-75">
-            padding="max_length"
+            padding=&quot;max_length&quot;
           </div>
         </button>
       </div>

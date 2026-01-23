@@ -54,10 +54,7 @@ export default function KVCacheDynamics() {
     }, 800)
 
     return () => clearTimeout(timer)
-  }, [isGenerating, currentStep, tokens.length])
-
-  const reset = () => {
-    setIsGenerating(false)
+  }, [isGenerating, currentStep, tokens.length, calculateMemory, exampleTokens, nLayers])
     setCurrentStep(0)
     setTokens(['[CLS]', 'Hello'])
     setCacheStates([])

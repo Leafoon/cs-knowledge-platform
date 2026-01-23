@@ -297,7 +297,7 @@ export default function AttentionWeightHeatmap() {
               className="bg-white rounded-lg border border-slate-200 p-5"
             >
               <h4 className="text-lg font-semibold text-slate-800 mb-3">
-                📈 "{tokens[selectedToken]}" 的注意力分布
+                📈 &quot;{tokens[selectedToken]}&quot; 的注意力分布
               </h4>
               <div className="space-y-2">
                 {tokens.map((token, j) => {

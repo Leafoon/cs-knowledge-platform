@@ -92,7 +92,7 @@ const AttentionMatrixVisualizer = () => {
                         {hoveredToken !== null ? (
                             <div>
                                 <div className="text-xs text-text-tertiary mb-2">
-                                    Token <strong>"{tokens[hoveredToken]}"</strong> attends to:
+                                    Token <strong>&quot;{tokens[hoveredToken]}&quot;</strong> attends to:
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     {tokens.map((t, j) => {
@@ -113,7 +113,7 @@ const AttentionMatrixVisualizer = () => {
                                 </div>
                                 {activeHead === 0 && hoveredToken === 7 && (
                                     <div className="mt-2 text-xs text-green-600 bg-green-50 p-2 rounded">
-                                        💡 观察: "it" (Token 7) 强烈关注 "animal" (Token 1)。这就是 Self-Attention 解决指代消解的能力。
+                                        💡 观察: &quot;it&quot; (Token 7) 强烈关注 &quot;animal&quot; (Token 1)。这就是 Self-Attention 解决指代消解的能力。
                                     </div>
                                 )}
                             </div>
