@@ -178,7 +178,7 @@ export default function LangServePlayground() {
             ) : (
               <div className="text-center py-12 text-gray-400 dark:text-gray-500">
                 <div className="text-5xl mb-3">📭</div>
-                <div className="text-sm">点击"执行请求"查看响应</div>
+                <div className="text-sm">点击&quot;执行请求&quot;查看响应</div>
               </div>
             )}
           </div>

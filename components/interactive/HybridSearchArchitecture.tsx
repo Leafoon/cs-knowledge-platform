@@ -156,7 +156,7 @@ export default function HybridSearchArchitecture() {
                 检索结果
               </h4>
               <div className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-mono text-gray-700 dark:text-gray-300">
-                "{query}"
+                &quot;{query}&quot;
               </div>
             </div>
             <div className="space-y-2">

@@ -300,7 +300,7 @@ ${parameters.map(p => `        ${p.name}: ${p.description}`).join('\n')}
 
               {parameters.length === 0 && (
                 <div className="text-center py-8 text-slate-400">
-                  点击"添加参数"开始定义函数参数
+                  点击&quot;添加参数&quot;开始定义函数参数
                 </div>
               )}
             </div>

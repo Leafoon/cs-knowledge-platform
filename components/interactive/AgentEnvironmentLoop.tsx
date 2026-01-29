@@ -44,7 +44,7 @@ export function AgentEnvironmentLoop() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [isPlaying]);
+    }, [isPlaying, states, actions, rewards]);
 
     const phases = [
         { name: "观察状态", desc: "Agent 接收环境状态", color: "#6366f1" },

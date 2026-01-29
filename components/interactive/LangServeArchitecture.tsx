@@ -151,7 +151,7 @@ const LangServeArchitecture: React.FC = () => {
             </div>
             <div className="flex-grow p-3 bg-blue-50 rounded border border-blue-200">
               <p className="text-sm font-semibold text-gray-800">客户端发送请求</p>
-              <code className="text-xs text-gray-600">POST /translate/invoke {"{"}"input": {"{"}"text": "Hello"{"}"}{"}"}</code>
+              <code className="text-xs text-gray-600">POST /translate/invoke {{&quot;input&quot;: {{&quot;text&quot;: &quot;Hello&quot;}}}}</code>
             </div>
           </motion.div>
 
@@ -214,7 +214,7 @@ const LangServeArchitecture: React.FC = () => {
             </div>
             <div className="flex-grow p-3 bg-blue-50 rounded border border-blue-200">
               <p className="text-sm font-semibold text-gray-800">返回结果给客户端</p>
-              <code className="text-xs text-gray-600">{"{"}"output": {"{"}"content": "Bonjour"{"}"}{"}"}</code>
+              <code className="text-xs text-gray-600">{{&quot;output&quot;: {{&quot;content&quot;: &quot;Bonjour&quot;}}}}</code>
             </div>
           </motion.div>
         </div>

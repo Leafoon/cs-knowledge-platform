@@ -30,7 +30,7 @@ export default async function ChapterPage({
 }) {
     const { html, frontmatter, toc } = await getSingleChapterContent(params.module, params.chapter);
     const modules = getModules();
-    const currentModule = modules.find((m) => m.id === params.module);
+    const currentModuleData = modules.find((m) => m.id === params.module);
     const chapters = getModuleChapters(params.module);
     const currentChapterIndex = chapters.findIndex((ch) => ch.id === params.chapter);
     
@@ -65,7 +65,7 @@ export default async function ChapterPage({
                     </Link>
                     <span>/</span>
                     <Link href={`/${params.module}`} className="hover:text-text-primary transition-colors">
-                        {currentModule?.title}
+                        {currentModuleData?.title}
                     </Link>
                     <span>/</span>
                     <span className="text-text-secondary">{currentChapter.title}</span>

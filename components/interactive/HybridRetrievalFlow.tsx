@@ -156,7 +156,7 @@ export default function HybridRetrievalFlow() {
             <h4 className="text-xl font-bold text-slate-800 mb-2">用户查询</h4>
             <div className="inline-block px-6 py-3 bg-blue-50 border border-blue-200 rounded-lg">
               <code className="text-blue-600 font-mono">
-                "LangChain vector database tutorial"
+                &quot;LangChain vector database tutorial&quot;
               </code>
             </div>
           </div>

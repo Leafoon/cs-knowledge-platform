@@ -380,7 +380,7 @@ export default function APIMappingTable() {
             <h4 className="font-semibold text-blue-900 mb-2">使用提示</h4>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• 悬停在代码上可复制到剪贴板</li>
-              <li>• "不支持"表示该框架无对应功能，需自定义实现</li>
+              <li>• &quot;不支持&quot;表示该框架无对应功能，需自定义实现</li>
               <li>• 部分 API 名称相似但参数可能不同，请查阅官方文档</li>
               <li>• 混合使用多框架时，注意版本兼容性</li>
             </ul>
