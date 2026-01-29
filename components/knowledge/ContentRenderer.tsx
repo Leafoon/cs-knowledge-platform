@@ -148,7 +148,9 @@ import {
     SpeculativeDecodingFlow as SpeculativeDecodingFlowLangChain, MultimodalMemoryGraph, PluginEcosystemMap,
     // Reinforcement Learning Components
     RLEcosystemMap, AgentEnvironmentLoop, RLTimelineEvolution,
-    MDPGraphVisualizer, BellmanEquationDerivation, ValueFunctionEvolution
+    MDPGraphVisualizer, BellmanEquationDerivation, ValueFunctionEvolution,
+    PolicyIterationVisualizer, ValueIterationConvergence, GPIFramework,
+    MCReturnEstimation, ImportanceSamplingVisualizer, OnPolicyVsOffPolicy
 } from "@/components/interactive";
 
 
@@ -509,6 +511,12 @@ const componentMap: Record<string, React.ComponentType> = {
     "MDPGraphVisualizer": MDPGraphVisualizer,
     "BellmanEquationDerivation": BellmanEquationDerivation,
     "ValueFunctionEvolution": ValueFunctionEvolution,
+    "PolicyIterationVisualizer": PolicyIterationVisualizer,
+    "ValueIterationConvergence": ValueIterationConvergence,
+    "GPIFramework": GPIFramework,
+    "MCReturnEstimation": MCReturnEstimation,
+    "ImportanceSamplingVisualizer": ImportanceSamplingVisualizer,
+    "OnPolicyVsOffPolicy": OnPolicyVsOffPolicy,
 };
 
 export function ContentRenderer({ html, moduleId }: ContentRendererProps) {

@@ -62,11 +62,11 @@ export default function PromptComposer() {
   // 组合最终提示
   const composedPrompt = selectedModules
     .map(moduleId => {
-      const module = predefinedModules.find(m => m.id === moduleId);
-      if (!module) return '';
+      const moduleItem = predefinedModules.find(m => m.id === moduleId);
+      if (!moduleItem) return '';
       
-      let content = module.content;
-      module.variables.forEach(variable => {
+      let content = moduleItem.content;
+      moduleItem.variables.forEach(variable => {
         const value = variables[variable] || `{${variable}}`;
         content = content.replace(new RegExp(`\\{${variable}\\}`, 'g'), value);
       });
@@ -78,8 +78,8 @@ export default function PromptComposer() {
   // 获取所有需要的变量
   const allVariables = new Set<string>();
   selectedModules.forEach(moduleId => {
-    const module = predefinedModules.find(m => m.id === moduleId);
-    module?.variables.forEach(v => allVariables.add(v));
+    const moduleItem = predefinedModules.find(m => m.id === moduleId);
+    moduleItem?.variables.forEach(v => allVariables.add(v));
   });
 
   return (
@@ -187,8 +187,8 @@ export default function PromptComposer() {
                 ) : (
                   <div className="space-y-3">
                     {selectedModules.map((moduleId, idx) => {
-                      const module = predefinedModules.find(m => m.id === moduleId);
-                      if (!module) return null;
+                      const moduleItem = predefinedModules.find(m => m.id === moduleId);
+                      if (!moduleItem) return null;
                       
                       return (
                         <React.Fragment key={moduleId}>
@@ -204,10 +204,10 @@ export default function PromptComposer() {
                             </div>
                             <div className="flex-1 bg-white dark:bg-slate-900 rounded-lg p-3 border border-slate-200 dark:border-slate-700">
                               <div className="text-sm font-semibold text-slate-900 dark:text-white">
-                                {module.name}
+                                {moduleItem.name}
                               </div>
                               <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                {module.variables.length} 个变量
+                                {moduleItem.variables.length} 个变量
                               </div>
                             </div>
                           </motion.div>

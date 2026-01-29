@@ -147,7 +147,7 @@ export function BellmanEquationDerivation() {
                                 📌 马尔可夫性质（Markov Property）
                             </div>
                             <div className="text-sm text-blue-700 dark:text-blue-400 mt-1">
-                                P(S_{t + 1} | S_t, A_t, S_{t - 1}, ...) = P(S_{t + 1} | S_t, A_t)
+                                P(S<sub>t + 1</sub> | S<sub>t</sub>, A<sub>t</sub>, S<sub>t - 1</sub>, ...) = P(S<sub>t + 1</sub> | S<sub>t</sub>, A<sub>t</sub>)
                             </div>
                         </div>
                     )}

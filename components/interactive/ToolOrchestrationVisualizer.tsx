@@ -392,7 +392,7 @@ export default function ToolOrchestrationVisualizer() {
           <div className="ml-8"><span className="text-orange-400">"input"</span>: {'{'}user_id: <span className="text-yellow-400">"user_id"</span>{'}'},</div>
           <div className="ml-8"><span className="text-orange-400">"output"</span>: <span className="text-yellow-400">"user_info"</span></div>
           <div className="ml-4">{'}'},</div>
-          <div className="ml-4 text-gray-500">// ...</div>
+          <div className="ml-4 text-gray-500">{'// ...'}</div>
           <div>]</div>
           <div className="mt-2">results = chain.<span className="text-yellow-400">execute_chain</span>(steps, initial_input)</div>
         </div>
