@@ -49,7 +49,7 @@ export default function MQAvsGQAComparison() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         MHA vs GQA vs MQA 架构对比
       </h3>
 
@@ -68,11 +68,11 @@ export default function MQAvsGQAComparison() {
             <div className={`font-bold mb-1 ${
               activeType === type
                 ? `text-${configs[type].color}-700 dark:text-${configs[type].color}-300`
-                : 'text-gray-700 dark:text-gray-300'
+                : 'text-gray-100'
             }`}>
               {configs[type].name.split(' (')[1]?.replace(')', '')}
             </div>
-            <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+            <div className="text-xs text-gray-300 mb-2">
               KV Heads: {configs[type].numKVHeads}
             </div>
           </button>
@@ -91,7 +91,7 @@ export default function MQAvsGQAComparison() {
         <div className="space-y-4">
           {/* Q Heads */}
           <div>
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <p className="text-sm font-semibold text-gray-100 mb-2">
               Query Heads（{numHeads} 个）
             </p>
             <div className="grid grid-cols-16 gap-1">
@@ -108,7 +108,7 @@ export default function MQAvsGQAComparison() {
 
           {/* KV Heads */}
           <div>
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <p className="text-sm font-semibold text-gray-100 mb-2">
               Key/Value Heads（{currentConfig.numKVHeads} 个）
             </p>
             <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${Math.min(currentConfig.numKVHeads, 16)}, minmax(0, 1fr))` }}>
@@ -156,7 +156,7 @@ export default function MQAvsGQAComparison() {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-100 dark:bg-gray-900">
-              <th className="px-4 py-3 text-left font-bold text-gray-900 dark:text-white">
+              <th className="px-4 py-3 text-left font-bold text-gray-100">
                 指标
               </th>
               <th className="px-4 py-3 text-center font-bold text-blue-700 dark:text-blue-300">
@@ -172,10 +172,10 @@ export default function MQAvsGQAComparison() {
           </thead>
           <tbody>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+              <td className="px-4 py-3 font-semibold text-gray-100">
                 KV Heads
               </td>
-              <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-center text-gray-100">
                 32
               </td>
               <td className="px-4 py-3 text-center text-purple-700 dark:text-purple-300">
@@ -186,10 +186,10 @@ export default function MQAvsGQAComparison() {
               </td>
             </tr>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+              <td className="px-4 py-3 font-semibold text-gray-100">
                 KV Cache 显存（2048 tokens）
               </td>
-              <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-center text-gray-100">
                 {calcMemory(32).toFixed(2)} GB
               </td>
               <td className="px-4 py-3 text-center text-purple-700 dark:text-purple-300">
@@ -200,10 +200,10 @@ export default function MQAvsGQAComparison() {
               </td>
             </tr>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+              <td className="px-4 py-3 font-semibold text-gray-100">
                 显存节省
               </td>
-              <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-center text-gray-100">
                 0%
               </td>
               <td className="px-4 py-3 text-center text-purple-700 dark:text-purple-300">
@@ -214,10 +214,10 @@ export default function MQAvsGQAComparison() {
               </td>
             </tr>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+              <td className="px-4 py-3 font-semibold text-gray-100">
                 推理速度提升
               </td>
-              <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-center text-gray-100">
                 1.0x
               </td>
               <td className="px-4 py-3 text-center text-purple-700 dark:text-purple-300">
@@ -228,10 +228,10 @@ export default function MQAvsGQAComparison() {
               </td>
             </tr>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+              <td className="px-4 py-3 font-semibold text-gray-100">
                 Perplexity 变化
               </td>
-              <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-center text-gray-100">
                 5.68
               </td>
               <td className="px-4 py-3 text-center text-purple-700 dark:text-purple-300">
@@ -242,10 +242,10 @@ export default function MQAvsGQAComparison() {
               </td>
             </tr>
             <tr>
-              <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+              <td className="px-4 py-3 font-semibold text-gray-100">
                 是否需要重新训练
               </td>
-              <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-center text-gray-100">
                 -
               </td>
               <td className="px-4 py-3 text-center text-purple-700 dark:text-purple-300">
@@ -261,7 +261,7 @@ export default function MQAvsGQAComparison() {
 
       {/* 显存对比图 */}
       <div className="mb-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-        <h5 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+        <h5 className="text-lg font-bold text-gray-100 mb-4">
           KV Cache 显存占用对比（LLaMA-7B，2048 tokens）
         </h5>
 
@@ -274,7 +274,7 @@ export default function MQAvsGQAComparison() {
             return (
               <div key={type} className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="font-semibold text-gray-100">
                     {config.name.split(' (')[1]?.replace(')', '')}
                   </span>
                   <span className={`text-${config.color}-700 dark:text-${config.color}-300 font-bold`}>

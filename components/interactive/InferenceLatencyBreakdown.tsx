@@ -15,14 +15,14 @@ export default function InferenceLatencyBreakdown() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         Transformer 推理延迟分解
       </h3>
 
       <div className="mb-8">
         <div className="text-center mb-4">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">{totalTime} ms</span>
-          <p className="text-sm text-gray-600 dark:text-gray-400">总推理延迟（单 token）</p>
+          <span className="text-3xl font-bold text-gray-100">{totalTime} ms</span>
+          <p className="text-sm text-gray-300">总推理延迟（单 token）</p>
         </div>
 
         {/* 可视化进度条 */}
@@ -63,7 +63,7 @@ export default function InferenceLatencyBreakdown() {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
                 <div className={`w-4 h-4 rounded-full bg-${stage.color}-500`}></div>
-                <span className="font-bold text-gray-900 dark:text-white">{stage.name}</span>
+                <span className="font-bold text-gray-100">{stage.name}</span>
               </div>
               <div className="flex items-center gap-4">
                 <span className={`text-lg font-semibold text-${stage.color}-700 dark:text-${stage.color}-300`}>

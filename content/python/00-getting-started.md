@@ -4,8 +4,6 @@ description: "从零开始学习 Python：变量、数据类型、运算符、�
 updated: "2026-01-22"
 ---
 
-# Chapter 0. Python 基础入门
-
 > **Learning Objectives**
 > * 理解 Python 的设计哲学与应用场景
 > * 掌握 Python 基本语法：变量、数据类型、运算符

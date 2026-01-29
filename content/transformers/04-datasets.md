@@ -1,6 +1,8 @@
-# Chapter 4: Datasets 库与数据预处理
-
-> **本章目标**：全面掌握 Hugging Face Datasets 库的核心功能，学习高效的数据加载、预处理和管理技巧，为模型训练做好数据准备。
+---
+title: "Chapter 4. Datasets 库与数据预处理"
+description: "全面掌握 Datasets 库核心功能、学习高效的数据加载与预处理技巧"
+updated: "2026-01-22"
+---
 
 ---
 

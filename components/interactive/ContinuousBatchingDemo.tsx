@@ -103,7 +103,7 @@ export default function ContinuousBatchingDemo() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         Continuous Batching vs Static Batching
       </h3>
 
@@ -115,7 +115,7 @@ export default function ContinuousBatchingDemo() {
             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all ${
               mode === 'static'
                 ? 'bg-red-500 text-white scale-105'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-100'
             }`}
           >
             Static Batching
@@ -125,7 +125,7 @@ export default function ContinuousBatchingDemo() {
             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all ${
               mode === 'continuous'
                 ? 'bg-green-500 text-white scale-105'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-100'
             }`}
           >
             Continuous Batching
@@ -199,7 +199,7 @@ export default function ContinuousBatchingDemo() {
                       }`}>
                         {isDone ? 'Done' : isActive ? 'Generating' : 'Waiting'}
                       </span>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                      <span className="text-sm text-gray-300">
                         到达时刻: t={req.arrivalTime}
                       </span>
                     </div>
@@ -211,7 +211,7 @@ export default function ContinuousBatchingDemo() {
                         animate={{ width: `${(req.currentToken / req.generationLength) * 100}%` }}
                         transition={{ duration: 0.3 }}
                       />
-                      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-gray-900 dark:text-white">
+                      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-gray-100">
                         {req.currentToken} / {req.generationLength} tokens
                       </span>
                     </div>

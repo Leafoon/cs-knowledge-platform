@@ -4,8 +4,6 @@ description: "详解 nn.Module 生命周期、常用层、Sequential 容器以�
 updated: "2026-01-22"
 ---
 
-# Chapter 3. 神经网络核心组件 (nn.Module)
-
 > **Learning Objectives**
 > *   掌握 `nn.Module` 的生命周期与骨架代码。
 > *   直观理解激活函数 (`ReLU`, `Sigmoid`, `GELU`) 的特性。

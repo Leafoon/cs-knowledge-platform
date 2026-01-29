@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { Badge, AlertCircle } from "lucide-react";
 
 interface Version {
   transformers: string;
@@ -56,152 +56,132 @@ const versions: Version[] = [
 ];
 
 export default function VersionCompatibilityMatrix() {
-  const [selectedVersion, setSelectedVersion] = useState<number>(0);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "current":
-        return "from-green-500 to-emerald-600";
-      case "stable":
-        return "from-blue-500 to-cyan-600";
-      case "legacy":
-        return "from-gray-500 to-slate-600";
-      default:
-        return "from-gray-500 to-slate-600";
-    }
-  };
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "current":
-        return "最新版本";
+        return { label: "最新版本", color: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" };
       case "stable":
-        return "稳定版本";
+        return { label: "稳定版本", color: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" };
       case "legacy":
-        return "历史版本";
+        return { label: "历史版本", color: "bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400" };
       default:
-        return "";
+        return { label: "", color: "" };
     }
   };
 
   return (
-    <div className="my-8 p-6 bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl border border-slate-700 shadow-2xl overflow-hidden">
-      <h3 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-        📦 版本兼容性矩阵
-      </h3>
-
-      {/* Desktop View - Table */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-slate-600">
-              <th className="text-left p-3 text-blue-400 font-semibold">Transformers</th>
-              <th className="text-left p-3 text-orange-400 font-semibold">PyTorch</th>
-              <th className="text-left p-3 text-green-400 font-semibold">Python</th>
-              <th className="text-left p-3 text-purple-400 font-semibold">CUDA</th>
-              <th className="text-left p-3 text-yellow-400 font-semibold">重要特性</th>
-              <th className="text-left p-3 text-pink-400 font-semibold">状态</th>
-            </tr>
-          </thead>
-          <tbody>
-            {versions.map((version, index) => (
-              <motion.tr
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ backgroundColor: "rgba(71, 85, 105, 0.3)" }}
-                className="border-b border-slate-700 cursor-pointer"
-                onClick={() => setSelectedVersion(index)}
-              >
-                <td className="p-3 font-mono text-blue-300">{version.transformers}</td>
-                <td className="p-3 font-mono text-orange-300">{version.pytorch}</td>
-                <td className="p-3 font-mono text-green-300">{version.python}</td>
-                <td className="p-3 font-mono text-purple-300">{version.cuda}</td>
-                <td className="p-3">
-                  <div className="flex flex-wrap gap-1">
-                    {version.features.map((feature, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-0.5 bg-slate-700 text-yellow-300 text-xs rounded"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </td>
-                <td className="p-3">
-                  <span className={`px-2 py-1 text-xs font-bold rounded bg-gradient-to-r ${getStatusColor(version.status)} text-white`}>
-                    {getStatusBadge(version.status)}
-                  </span>
-                </td>
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="my-8">
+      {/* Header */}
+      <div className="mb-6">
+        <h3 className="text-2xl font-semibold text-text-primary mb-2">
+          版本兼容性矩阵
+        </h3>
+        <p className="text-sm text-text-secondary">
+          不同 Transformers 版本对应的依赖要求
+        </p>
       </div>
 
-      {/* Mobile View - Cards */}
-      <div className="md:hidden space-y-4">
-        {versions.map((version, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileTap={{ scale: 0.98 }}
-            className="p-4 bg-slate-800 rounded-lg border border-slate-700"
-            onClick={() => setSelectedVersion(index)}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="font-bold text-blue-300">{version.transformers}</span>
-              <span className={`px-2 py-1 text-xs font-bold rounded bg-gradient-to-r ${getStatusColor(version.status)} text-white`}>
-                {getStatusBadge(version.status)}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-2 text-sm mb-3">
-              <div>
-                <span className="text-gray-400">PyTorch:</span>
-                <span className="ml-2 text-orange-300 font-mono">{version.pytorch}</span>
-              </div>
-              <div>
-                <span className="text-gray-400">Python:</span>
-                <span className="ml-2 text-green-300 font-mono">{version.python}</span>
-              </div>
-              <div className="col-span-2">
-                <span className="text-gray-400">CUDA:</span>
-                <span className="ml-2 text-purple-300 font-mono">{version.cuda}</span>
-              </div>
-            </div>
-            <div>
-              <span className="text-gray-400 text-xs">重要特性：</span>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {version.features.map((feature, i) => (
-                  <span
-                    key={i}
-                    className="px-2 py-0.5 bg-slate-700 text-yellow-300 text-xs rounded"
-                  >
-                    {feature}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        ))}
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <div className="inline-block min-w-full align-middle">
+          <div className="overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-text-primary uppercase tracking-wider">
+                    Transformers
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-text-primary uppercase tracking-wider">
+                    PyTorch
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-text-primary uppercase tracking-wider">
+                    Python
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-text-primary uppercase tracking-wider">
+                    CUDA
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-text-primary uppercase tracking-wider">
+                    重要特性
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-text-primary uppercase tracking-wider">
+                    状态
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                {versions.map((version, index) => {
+                  const badge = getStatusBadge(version.status);
+                  return (
+                    <motion.tr
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                    >
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <code className="text-sm font-mono text-text-primary bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                          {version.transformers}
+                        </code>
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <code className="text-sm font-mono text-text-secondary">
+                          {version.pytorch}
+                        </code>
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <code className="text-sm font-mono text-text-secondary">
+                          {version.python}
+                        </code>
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <code className="text-sm font-mono text-text-secondary">
+                          {version.cuda}
+                        </code>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex flex-wrap gap-1">
+                          {version.features.map((feature, i) => (
+                            <span
+                              key={i}
+                              className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-text-primary rounded"
+                            >
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded ${badge.color}`}>
+                          {badge.label}
+                        </span>
+                      </td>
+                    </motion.tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       {/* Compatibility Tips */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        className="mt-6 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800/30 rounded-lg"
       >
-        <h4 className="text-sm font-bold text-yellow-400 mb-2">⚠️ 兼容性提示</h4>
-        <ul className="text-xs text-gray-300 space-y-1">
+        <div className="flex items-start gap-2 mb-3">
+          <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5" />
+          <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-400">
+            兼容性提示
+          </h4>
+        </div>
+        <ul className="text-sm text-yellow-700 dark:text-yellow-300/90 space-y-2 ml-7">
           <li>• CUDA 版本必须与 PyTorch 匹配，否则 GPU 不可用</li>
           <li>• Python 3.7 已不再支持，推荐使用 3.9+</li>
-          <li>• M1/M2 Mac 使用 <code className="px-1 bg-slate-700 rounded">torch</code> 而非 <code className="px-1 bg-slate-700 rounded">torch-cpu</code></li>
+          <li>• M1/M2 Mac 使用 <code className="px-1.5 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-200 rounded text-xs font-mono">torch</code> 而非 <code className="px-1.5 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-200 rounded text-xs font-mono">torch-cpu</code></li>
           <li>• 使用最新稳定版本获得最佳性能和功能</li>
         </ul>
       </motion.div>

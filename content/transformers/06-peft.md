@@ -1,4 +1,8 @@
-# Chapter 6: 参数高效微调（PEFT）
+---
+title: "Chapter 6. 参数高效微调（PEFT）"
+description: "掌握 LoRA、QLoRA、Adapter 等 PEFT 方法、实现高效大模型微调"
+updated: "2026-01-22"
+---
 
 ## 6.1 PEFT 概述
 

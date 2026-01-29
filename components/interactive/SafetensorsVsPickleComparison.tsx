@@ -81,7 +81,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
       {/* 标题 */}
       <div className="text-center">
         <h3 className="text-2xl font-bold mb-2">Safetensors vs PyTorch Pickle</h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-300">
           安全、快速的模型序列化格式对比
         </p>
       </div>
@@ -95,7 +95,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
             className={`px-4 py-2 rounded-lg font-medium transition-all ${
               selectedAspect === aspect.id
                 ? 'bg-blue-500 text-white shadow-lg scale-105'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             <span className="mr-2">{aspect.icon}</span>
@@ -135,7 +135,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
                 ))}
               </div>
               <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-900 rounded-lg">
-                <p className="text-xs font-mono text-gray-700 dark:text-gray-300">
+                <p className="text-xs font-mono text-gray-100">
                   # 恶意 Pickle 示例
                   <br />
                   <span className="text-red-600">import os</span>
@@ -164,7 +164,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
                 ))}
               </div>
               <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-900 rounded-lg">
-                <p className="text-xs font-mono text-gray-700 dark:text-gray-300">
+                <p className="text-xs font-mono text-gray-100">
                   # 纯数据格式
                   <br />
                   <span className="text-green-600">
@@ -182,7 +182,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
 
         {selectedAspect === 'speed' && (
           <div>
-            <p className="text-center mb-6 text-gray-600 dark:text-gray-400">
+            <p className="text-center mb-6 text-gray-300">
               {comparisonContent.speed.explanation}
             </p>
             <div className="space-y-4">
@@ -197,7 +197,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
                   <div className="space-y-1">
                     {/* PyTorch */}
                     <div className="flex items-center gap-2">
-                      <span className="w-20 text-xs text-gray-600 dark:text-gray-400">
+                      <span className="w-20 text-xs text-gray-300">
                         PyTorch
                       </span>
                       <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-6 relative overflow-hidden">
@@ -215,7 +215,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
                     </div>
                     {/* Safetensors */}
                     <div className="flex items-center gap-2">
-                      <span className="w-20 text-xs text-gray-600 dark:text-gray-400">
+                      <span className="w-20 text-xs text-gray-300">
                         Safetensors
                       </span>
                       <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-6 relative overflow-hidden">
@@ -317,7 +317,7 @@ const SafetensorsVsPickleComparison: React.FC = () => {
           <div className="text-4xl">💡</div>
           <div>
             <h4 className="font-bold text-lg mb-2">推荐使用 Safetensors</h4>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
+            <p className="text-sm text-gray-100">
               对于所有新项目和模型分享，<strong>始终优先使用 Safetensors</strong>。
               它提供了更高的安全性、更快的加载速度和更好的跨平台兼容性。
               Hugging Face Hub 已将 Safetensors 作为默认格式。

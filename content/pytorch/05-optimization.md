@@ -4,8 +4,6 @@ description: "直观对比优化器算法，构建健壮的标准训练循环"
 updated: "2026-01-22"
 ---
 
-# Chapter 5. 优化器与训练循环 (Optimization & Optimization Loop)
-
 > **Learning Objectives**
 > *   理解 **Loss Surface** 的概念。
 > *   直观对比 **SGD** vs **Momentum** vs **Adam** 的寻优路径。

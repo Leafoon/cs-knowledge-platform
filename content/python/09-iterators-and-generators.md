@@ -4,8 +4,6 @@ description: "深入理解迭代器协议、生成器原理、yield 关键字、
 updated: "2026-01-22"
 ---
 
-# Chapter 9. 迭代器与生成器：惰性计算的艺术
-
 > **Learning Objectives**
 > * 理解迭代器协议 (`__iter__` 和 `__next__`)
 > * 掌握可迭代对象 (Iterable) 与迭代器 (Iterator) 的区别

@@ -1,4 +1,8 @@
-# Chapter 21: Optimum 库详解 - 硬件加速统一接口
+---
+title: "Chapter 21. Optimum 库详解 - 硬件加速统一接口"
+description: "掌握 Optimum 生态、ONNX Runtime、Intel/AMD/NVIDIA 硬件优化方案"
+updated: "2026-01-22"
+---
 
 ## 21.1 Optimum 生态概览
 

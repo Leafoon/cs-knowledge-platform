@@ -1,6 +1,8 @@
-# Chapter 16: DeepSpeed 集成
-
-> **本章目标**：深入理解 DeepSpeed 的 ZeRO 优化器原理，掌握与 Transformers Trainer 的集成，学会配置 ZeRO-Offload、3D 并行等高级特性，能够在多 GPU/多节点环境中高效训练超大规模模型。
+---
+title: "Chapter 16. DeepSpeed 集成"
+description: "深入理解 DeepSpeed ZeRO 优化器、掌握与 Trainer 集成、配置 3D 并行"
+updated: "2026-01-22"
+---
 
 ---
 

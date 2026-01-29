@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";  // Add GFM support (tables, strikethrough, 
 import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
 import { remarkAlerts } from "./remark-alerts";
+import { rehypeInteractiveComponents } from "./rehype-interactive-components";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import rehypePrism from "rehype-prism-plus";
@@ -77,6 +78,7 @@ export async function getModuleContent(moduleId: string) {
         .use(remarkMath)
         .use(remarkAlerts)
         .use(remarkRehype, { allowDangerousHtml: true })  // Convert markdown to HTML AST
+        .use(rehypeInteractiveComponents)  // Transform <InteractiveComponent> tags
         .use(rehypeKatex, { strict: false })  // Disable strict mode to allow \\ in aligned/matrix environments
         .use(rehypePrism, { showLineNumbers: true, ignoreMissing: true })
         .use(rehypeStringify, { allowDangerousHtml: true })  // Stringify to HTML
@@ -151,4 +153,97 @@ function slugify(text: string): string {
         .replace(/\s+/g, '-')
         .replace(/[^\w\-\u4e00-\u9fa5]+/g, '')
         .replace(/\-\-+/g, '-');
+}
+
+// 章节信息接口
+export interface ChapterInfo {
+    id: string;
+    filename: string;
+    title: string;
+    description?: string;
+    order: number;
+}
+
+// 获取模块的所有章节列表
+export function getModuleChapters(moduleId: string): ChapterInfo[] {
+    const modulePath = path.join(process.cwd(), "content", moduleId);
+
+    if (!fs.existsSync(modulePath)) {
+        return [];
+    }
+
+    // 尝试读取 chapters.json
+    const chaptersJsonPath = path.join(modulePath, "chapters.json");
+    if (fs.existsSync(chaptersJsonPath)) {
+        const chaptersData = JSON.parse(fs.readFileSync(chaptersJsonPath, "utf8"));
+        if (chaptersData.chapters && Array.isArray(chaptersData.chapters)) {
+            return chaptersData.chapters
+                .sort((a: any, b: any) => a.order - b.order)
+                .map((chapter: any) => ({
+                    id: chapter.id,
+                    filename: chapter.file,
+                    title: chapter.title,
+                    description: chapter.description,
+                    order: chapter.order
+                }));
+        }
+    }
+
+    // 回退到文件系统扫描（如果没有 chapters.json）
+    const files = fs.readdirSync(modulePath)
+        .filter(file => file.endsWith('.md') && !file.startsWith('appendix'))
+        .sort();
+
+    return files.map((filename, index) => {
+        const fullPath = path.join(modulePath, filename);
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const { data } = matter(fileContents);
+        
+        return {
+            id: filename.replace('.md', ''),
+            filename,
+            title: data.title || filename.replace('.md', ''),
+            description: data.description,
+            order: index
+        };
+    });
+}
+
+// 获取单个章节的内容
+export async function getSingleChapterContent(moduleId: string, chapterId: string) {
+    const modulePath = path.join(process.cwd(), "content", moduleId);
+    const chapterPath = path.join(modulePath, `${chapterId}.md`);
+
+    if (!fs.existsSync(chapterPath)) {
+        return {
+            html: "<p>章节未找到</p>",
+            frontmatter: {},
+            toc: [],
+        };
+    }
+
+    const fileContents = fs.readFileSync(chapterPath, "utf8");
+    const { data, content } = matter(fileContents);
+
+    // Process content
+    const processedContent = await unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkMath)
+        .use(remarkAlerts)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeInteractiveComponents)  // Transform <InteractiveComponent> tags
+        .use(rehypeKatex, { strict: false })
+        .use(rehypePrism, { showLineNumbers: true, ignoreMissing: true })
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .process(content);
+
+    const html = processedContent.toString();
+    const toc = generateTOC(content);
+
+    return {
+        html,
+        frontmatter: data,
+        toc,
+    };
 }

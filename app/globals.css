@@ -16,6 +16,23 @@
         scroll-behavior: smooth;
     }
 
+    /* GPU acceleration hints */
+    .will-change-transform {
+        will-change: transform;
+    }
+
+    .will-change-opacity {
+        will-change: opacity;
+    }
+
+    /* Optimize animations */
+    @media (prefers-reduced-motion: no-preference) {
+        * {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
 
         *,
@@ -134,29 +151,27 @@
     }
 }
 
-/* Background Gradients */
+/* Background Gradients - Optimized */
 .bg-gradient-hero {
     background:
-        linear-gradient(to right, rgba(102, 126, 234, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(102, 126, 234, 0.03) 1px, transparent 1px),
-        radial-gradient(circle at 20% 10%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.04) 0%, transparent 70%),
+        linear-gradient(to right, rgba(102, 126, 234, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(102, 126, 234, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 20% 10%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%),
         linear-gradient(to bottom, var(--bg-base) 0%, #f8f9fa 100%);
-    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
 }
 
 .dark .bg-gradient-hero {
     background:
-        linear-gradient(to right, rgba(129, 140, 248, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(129, 140, 248, 0.04) 1px, transparent 1px),
-        radial-gradient(circle at 20% 10%, rgba(129, 140, 248, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.06) 0%, transparent 70%),
+        linear-gradient(to right, rgba(129, 140, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(129, 140, 248, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 20% 10%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.08) 0%, transparent 50%),
         linear-gradient(to bottom, var(--bg-base) 0%, #0a0a0a 100%);
-    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
 }
 
 /* Animated Gradient Background */
@@ -170,11 +185,11 @@
     animation: gradient 15s ease infinite;
 }
 
-/* Animations */
+/* Animations - Optimized for Performance */
 @keyframes fade-in {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(8px);
     }
 
     to {
@@ -184,8 +199,9 @@
 }
 
 .animate-fade-in {
-    animation: fade-in 0.5s ease-out forwards;
+    animation: fade-in 0.4s ease-out forwards;
     opacity: 0;
+    will-change: transform, opacity;
 }
 
 @layer components {

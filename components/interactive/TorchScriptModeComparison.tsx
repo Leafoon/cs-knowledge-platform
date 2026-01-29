@@ -89,7 +89,7 @@ const TorchScriptModeComparison: React.FC = () => {
       {/* 标题 */}
       <div className="text-center">
         <h3 className="text-2xl font-bold mb-2">TorchScript: Trace vs Script</h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-300">
           两种模式的工作原理与适用场景
         </p>
       </div>
@@ -101,7 +101,7 @@ const TorchScriptModeComparison: React.FC = () => {
           className={`px-6 py-3 rounded-lg font-medium transition-all ${
             selectedMode === 'trace'
               ? 'bg-blue-500 text-white shadow-lg scale-105'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-100'
           }`}
         >
           <div className="text-2xl mb-1">🔍</div>
@@ -113,7 +113,7 @@ const TorchScriptModeComparison: React.FC = () => {
           className={`px-6 py-3 rounded-lg font-medium transition-all ${
             selectedMode === 'script'
               ? 'bg-purple-500 text-white shadow-lg scale-105'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-100'
           }`}
         >
           <div className="text-2xl mb-1">📝</div>
@@ -259,7 +259,7 @@ scripted_model.save("model_scripted.pt")`}
           className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
         >
           <h4 className="text-lg font-bold mb-2">{currentExample.title}</h4>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-sm text-gray-300 mb-4">
             {currentExample.description}
           </p>
 

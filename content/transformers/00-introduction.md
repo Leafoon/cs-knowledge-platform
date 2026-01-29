@@ -4,8 +4,6 @@ description: "全面了解 Hugging Face Transformers 库的设计哲学、生态
 updated: "2026-01-22"
 ---
 
-# Chapter 0. Transformers 生态系统概览
-
 > **Learning Objectives**
 > * 理解 Hugging Face Transformers 的设计哲学与核心优势
 > * 掌握环境安装与版本兼容性管理

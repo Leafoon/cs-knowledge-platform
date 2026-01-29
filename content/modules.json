@@ -36,12 +36,26 @@
             "color": "#10b981"
         },
         {
+            "id": "langchain",
+            "title": "LangChain",
+            "description": "LangChain 生态完整教程：从零基础到生产部署",
+            "icon": "/icons/langchain.svg",
+            "color": "#10b981"
+        },
+        {
             "id": "linux-commands",
             "title": "Linux Commands",
             "description": "Linux 常用命令速查手册与实战指南",
             "icon": "/icons/terminal.svg",
             "color": "#f59e0b",
             "externalLink": "/linux-commands.html"
+        },
+        {
+            "id": "reinforcement-learning",
+            "title": "Reinforcement Learning",
+            "description": "强化学习完整教程：从 MDP 到 RLHF",
+            "icon": "/icons/rl.svg",
+            "color": "#8b5cf6"
         }
     ]
 }

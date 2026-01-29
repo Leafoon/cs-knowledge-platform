@@ -1,6 +1,8 @@
-# Chapter 5: Trainer API 完整指南
-
-> **本章目标**：全面掌握 Hugging Face Trainer API，从基础训练流程到高级特性（混合精度、梯度累积、回调函数、多 GPU 训练），实现工业级模型训练。
+---
+title: "Chapter 5. Trainer API 完整指南"
+description: "掌握 Trainer API 全流程、深入理解训练循环、回调机制与自定义扩展"
+updated: "2026-01-22"
+---
 
 ---
 

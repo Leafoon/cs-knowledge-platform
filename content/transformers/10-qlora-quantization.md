@@ -1,6 +1,8 @@
-# Chapter 10: QLoRA 与量化微调
-
-> **本章目标**: 掌握 QLoRA 的核心创新、4-bit 量化技术、在消费级显卡上微调超大模型的完整流程，深入理解 NF4 数据类型、双重量化、Paged Optimizers 等底层机制。
+---
+title: "Chapter 10. QLoRA 与量化微调"
+description: "掌握 QLoRA 的 4-bit 量化技术、NF4 数据类型、在消费级显卡上微调超大模型"
+updated: "2026-01-22"
+---
 
 ---
 

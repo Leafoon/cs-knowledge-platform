@@ -15,7 +15,7 @@ export function ModuleGrid({ modules }: ModuleGridProps) {
                     key={module.id}
                     className="animate-fade-in"
                     style={{
-                        animationDelay: `${index * 50}ms`,
+                        animationDelay: `${index * 30}ms`,
                     }}
                 >
                     <ModuleCard module={module} />

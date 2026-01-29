@@ -1,4 +1,8 @@
-# Chapter 14: Accelerate 库完全指南
+---
+title: "Chapter 14. Accelerate 库完全指南"
+description: "掌握 Accelerate 的配置、分布式训练、混合精度、梯度累积等功能"
+updated: "2026-01-22"
+---
 
 > **官方文档**: https://huggingface.co/docs/accelerate  
 > **GitHub**: https://github.com/huggingface/accelerate  

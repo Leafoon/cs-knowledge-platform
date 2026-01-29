@@ -2,15 +2,15 @@
 
 import { useEffect, useRef, useMemo } from "react";
 import { createRoot } from "react-dom/client";
-import { 
-    InstructionCycleSimulator, VonNeumannArchitecture, ComputerEvolutionTimeline, SystemLayersVisualization, 
-    PythonInterpreterFlow, PythonObjectVisualizer, UnicodeEncodingVisualizer, ListResizingVisualizer, 
-    IntegerMemoryLayout, HashTableVisualizer, FunctionCallStackVisualizer, DecoratorExecutionFlow, 
-    GeneratorStateVisualizer, ExceptionHierarchyTree, ComputationalGraph, SequentialFlowVisualizer, 
-    BatchProcessor, TrainingSimulator, CheckpointSimulator, ProfilerVisualizer, AttentionMatrixVisualizer, 
-    ParallelVisualizer, QuantizationVisualizer, DistributedVisualizer, KernelFusionVisualizer, 
-    DispatcherVisualizer, TensorBroadcastingVisualizer, TensorStorageVisualizer, ActivationVisualizer, 
-    SamplerVisualizer, OptimizerPathVisualizer, TransferLearningVisualizer, TrainingDynamicsVisualizer, 
+import {
+    InstructionCycleSimulator, VonNeumannArchitecture, ComputerEvolutionTimeline, SystemLayersVisualization,
+    PythonInterpreterFlow, PythonObjectVisualizer, UnicodeEncodingVisualizer, ListResizingVisualizer,
+    IntegerMemoryLayout, HashTableVisualizer, FunctionCallStackVisualizer, DecoratorExecutionFlow,
+    GeneratorStateVisualizer, ExceptionHierarchyTree, ComputationalGraph, SequentialFlowVisualizer,
+    BatchProcessor, TrainingSimulator, CheckpointSimulator, ProfilerVisualizer, AttentionMatrixVisualizer,
+    ParallelVisualizer, QuantizationVisualizer, DistributedVisualizer, KernelFusionVisualizer,
+    DispatcherVisualizer, TensorBroadcastingVisualizer, TensorStorageVisualizer, ActivationVisualizer,
+    SamplerVisualizer, OptimizerPathVisualizer, TransferLearningVisualizer, TrainingDynamicsVisualizer,
     ConvolutionVisualizer, HookVisualizer, TorchScriptVisualizer, StridedMemoryVisualizer, CUDAStreamVisualizer,
     // Transformers Components
     TransformersEcosystemComparison, HuggingFaceEcosystemMap, VersionCompatibilityMatrix,
@@ -91,8 +91,69 @@ import {
     AccelerateWorkflowVisualizer, AcceleratorAPIDemo, ThreeDParallelismVisualizer,
     CollectiveCommunicationPrimitives, TGIArchitectureDiagram, ModelExportDecisionTree,
     BackendAutoSelector, OptimizationEffectComparison, ProfilerVisualizationDemo,
-    PEFTTrainingSpeedComparison
+    PEFTTrainingSpeedComparison,
+    // LangChain Components
+    LangChainEcosystemMap, LangChainArchitectureFlow, RunnableProtocolVisualizer, PromptTemplateBuilder,
+    MessageFlowDiagram, LegacyVsLCELComparison, ErrorHandlingFlow, ChainGraphVisualizer,
+    RunnableCompositionFlow, ParallelExecutionDemo, StreamingVisualizer, AsyncPerformanceComparison,
+    ChainOrchestrationDiagram, MapReduceVisualizer, RouterDecisionTree,
+    FewShotExampleSelector, PromptComposer, HubBrowser,
+    OutputParserFlow, StructuredOutputBuilder, ParsingErrorDemo,
+    ToolCallingFlow, FunctionSchemaBuilder, ToolExecutionTimeline,
+    MemoryEvolutionTimeline, MemoryTypeComparison, EntityMemoryGraph,
+    // Chapter 10-11: Persistence & Optimization
+    PersistenceBackendComparison, SessionLifecycleFlow, StateCheckpointVisualizer,
+    TokenManagementDashboard, MemoryRetrievalPerformance, PrivacyComplianceFlow,
+    // Chapter 12-13: RAG & Vector Stores
+    RAGArchitectureDiagram, TextSplittingVisualizer, EmbeddingSpaceVisualization,
+    VectorStoreComparison, SimilaritySearchDemo, HybridRetrievalFlow,
+    // Chapter 14-15: LangGraph & Agent Design
+    LangGraphArchitectureDiagram, StateGraphExecution, CheckpointTimeline,
+    AgentArchitectureComparison, ToolCallFlow, MultiAgentArchitecture,
+    // Chapter 16: LangSmith Observability
+    LangSmithTraceVisualization, EvaluationDashboard, MonitoringDashboard,
+    // Chapter 17: LangServe Deployment
+    LangServePlayground, DeploymentArchitecture, KubernetesArchitecture,
+    // Chapter 18: Advanced RAG & Optimization
+    AdvancedRAGComparison, QueryTransformationFlow, HybridSearchArchitecture,
+    // Chapter 19: Production Engineering & Best Practices
+    RetryFallbackFlow, PerformanceOptimizationDashboard, ProductionArchitectureDiagram,
+    // Chapter 20: Multi-Agent Systems
+    MultiAgentArchitectureComparison, SupervisorRoutingFlow, CollaborativeDebateFlow, MultiAgentCodeGenFlow,
+    // Chapter 21: Planning & Reflection Agents
+    PlanExecuteFlowDiagram, ReflectionLoopVisualizer, ErrorRecoveryFlowDiagram,
+    // Chapter 22: LangSmith Tracing
+    TraceTreeVisualizer, SpanTimelineChart, TokenUsageBreakdown,
+    // Chapter 23: LangSmith Evaluation
+    EvaluationPipeline, ABTestComparison, FeedbackDashboard,
+    // Chapter 24: LangSmith Production Monitoring
+    MonitoringDashboardReal, AlertRuleBuilder, CostAnalysisDashboard,
+    // Chapter 25: LangServe Basics
+    LangServeArchitecture, EndpointExplorer, RemoteRunnableDemo,
+    // Chapter 26: LangServe Advanced Features
+    AuthenticationFlow, RateLimitingVisualizer, MetricsDashboard,
+    // Chapter 27: Deployment & Containerization
+    DockerBuildFlow, CloudPlatformComparison, K8sArchitectureDiagram,
+    // Chapter 28: Advanced Agent Patterns
+    HumanInLoopFlow, LongTermMemoryArchitecture, ToolOrchestrationVisualizer,
+    // Chapter 29: Ecosystem Integration
+    FrameworkComparisonMatrix, MigrationPathGuide, APIMappingTable,
+    // Chapter 30: Performance Optimization
+    CachingStrategyComparison, CostOptimizationDashboard, ReliabilityDecisionTree,
+    // Chapter 31: Security & Privacy
+    PromptInjectionDefense, PIIDetectionFlow, SecurityAuditDashboard,
+    // Chapter 32: Large-Scale Architecture
+    MicroserviceArchitecture, ModelRoutingFlow, ABTestDashboard,
+    // Chapter 33: Future Research
+    SpeculativeDecodingFlow as SpeculativeDecodingFlowLangChain, MultimodalMemoryGraph, PluginEcosystemMap,
+    // Reinforcement Learning Components
+    RLEcosystemMap, AgentEnvironmentLoop, RLTimelineEvolution,
+    MDPGraphVisualizer, BellmanEquationDerivation, ValueFunctionEvolution
 } from "@/components/interactive";
+
+
+
+
 
 
 
@@ -319,6 +380,135 @@ const componentMap: Record<string, React.ComponentType> = {
     "OptimizationEffectComparison": OptimizationEffectComparison,
     "ProfilerVisualizationDemo": ProfilerVisualizationDemo,
     "PEFTTrainingSpeedComparison": PEFTTrainingSpeedComparison,
+    // LangChain Components
+    "LangChainEcosystemMap": LangChainEcosystemMap,
+    "LangChainArchitectureFlow": LangChainArchitectureFlow,
+    "RunnableProtocolVisualizer": RunnableProtocolVisualizer,
+    "PromptTemplateBuilder": PromptTemplateBuilder,
+    "MessageFlowDiagram": MessageFlowDiagram,
+    "LegacyVsLCELComparison": LegacyVsLCELComparison,
+    "ErrorHandlingFlow": ErrorHandlingFlow,
+    "ChainGraphVisualizer": ChainGraphVisualizer,
+    "RunnableCompositionFlow": RunnableCompositionFlow,
+    "ParallelExecutionDemo": ParallelExecutionDemo,
+    "StreamingVisualizer": StreamingVisualizer,
+    "AsyncPerformanceComparison": AsyncPerformanceComparison,
+    "ChainOrchestrationDiagram": ChainOrchestrationDiagram,
+    "MapReduceVisualizer": MapReduceVisualizer,
+    "RouterDecisionTree": RouterDecisionTree,
+    "FewShotExampleSelector": FewShotExampleSelector,
+    "PromptComposer": PromptComposer,
+    "HubBrowser": HubBrowser,
+    "OutputParserFlow": OutputParserFlow,
+    "StructuredOutputBuilder": StructuredOutputBuilder,
+    "ParsingErrorDemo": ParsingErrorDemo,
+    "ToolCallingFlow": ToolCallingFlow,
+    "FunctionSchemaBuilder": FunctionSchemaBuilder,
+    "ToolExecutionTimeline": ToolExecutionTimeline,
+    "MemoryEvolutionTimeline": MemoryEvolutionTimeline,
+    "MemoryTypeComparison": MemoryTypeComparison,
+    "EntityMemoryGraph": EntityMemoryGraph,
+    // Chapter 10-11
+    "PersistenceBackendComparison": PersistenceBackendComparison,
+    "SessionLifecycleFlow": SessionLifecycleFlow,
+    "StateCheckpointVisualizer": StateCheckpointVisualizer,
+    "TokenManagementDashboard": TokenManagementDashboard,
+    "MemoryRetrievalPerformance": MemoryRetrievalPerformance,
+    "PrivacyComplianceFlow": PrivacyComplianceFlow,
+    // Chapter 12-13: RAG & Vector Stores
+    "RAGArchitectureDiagram": RAGArchitectureDiagram,
+    "TextSplittingVisualizer": TextSplittingVisualizer,
+    "EmbeddingSpaceVisualization": EmbeddingSpaceVisualization,
+    "VectorStoreComparison": VectorStoreComparison,
+    "SimilaritySearchDemo": SimilaritySearchDemo,
+    "HybridRetrievalFlow": HybridRetrievalFlow,
+    // Chapter 14-15: LangGraph & Agent Design
+    "LangGraphArchitectureDiagram": LangGraphArchitectureDiagram,
+    "StateGraphExecution": StateGraphExecution,
+    "CheckpointTimeline": CheckpointTimeline,
+    "AgentArchitectureComparison": AgentArchitectureComparison,
+    "ToolCallFlow": ToolCallFlow,
+    "MultiAgentArchitecture": MultiAgentArchitecture,
+    // Chapter 16: LangSmith Observability
+    "LangSmithTraceVisualization": LangSmithTraceVisualization,
+    "EvaluationDashboard": EvaluationDashboard,
+    "MonitoringDashboard": MonitoringDashboard,
+    // Chapter 17: LangServe Deployment
+    "LangServePlayground": LangServePlayground,
+    "DeploymentArchitecture": DeploymentArchitecture,
+    "KubernetesArchitecture": KubernetesArchitecture,
+    // Chapter 18: Advanced RAG & Optimization
+    "AdvancedRAGComparison": AdvancedRAGComparison,
+    "QueryTransformationFlow": QueryTransformationFlow,
+    "HybridSearchArchitecture": HybridSearchArchitecture,
+    // Chapter 19: Production Engineering & Best Practices
+    "RetryFallbackFlow": RetryFallbackFlow,
+    "PerformanceOptimizationDashboard": PerformanceOptimizationDashboard,
+    "ProductionArchitectureDiagram": ProductionArchitectureDiagram,
+    // Chapter 20: Multi-Agent Systems
+    "MultiAgentArchitectureComparison": MultiAgentArchitectureComparison,
+    "SupervisorRoutingFlow": SupervisorRoutingFlow,
+    "CollaborativeDebateFlow": CollaborativeDebateFlow,
+    "MultiAgentCodeGenFlow": MultiAgentCodeGenFlow,
+    // Chapter 21: Planning & Reflection Agents
+    "PlanExecuteFlowDiagram": PlanExecuteFlowDiagram,
+    "ReflectionLoopVisualizer": ReflectionLoopVisualizer,
+    "ErrorRecoveryFlowDiagram": ErrorRecoveryFlowDiagram,
+    // Chapter 22: LangSmith Tracing
+    "TraceTreeVisualizer": TraceTreeVisualizer,
+    "SpanTimelineChart": SpanTimelineChart,
+    "TokenUsageBreakdown": TokenUsageBreakdown,
+    // Chapter 23: LangSmith Evaluation
+    "EvaluationPipeline": EvaluationPipeline,
+    "ABTestComparison": ABTestComparison,
+    "FeedbackDashboard": FeedbackDashboard,
+    // Chapter 24: LangSmith Production Monitoring
+    "MonitoringDashboardReal": MonitoringDashboardReal,
+    "AlertRuleBuilder": AlertRuleBuilder,
+    "CostAnalysisDashboard": CostAnalysisDashboard,
+    // Chapter 25: LangServe Basics
+    "LangServeArchitecture": LangServeArchitecture,
+    "EndpointExplorer": EndpointExplorer,
+    "RemoteRunnableDemo": RemoteRunnableDemo,
+    // Chapter 26: LangServe Advanced Features
+    "AuthenticationFlow": AuthenticationFlow,
+    "RateLimitingVisualizer": RateLimitingVisualizer,
+    "MetricsDashboard": MetricsDashboard,
+    // Chapter 27: Deployment & Containerization
+    "DockerBuildFlow": DockerBuildFlow,
+    "CloudPlatformComparison": CloudPlatformComparison,
+    "K8sArchitectureDiagram": K8sArchitectureDiagram,
+    // Chapter 28: Advanced Agent Patterns
+    "HumanInLoopFlow": HumanInLoopFlow,
+    "LongTermMemoryArchitecture": LongTermMemoryArchitecture,
+    "ToolOrchestrationVisualizer": ToolOrchestrationVisualizer,
+    // Chapter 29: Ecosystem Integration
+    "FrameworkComparisonMatrix": FrameworkComparisonMatrix,
+    "MigrationPathGuide": MigrationPathGuide,
+    "APIMappingTable": APIMappingTable,
+    // Chapter 30: Performance Optimization
+    "CachingStrategyComparison": CachingStrategyComparison,
+    "CostOptimizationDashboard": CostOptimizationDashboard,
+    "ReliabilityDecisionTree": ReliabilityDecisionTree,
+    // Chapter 31: Security & Privacy
+    "PromptInjectionDefense": PromptInjectionDefense,
+    "PIIDetectionFlow": PIIDetectionFlow,
+    "SecurityAuditDashboard": SecurityAuditDashboard,
+    // Chapter 32: Large-Scale Architecture
+    "MicroserviceArchitecture": MicroserviceArchitecture,
+    "ModelRoutingFlow": ModelRoutingFlow,
+    "ABTestDashboard": ABTestDashboard,
+    // Chapter 33: Future Research
+    "SpeculativeDecodingFlowLangChain": SpeculativeDecodingFlowLangChain,
+    "MultimodalMemoryGraph": MultimodalMemoryGraph,
+    "PluginEcosystemMap": PluginEcosystemMap,
+    // Reinforcement Learning Components
+    "RLEcosystemMap": RLEcosystemMap,
+    "AgentEnvironmentLoop": AgentEnvironmentLoop,
+    "RLTimelineEvolution": RLTimelineEvolution,
+    "MDPGraphVisualizer": MDPGraphVisualizer,
+    "BellmanEquationDerivation": BellmanEquationDerivation,
+    "ValueFunctionEvolution": ValueFunctionEvolution,
 };
 
 export function ContentRenderer({ html, moduleId }: ContentRendererProps) {

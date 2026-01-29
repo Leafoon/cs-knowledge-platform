@@ -135,14 +135,14 @@ export default function SpeculativeDecodingFlowVisualizer() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         Speculative Decoding 工作流程
       </h3>
 
       {/* 控制面板 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-100 mb-2">
             推测长度 K：{K}
           </label>
           <input
@@ -192,7 +192,7 @@ export default function SpeculativeDecodingFlowVisualizer() {
 
       {/* Token 可视化 */}
       <div className="mb-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+        <h4 className="text-lg font-bold text-gray-100 mb-4">
           生成的 Tokens
         </h4>
 
@@ -216,7 +216,7 @@ export default function SpeculativeDecodingFlowVisualizer() {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
-                      <span className="text-lg font-bold text-gray-900 dark:text-white">
+                      <span className="text-lg font-bold text-gray-100">
                         &quot;{token.text}&quot;
                       </span>
                       <span className={`text-xs px-2 py-1 rounded-full bg-${statusColor}-500 text-white font-bold`}>
@@ -230,19 +230,19 @@ export default function SpeculativeDecodingFlowVisualizer() {
                     {(token.status === 'verifying' || token.status === 'accepted' || token.status === 'rejected') && (
                       <div className="flex gap-4 text-sm">
                         <div className="text-center">
-                          <p className="text-xs text-gray-600 dark:text-gray-400">Draft Prob</p>
+                          <p className="text-xs text-gray-300">Draft Prob</p>
                           <p className="font-bold text-blue-700 dark:text-blue-300">
                             {token.draftProb.toFixed(2)}
                           </p>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600 dark:text-gray-400">Target Prob</p>
+                          <p className="text-xs text-gray-300">Target Prob</p>
                           <p className="font-bold text-purple-700 dark:text-purple-300">
                             {token.targetProb.toFixed(2)}
                           </p>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600 dark:text-gray-400">接受概率</p>
+                          <p className="text-xs text-gray-300">接受概率</p>
                           <p className={`font-bold ${
                             Math.min(1, token.targetProb / token.draftProb) >= 0.8
                               ? 'text-green-700 dark:text-green-300'
@@ -256,7 +256,7 @@ export default function SpeculativeDecodingFlowVisualizer() {
                   </div>
 
                   {(token.status === 'accepted' || token.status === 'rejected') && (
-                    <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                    <div className="mt-2 text-xs text-gray-300">
                       判定：min(1, {token.targetProb.toFixed(2)} / {token.draftProb.toFixed(2)}) = {Math.min(1, token.targetProb / token.draftProb).toFixed(2)}
                       {token.status === 'rejected' && ' → 拒绝后重新采样'}
                     </div>

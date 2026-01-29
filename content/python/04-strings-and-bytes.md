@@ -4,8 +4,6 @@ description: "深入剖析 Python 字符串的 Unicode 模型、UTF-8/16/32 编�
 updated: "2024-03-22"
 ---
 
-# Chapter 4. 字符串与编码：Unicode 的世界
-
 > **Learning Objectives**
 > *   理解 Unicode 与字符编码的本质区别（字符集 vs 编码方案）
 > *   掌握 UTF-8, UTF-16, UTF-32 的编码规则与性能差异

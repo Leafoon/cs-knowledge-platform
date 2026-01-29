@@ -1,6 +1,8 @@
-# Chapter 17: 高效推理基础
-
-> **本章目标**：深入理解推理优化的关键指标（延迟、吞吐量、TTFT、TPS），掌握 Flash Attention、BetterTransformer、torch.compile、静态 KV Cache 等前沿优化技术，能够将模型推理性能提升 2-10 倍。
+---
+title: "Chapter 17. 高效推理基础"
+description: "理解推理性能指标、掌握 Flash Attention、BetterTransformer、torch.compile 优化技术"
+updated: "2026-01-22"
+---
 
 ---
 

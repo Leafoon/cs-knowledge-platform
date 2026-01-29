@@ -4,8 +4,6 @@ description: "深入理解 Dataset 抽象、DataLoader 高效加载机制、采�
 updated: "2026-01-22"
 ---
 
-# Chapter 4. 数据流水线 (Dataset & DataLoader)
-
 > **Learning Objectives**
 > *   理解 Map-style vs Iterable-style Dataset 的区别。
 > *   掌握 `Dataset` 的三板斧实现法。

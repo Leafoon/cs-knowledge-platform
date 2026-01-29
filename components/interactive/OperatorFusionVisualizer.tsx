@@ -177,7 +177,7 @@ const OperatorFusionVisualizer: React.FC = () => {
           ))}
         </div>
         <div className="mt-3 text-center">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+          <span className="text-sm text-gray-300">
             节点数: <strong>{nodes.length}</strong>
           </span>
         </div>
@@ -190,7 +190,7 @@ const OperatorFusionVisualizer: React.FC = () => {
       {/* 标题 */}
       <div className="text-center">
         <h3 className="text-2xl font-bold mb-2">ONNX 图优化：算子融合</h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-300">
           通过融合多个算子提升推理性能
         </p>
       </div>
@@ -251,7 +251,7 @@ const OperatorFusionVisualizer: React.FC = () => {
         <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg border-2 border-green-500">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-300">
                 性能提升
               </div>
               <div className="text-3xl font-bold text-green-600 dark:text-green-400">
@@ -259,7 +259,7 @@ const OperatorFusionVisualizer: React.FC = () => {
               </div>
             </div>
             <div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-300">
                 节点减少
               </div>
               <div className="text-2xl font-bold">
@@ -286,7 +286,7 @@ const OperatorFusionVisualizer: React.FC = () => {
           <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
             <div className="text-2xl mb-2">📁</div>
             <h5 className="font-semibold mb-2">常量折叠</h5>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-300">
               在编译时计算常量表达式，减少运行时计算
             </p>
             <div className="mt-2 text-xs font-mono bg-gray-100 dark:bg-gray-900 p-2 rounded">
@@ -297,7 +297,7 @@ const OperatorFusionVisualizer: React.FC = () => {
           <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
             <div className="text-2xl mb-2">🔀</div>
             <h5 className="font-semibold mb-2">算子融合</h5>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-300">
               将多个算子合并为单个高效算子
             </p>
             <div className="mt-2 text-xs font-mono bg-gray-100 dark:bg-gray-900 p-2 rounded">
@@ -308,7 +308,7 @@ const OperatorFusionVisualizer: React.FC = () => {
           <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
             <div className="text-2xl mb-2">🗑️</div>
             <h5 className="font-semibold mb-2">死代码消除</h5>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-300">
               移除未使用的节点和参数
             </p>
             <div className="mt-2 text-xs font-mono bg-gray-100 dark:bg-gray-900 p-2 rounded">

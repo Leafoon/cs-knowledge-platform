@@ -1,4 +1,8 @@
-# Chapter 12: 训练后量化（Post-Training Quantization）
+---
+title: "Chapter 12. 训练后量化（PTQ）"
+description: "掌握 GPTQ、AWQ、bitsandbytes 等训练后量化技术与实现方法"
+updated: "2026-01-22"
+---
 
 ## 12.1 PTQ 基础概念
 

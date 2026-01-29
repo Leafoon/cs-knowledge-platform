@@ -4,8 +4,6 @@ description: "深入剖析 Python List 的动态数组实现、内存预分配�
 updated: "2024-03-22"
 ---
 
-# Chapter 5. 列表与元组：动态数组的艺术
-
 > **Learning Objectives**
 > *   理解 List 的动态数组实现与扩容策略（平摊 O(1) 复杂度）
 > *   掌握 List 的内存布局（`PyListObject` 结构体）

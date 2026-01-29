@@ -4,8 +4,6 @@ description: "突破单卡显存限制：DDP 原理与 FSDP 大模型训练实�
 updated: "2026-01-22"
 ---
 
-# Chapter 11. 分布式训练 (Distributed)
-
 > **Learning Objectives**
 > *   **Deep Dive**: DDP 的 `All-Reduce` 通信机制。
 > *   掌握 `torchrun` 启动多卡训练的标准流程。

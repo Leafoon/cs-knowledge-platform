@@ -1,15 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { 
+  Library, Database, Scissors, Zap, Wrench, Rocket, 
+  Palette, Target, Cloud, Globe, Settings, Bot 
+} from "lucide-react";
 
 interface EcosystemItem {
   id: string;
   name: string;
-  emoji: string;
+  icon: React.ReactNode;
   description: string;
   type: "core" | "platform";
-  color: string;
 }
 
 const ecosystemItems: EcosystemItem[] = [
@@ -17,147 +19,140 @@ const ecosystemItems: EcosystemItem[] = [
   {
     id: "transformers",
     name: "Transformers",
-    emoji: "🤗",
+    icon: <Library className="w-8 h-8" />,
     description: "预训练模型库（200,000+ 模型）",
-    type: "core",
-    color: "#FFD21E"
+    type: "core"
   },
   {
     id: "datasets",
     name: "Datasets",
-    emoji: "📊",
+    icon: <Database className="w-8 h-8" />,
     description: "数据集加载与预处理（30,000+ 数据集）",
-    type: "core",
-    color: "#FF6B6B"
+    type: "core"
   },
   {
     id: "tokenizers",
     name: "Tokenizers",
-    emoji: "✂️",
+    icon: <Scissors className="w-8 h-8" />,
     description: "极速分词器（Rust 实现，10-100x 加速）",
-    type: "core",
-    color: "#4ECDC4"
+    type: "core"
   },
   {
     id: "accelerate",
     name: "Accelerate",
-    emoji: "⚡",
+    icon: <Zap className="w-8 h-8" />,
     description: "分布式训练抽象层（DDP、FSDP、DeepSpeed）",
-    type: "core",
-    color: "#95E1D3"
+    type: "core"
   },
   {
     id: "peft",
     name: "PEFT",
-    emoji: "🔧",
+    icon: <Wrench className="w-8 h-8" />,
     description: "参数高效微调（LoRA、QLoRA）",
-    type: "core",
-    color: "#F38181"
+    type: "core"
   },
   {
     id: "optimum",
     name: "Optimum",
-    emoji: "🚀",
+    icon: <Rocket className="w-8 h-8" />,
     description: "硬件加速优化（ONNX、Intel、Habana）",
-    type: "core",
-    color: "#AA96DA"
+    type: "core"
   },
   {
     id: "diffusers",
     name: "Diffusers",
-    emoji: "🎨",
+    icon: <Palette className="w-8 h-8" />,
     description: "扩散模型（Stable Diffusion、DALL-E）",
-    type: "core",
-    color: "#FCBAD3"
+    type: "core"
   },
   {
     id: "trl",
     name: "TRL",
-    emoji: "🎯",
+    icon: <Target className="w-8 h-8" />,
     description: "强化学习（RLHF、DPO）",
-    type: "core",
-    color: "#FFFFD2"
+    type: "core"
   },
   // Platform Services
   {
     id: "hub",
     name: "Hub",
-    emoji: "☁️",
+    icon: <Cloud className="w-8 h-8" />,
     description: "模型与数据集托管平台",
-    type: "platform",
-    color: "#A8E6CF"
+    type: "platform"
   },
   {
     id: "spaces",
     name: "Spaces",
-    emoji: "🌐",
+    icon: <Globe className="w-8 h-8" />,
     description: "ML 应用托管（Gradio/Streamlit）",
-    type: "platform",
-    color: "#FFD3B6"
+    type: "platform"
   },
   {
     id: "inference-api",
     name: "Inference API",
-    emoji: "⚙️",
+    icon: <Settings className="w-8 h-8" />,
     description: "无服务器推理服务",
-    type: "platform",
-    color: "#FFAAA5"
+    type: "platform"
   },
   {
     id: "autotrain",
     name: "AutoTrain",
-    emoji: "🤖",
+    icon: <Bot className="w-8 h-8" />,
     description: "无代码训练平台",
-    type: "platform",
-    color: "#FF8B94"
+    type: "platform"
   }
 ];
 
 export default function HuggingFaceEcosystemMap() {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-
   const coreLibs = ecosystemItems.filter(item => item.type === "core");
   const platformServices = ecosystemItems.filter(item => item.type === "platform");
 
   return (
-    <div className="my-8 p-6 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 rounded-xl border border-purple-500 shadow-2xl">
-      <h3 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-        🤗 Hugging Face 生态系统全景图
-      </h3>
+    <div className="my-8">
+      {/* Header */}
+      <div className="mb-8 text-center">
+        <h3 className="text-2xl font-semibold text-text-primary mb-2">
+          Hugging Face 生态系统全景图
+        </h3>
+        <p className="text-sm text-text-secondary">
+          构建现代 AI 应用的完整工具链
+        </p>
+      </div>
 
       {/* Core Libraries */}
-      <div className="mb-8">
-        <h4 className="text-xl font-semibold mb-4 text-yellow-300 flex items-center gap-2">
-          <span className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></span>
-          核心库 (Core Libraries)
-        </h4>
+      <div className="mb-10">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
+          <h4 className="text-lg font-semibold text-text-primary">
+            核心库 (Core Libraries)
+          </h4>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {coreLibs.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.1, rotate: 2 }}
-              onClick={() => setSelectedItem(selectedItem === item.id ? null : item.id)}
-              className={`p-4 rounded-lg cursor-pointer transition-all duration-300 ${
-                selectedItem === item.id
-                  ? "bg-white/20 shadow-xl ring-2 ring-white/50"
-                  : "bg-white/10 hover:bg-white/15"
-              }`}
-              style={{
-                backdropFilter: "blur(10px)"
-              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200"
             >
-              <div className="text-4xl mb-2 text-center">{item.emoji}</div>
-              <div className="text-sm font-bold text-white text-center mb-1">
+              {/* Icon */}
+              <div className="mb-3 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200">
+                {item.icon}
+              </div>
+              
+              {/* Name */}
+              <h5 className="font-semibold text-text-primary mb-2">
                 {item.name}
-              </div>
-              <div className={`text-xs text-gray-300 text-center transition-all ${
-                selectedItem === item.id ? "opacity-100" : "opacity-70"
-              }`}>
+              </h5>
+              
+              {/* Description */}
+              <p className="text-xs text-text-secondary leading-relaxed">
                 {item.description}
-              </div>
+              </p>
+
+              {/* Hover effect */}
+              <div className="absolute inset-0 bg-blue-500/5 dark:bg-blue-400/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"></div>
             </motion.div>
           ))}
         </div>
@@ -165,52 +160,41 @@ export default function HuggingFaceEcosystemMap() {
 
       {/* Platform Services */}
       <div>
-        <h4 className="text-xl font-semibold mb-4 text-pink-300 flex items-center gap-2">
-          <span className="w-3 h-3 bg-pink-400 rounded-full animate-pulse"></span>
-          平台服务 (Platform Services)
-        </h4>
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-1 h-6 bg-purple-500 rounded-full"></div>
+          <h4 className="text-lg font-semibold text-text-primary">
+            平台服务 (Platform Services)
+          </h4>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {platformServices.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: (coreLibs.length + index) * 0.1 }}
-              whileHover={{ scale: 1.1, rotate: -2 }}
-              onClick={() => setSelectedItem(selectedItem === item.id ? null : item.id)}
-              className={`p-4 rounded-lg cursor-pointer transition-all duration-300 ${
-                selectedItem === item.id
-                  ? "bg-white/20 shadow-xl ring-2 ring-white/50"
-                  : "bg-white/10 hover:bg-white/15"
-              }`}
-              style={{
-                backdropFilter: "blur(10px)"
-              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (coreLibs.length + index) * 0.05 }}
+              className="group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-md transition-all duration-200"
             >
-              <div className="text-4xl mb-2 text-center">{item.emoji}</div>
-              <div className="text-sm font-bold text-white text-center mb-1">
+              {/* Icon */}
+              <div className="mb-3 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-200">
+                {item.icon}
+              </div>
+              
+              {/* Name */}
+              <h5 className="font-semibold text-text-primary mb-2">
                 {item.name}
-              </div>
-              <div className={`text-xs text-gray-300 text-center transition-all ${
-                selectedItem === item.id ? "opacity-100" : "opacity-70"
-              }`}>
+              </h5>
+              
+              {/* Description */}
+              <p className="text-xs text-text-secondary leading-relaxed">
                 {item.description}
-              </div>
+              </p>
+
+              {/* Hover effect */}
+              <div className="absolute inset-0 bg-purple-500/5 dark:bg-purple-400/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"></div>
             </motion.div>
           ))}
         </div>
-      </div>
-
-      {/* Connection Lines Animation */}
-      <div className="mt-8 text-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="text-sm text-gray-300 bg-white/5 p-3 rounded-lg inline-block"
-        >
-          💡 点击组件查看详细描述
-        </motion.div>
       </div>
     </div>
   );

@@ -4,8 +4,6 @@ description: "深入剖析 Python 任意精度整数实现、IEEE 754 浮点数�
 updated: "2024-03-22"
 ---
 
-# Chapter 3. 数值类型与精度陷阱
-
 > **Learning Objectives**
 > *   理解 Python 整数为何不会溢出（底层 `digit` 数组实现）
 > *   掌握浮点数的 IEEE 754 标准与精度丢失本质 (`0.1 + 0.2 != 0.3`)

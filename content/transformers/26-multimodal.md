@@ -1,4 +1,8 @@
-# Chapter 26: 多模态模型（Vision-Language Models）
+---
+title: "Chapter 26. 多模态模型（Vision-Language Models）"
+description: "学习 CLIP、BLIP、LLaVA 等视觉-语言模型、ViT 图像编码器、Whisper 语音识别"
+updated: "2026-01-22"
+---
 
 前面的章节主要聚焦于纯文本模型。本章将探索**多模态（Multimodal）**领域，学习如何使用 Hugging Face Transformers 处理**图像+文本、音频+文本**等跨模态任务。我们将深入研究 CLIP、BLIP、LLaVA 等视觉-语言模型、ViT（Vision Transformer）图像编码器、Stable Diffusion 文本生成图像、Whisper 语音识别等前沿技术。
 

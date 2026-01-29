@@ -4,8 +4,6 @@ description: "掌握 torch.func, vmap 并行加速以及使用 Hooks 黑魔法�
 updated: "2026-01-22"
 ---
 
-# Chapter 9. 高阶函数式 API (Functional & Hooks)
-
 > **Learning Objectives**
 > *   了解 PyTorch 的两种面孔：OO (`nn.Module`) vs Functional (`torch.func`).
 > *   **Deep Dive**: 为什么 `vmap` 能消除 Python 循环并加速。

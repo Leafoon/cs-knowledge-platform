@@ -1,4 +1,8 @@
-# Chapter 23: Attention 机制深度剖析 - 理解 Transformers 核心
+---
+title: "Chapter 23. Attention 机制深度剖析 - 理解 Transformers 核心"
+description: "从数学推导到工程实现，深入理解 Self-Attention、Multi-Head Attention 机制"
+updated: "2026-01-22"
+---
 
 ## 23.1 Self-Attention 数学推导
 

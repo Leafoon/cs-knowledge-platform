@@ -4,8 +4,6 @@ description: "深度解构 Autograd 引擎、计算图构建过程、反向传�
 updated: "2026-01-22"
 ---
 
-# Chapter 2. 自动微分：PyTorch 的灵魂 (Autograd)
-
 > **Learning Objectives**
 > *   理解“计算图 (Computational Graph)”是如何动态构建的。
 > *   掌握 `requires_grad` 和 `.backward()` 的核心机制。

@@ -1,4 +1,8 @@
-# Chapter 13: Gradient Checkpointing 与内存优化
+---
+title: "Chapter 13. Gradient Checkpointing 与内存优化"
+description: "理解梯度检查点机制、掌握时间-空间权衡与内存优化策略"
+updated: "2026-01-22"
+---
 
 ## 13.1 Gradient Checkpointing 原理
 

@@ -4,8 +4,6 @@ description: "深入理解 Tensor 内存模型、形状变换与广播机制"
 updated: "2026-01-22"
 ---
 
-# Chapter 1. 张量：PyTorch 的基石 (Tensors)
-
 > **Learning Objectives**
 > *   彻底理解 Tensor 的 **Storage** 与 **View** 的区别。
 > *   熟练通过 `stride` 分析形状变换的零拷贝特性。

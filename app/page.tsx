@@ -6,20 +6,19 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-gradient-hero relative overflow-hidden">
-            {/* Decorative Elements - Much Larger */}
+            {/* Decorative Elements - Optimized for Performance */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-10 left-0 w-96 h-96 bg-accent-primary opacity-10 rounded-full blur-3xl animate-float" />
-                <div className="absolute bottom-10 right-0 w-[500px] h-[500px] bg-accent-secondary opacity-10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-tertiary opacity-5 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+                <div className="absolute top-10 left-0 w-96 h-96 bg-accent-primary opacity-5 rounded-full" />
+                <div className="absolute bottom-10 right-0 w-[400px] h-[400px] bg-accent-secondary opacity-5 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent-tertiary opacity-3 rounded-full" />
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 lg:py-24 relative z-10">
                 {/* Hero Section */}
                 <section className="hero text-center mb-16 sm:mb-20 md:mb-24 animate-slide-up">
-                    {/* Badge - More Prominent with Pulse */}
-                    <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-bg-elevated/80 backdrop-blur-md border-2 border-accent-primary/30 mb-6 sm:mb-8 md:mb-10 shadow-lg animate-pulse">
+                    {/* Badge - Optimized Performance */}
+                    <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-bg-elevated border-2 border-accent-primary/30 mb-6 sm:mb-8 md:mb-10 shadow-lg">
                         <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-primary opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-accent-primary shadow-lg"></span>
                         </span>
                         <span className="text-sm sm:text-base font-bold text-accent-primary">专业级知识学习平台</span>
@@ -27,11 +26,11 @@ export default function HomePage() {
 
                     {/* Main Title - Responsive Sizes */}
                     <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-6 sm:mb-8 leading-tight px-2">
-                        <span className="bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto] drop-shadow-2xl">
+                        <span className="bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary bg-clip-text text-transparent">
                             CS Knowledge
                         </span>
                         <br />
-                        <span className="text-text-primary drop-shadow-lg">Platform</span>
+                        <span className="text-text-primary">Platform</span>
                     </h1>
 
                     {/* Subtitle - Responsive */}

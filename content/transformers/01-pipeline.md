@@ -4,8 +4,6 @@ description: "深入理解 Pipeline 架构、掌握各类任务的 Pipeline 使�
 updated: "2026-01-22"
 ---
 
-# Chapter 1. Pipeline 快速上手
-
 > **Learning Objectives**
 > * 深入理解 Pipeline 三阶段架构（Tokenization → Model → Post-processing）
 > * 掌握 5+ 种核心任务的 Pipeline 使用方法

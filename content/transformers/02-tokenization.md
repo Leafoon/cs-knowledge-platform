@@ -1,6 +1,8 @@
-# Chapter 2: Tokenization 深度剖析
-
-> **本章目标**：深入理解 Transformers 库的 Tokenization 机制，掌握从原始文本到模型输入张量的完整转换流程，理解不同 tokenization 算法的设计动机与实现细节。
+---
+title: "Chapter 2. Tokenization 深度剖析"
+description: "深入理解 Tokenization 机制、掌握从原始文本到模型输入张量的完整转换流程"
+updated: "2026-01-22"
+---
 
 ---
 

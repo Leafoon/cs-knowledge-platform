@@ -1,4 +1,8 @@
-# Chapter 9: 推理优化与部署
+---
+title: "Chapter 9. 推理优化与部署"
+description: "掌握推理加速技术、KV Cache、FlashAttention、BetterTransformer 等优化方法"
+updated: "2026-01-22"
+---
 
 ## 9.1 推理性能优化概述
 

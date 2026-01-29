@@ -1,4 +1,8 @@
-# Chapter 27: 强化学习与 RLHF（Reinforcement Learning from Human Feedback）
+---
+title: "Chapter 27. 强化学习与 RLHF"
+description: "学习 RLHF 三阶段训练流程（SFT → RM → PPO）、TRL 库使用、DPO 方法"
+updated: "2026-01-22"
+---
 
 大语言模型的成功不仅在于预训练，更在于如何将其**对齐（Align）**到人类偏好。本章将深入学习 **RLHF**（Reinforcement Learning from Human Feedback）技术，这是 ChatGPT、GPT-4、Claude 等模型背后的关键技术。我们将学习 InstructGPT 的三阶段训练流程（SFT → RM → PPO）、TRL 库的使用、DPO（Direct Preference Optimization）等先进方法，以及实战指令微调 LLaMA。
 

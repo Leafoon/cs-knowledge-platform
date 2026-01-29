@@ -4,8 +4,6 @@ description: "PyTorch 简介、环境配置最佳实践与必要的数学基础�
 updated: "2026-01-22"
 ---
 
-# Chapter 0. 环境准备与预备知识
-
 > **Learning Objectives**
 > *   了解 PyTorch 在现代 AI 栈中的地位 (vs TensorFlow/JAX)。
 > *   学会使用 Conda 管理虚拟环境，避免 "Dependency Hell"。

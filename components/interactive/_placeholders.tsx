@@ -34,3 +34,4 @@ export function BackendAutoSelector() { return <PlaceholderComponent name="Backe
 export function OptimizationEffectComparison() { return <PlaceholderComponent name="OptimizationEffectComparison" title="优化效果对比" /> }
 export function ProfilerVisualizationDemo() { return <PlaceholderComponent name="ProfilerVisualizationDemo" title="Profiler 可视化演示" /> }
 export function PEFTTrainingSpeedComparison() { return <PlaceholderComponent name="PEFTTrainingSpeedComparison" title="PEFT 训练速度对比" /> }
+export function ReflectionLoop() { return <PlaceholderComponent name="ReflectionLoop" title="反思循环" /> }

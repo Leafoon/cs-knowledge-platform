@@ -107,7 +107,7 @@ export default function InferenceFrameworkComparison() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         推理框架性能对比
       </h3>
 
@@ -120,7 +120,7 @@ export default function InferenceFrameworkComparison() {
             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all ${
               selectedMetric === key
                 ? 'bg-blue-500 text-white scale-105'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-100'
             }`}
           >
             {data.label}
@@ -130,7 +130,7 @@ export default function InferenceFrameworkComparison() {
 
       {/* 性能图表 */}
       <div className="mb-8 p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+        <h4 className="text-lg font-bold text-gray-100 mb-4">
           {currentData.label} {(currentData.inverse ?? false) && '（越低越好）'}
         </h4>
 
@@ -152,7 +152,7 @@ export default function InferenceFrameworkComparison() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="font-bold text-gray-900 dark:text-white w-32">
+                    <span className="font-bold text-gray-100 w-32">
                       {item.framework}
                     </span>
                     {isBest && (
@@ -166,7 +166,7 @@ export default function InferenceFrameworkComparison() {
                       {item.value} {currentData.unit}
                     </span>
                     {index > 0 && (
-                      <span className="text-sm text-gray-600 dark:text-gray-400 w-16 text-right">
+                      <span className="text-sm text-gray-300 w-16 text-right">
                         {speedup}x
                       </span>
                     )}
@@ -192,10 +192,10 @@ export default function InferenceFrameworkComparison() {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-100 dark:bg-gray-900">
-              <th className="px-4 py-3 text-left font-bold text-gray-900 dark:text-white">
+              <th className="px-4 py-3 text-left font-bold text-gray-100">
                 特性
               </th>
-              <th className="px-4 py-3 text-center font-bold text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center font-bold text-gray-100">
                 Transformers
               </th>
               <th className="px-4 py-3 text-center font-bold text-blue-700 dark:text-blue-300">
@@ -212,10 +212,10 @@ export default function InferenceFrameworkComparison() {
                 key={index}
                 className="border-b border-gray-200 dark:border-gray-700"
               >
-                <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">
+                <td className="px-4 py-3 font-semibold text-gray-100">
                   {row.feature}
                 </td>
-                <td className="px-4 py-3 text-center text-gray-700 dark:text-gray-300">
+                <td className="px-4 py-3 text-center text-gray-100">
                   {row.transformers}
                 </td>
                 <td className="px-4 py-3 text-center text-blue-700 dark:text-blue-300">
@@ -239,7 +239,7 @@ export default function InferenceFrameworkComparison() {
           <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
             适用场景：
           </p>
-          <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+          <ul className="text-xs text-gray-300 space-y-1">
             <li>• 开发阶段快速迭代</li>
             <li>• 低并发（&lt; 5 请求）</li>
             <li>• 教学演示</li>

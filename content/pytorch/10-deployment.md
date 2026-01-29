@@ -4,8 +4,6 @@ description: "使用 TorchScript 和 ONNX 跨越 Python 与 C++ 的鸿沟，以�
 updated: "2026-01-22"
 ---
 
-# Chapter 10. 生产级部署 (Deployment)
-
 > **Learning Objectives**
 > *   理解 **Tracing** (Trace execution) 与 **Scripting** (Parse AST) 的本质区别。
 > *   使用 `torch.onnx.export` 导出标准格式模型。

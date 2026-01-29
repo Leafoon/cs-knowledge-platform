@@ -236,7 +236,7 @@ trainer.save_model("./model_qat")`,
       {/* 标题 */}
       <div className="text-center">
         <h3 className="text-2xl font-bold mb-2">量化方法对比与工作流程</h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-300">
           动态量化 vs 静态量化 vs 量化感知训练 (QAT)
         </p>
       </div>
@@ -336,7 +336,7 @@ trainer.save_model("./model_qat")`,
             <h5 className="font-bold text-lg mb-2">
               步骤 {currentWorkflow[currentStep].step}: {currentWorkflow[currentStep].title}
             </h5>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
+            <p className="text-sm text-gray-100">
               {currentWorkflow[currentStep].description}
             </p>
           </div>
@@ -417,7 +417,7 @@ trainer.save_model("./model_qat")`,
               <div key={idx}>
                 <div className="flex items-center justify-between text-sm mb-1">
                   <span className="font-medium">{benchmark.method}</span>
-                  <span className="text-gray-600 dark:text-gray-400">
+                  <span className="text-gray-300">
                     {getMetricLabel(value)}
                     {idx > 0 && selectedMetric === 'speed' && (
                       <span className="ml-2 text-green-600 dark:text-green-400">

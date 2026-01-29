@@ -47,43 +47,35 @@ export function TOC({ items, activeId }: TOCProps) {
         const isExpanded = expandedItems.has(item.id);
         const isActive = activeId === item.id;
         const children = item.children || [];
+        const isTopLevel = depth === 0;
 
         return (
-            <li key={item.id}>
+            <li key={item.id} className={cn(isTopLevel && "mb-1")}>
                 <div className="relative group">
                     <div
                         className={cn(
-                            "w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-xl transition-all duration-200",
-                            "border-l-3 relative overflow-hidden",
+                            "w-full flex items-center justify-between rounded-lg transition-all duration-200 relative cursor-pointer",
+                            isTopLevel ? "py-2.5 px-3.5" : "py-2 px-3",
                             isActive
-                                ? "border-accent-primary text-accent-primary font-bold bg-gradient-to-r from-accent-primary/15 to-accent-primary/5 shadow-sm"
-                                : "border-transparent text-text-secondary hover:text-text-primary hover:bg-gradient-to-r hover:from-bg-elevated hover:to-transparent"
+                                ? "text-accent-primary font-semibold bg-gradient-to-r from-accent-primary/12 to-accent-primary/5 shadow-sm border-l-2 border-accent-primary"
+                                : "text-text-secondary hover:text-text-primary hover:bg-bg-base/60 border-l-2 border-transparent",
+                            isTopLevel && !isActive && "font-medium text-text-primary"
                         )}
-                        style={{ paddingLeft: `${depth * 12 + 12}px` }}
+                        style={{ paddingLeft: `${depth * 14 + (isActive ? 10 : 12)}px` }}
                     >
-                        {/* Active indicator */}
-                        {isActive && (
-                            <div className="absolute left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-accent-primary" />
-                        )}
 
-                        {/* Text - Click to Scroll */}
-                        <button
-                            onClick={() => scrollToSection(item.id)}
-                            className="relative z-10 flex-1 text-left line-clamp-2 focus:outline-none"
-                        >
-                            {item.title}
-                        </button>
-
-                        {/* Expand/Collapse Icon - Click to Toggle */}
+                        {/* Collapse icon for items with children */}
                         {hasChildren(item) && (
                             <button
                                 onClick={(e) => toggleExpand(item.id, e)}
-                                className="relative z-10 ml-2 p-1 hover:bg-accent-primary/10 rounded-full transition-colors flex-shrink-0"
+                                className="mr-2 p-1 hover:bg-accent-primary/15 rounded-md transition-all flex-shrink-0"
+                                aria-label={isExpanded ? "Collapse" : "Expand"}
                             >
                                 <svg
                                     className={cn(
-                                        "w-4 h-4 transition-transform duration-200",
-                                        isExpanded ? "rotate-90" : ""
+                                        "w-3.5 h-3.5 transition-transform duration-200",
+                                        isExpanded ? "rotate-90" : "",
+                                        isActive ? "text-accent-primary" : "text-text-tertiary"
                                     )}
                                     fill="none"
                                     stroke="currentColor"
@@ -93,10 +85,34 @@ export function TOC({ items, activeId }: TOCProps) {
                                 </svg>
                             </button>
                         )}
+
+                        {/* Text - Click to Scroll */}
+                        <button
+                            onClick={() => scrollToSection(item.id)}
+                            className={cn(
+                                "flex-1 text-left focus:outline-none transition-all",
+                                isTopLevel ? "text-[13px] leading-snug" : "text-[13px] leading-snug",
+                                isActive && "tracking-wide"
+                            )}
+                        >
+                            <span className="line-clamp-2 break-words">{item.title}</span>
+                        </button>
+
+                        {/* Chapter number badge for top-level items */}
+                        {isTopLevel && item.title.match(/Chapter\s+(\d+)/i) && (
+                            <span className={cn(
+                                "ml-auto pl-2 text-[11px] font-semibold rounded flex-shrink-0 transition-all",
+                                isActive
+                                    ? "text-accent-primary"
+                                    : "text-text-tertiary/60 group-hover:text-accent-primary/80"
+                            )}>
+                                #{item.title.match(/Chapter\s+(\d+)/i)?.[1]}
+                            </span>
+                        )}
                     </div>
                 </div>
 
-                {/* Children with smooth Grid animation */}
+                {/* Children with smooth collapse animation */}
                 {hasChildren(item) && (
                     <div
                         className={cn(
@@ -106,7 +122,7 @@ export function TOC({ items, activeId }: TOCProps) {
                     >
                         <div className="overflow-hidden">
                             <ul className={cn(
-                                "transition-opacity duration-200",
+                                "mt-0.5 space-y-0.5 transition-opacity duration-150",
                                 isExpanded ? "opacity-100" : "opacity-0"
                             )}>
                                 {children.map(child => renderTOCItem(child, depth + 1))}
@@ -120,23 +136,20 @@ export function TOC({ items, activeId }: TOCProps) {
 
     return (
         <nav className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-hidden">
-            {/* TOC Container - Performance optimized */}
-            <div className="relative bg-bg-elevated/95 border border-border-subtle/50 rounded-2xl shadow-lg overflow-hidden" style={{ willChange: 'transform' }}>
-                {/* Simplified overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/3 to-transparent pointer-events-none" />
-                
-                <div className="relative p-6">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-border-subtle/50">
+            {/* Professional TOC Container */}
+            <div className="relative bg-bg-elevated border border-border-subtle rounded-2xl shadow-soft overflow-hidden">
+                <div className="relative">
+                    {/* Professional Header */}
+                    <div className="flex items-center justify-between px-5 py-4 border-b border-border-subtle bg-gradient-to-b from-bg-base/50 to-transparent">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-primary/20 to-accent-secondary/20 flex items-center justify-center">
-                                <svg className="w-4 h-4 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
+                            <div className="flex items-center gap-2">
+                                <svg className="w-5 h-5 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8M4 18h16" />
                                 </svg>
+                                <h3 className="text-sm font-semibold text-text-primary">
+                                    本章目录
+                                </h3>
                             </div>
-                            <h3 className="text-sm font-bold text-text-primary uppercase tracking-wide">
-                                本章目录
-                            </h3>
                         </div>
 
                         {/* Expand/Collapse All */}
@@ -156,33 +169,34 @@ export function TOC({ items, activeId }: TOCProps) {
                                     setExpandedItems(new Set());
                                 }
                             }}
-                            className="text-xs text-accent-primary hover:text-accent-secondary transition-colors font-semibold flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-accent-primary/10"
+                            className="text-xs text-text-tertiary hover:text-accent-primary transition-colors font-medium flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-accent-primary/8 border border-transparent hover:border-accent-primary/20"
+                            aria-label={expandedItems.size === 0 ? "Expand all" : "Collapse all"}
                         >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {expandedItems.size === 0 ? (
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 ) : (
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                                 )}
                             </svg>
-                            {expandedItems.size === 0 ? "全部展开" : "全部收起"}
+                            <span>{expandedItems.size === 0 ? "展开" : "收起"}</span>
                         </button>
                     </div>
 
                     {/* Scrollable Content */}
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-accent-primary/20 scrollbar-track-transparent pr-2 max-h-[calc(100vh-13rem)]">
+                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-accent-primary/25 hover:scrollbar-thumb-accent-primary/50 scrollbar-track-transparent px-3 py-4 max-h-[calc(100vh-12rem)]" style={{ scrollbarGutter: 'stable' }}>
                         <ul className="space-y-1">
                             {items.map(item => renderTOCItem(item, 0))}
                         </ul>
                     </div>
 
-                    {/* Footer hint */}
-                    <div className="mt-4 pt-4 border-t border-border-subtle/30">
-                        <div className="flex items-center gap-2 text-xs text-text-tertiary/80">
+                    {/* Footer Hint */}
+                    <div className="px-5 py-3 border-t border-border-subtle bg-gradient-to-t from-bg-base/30 to-transparent">
+                        <div className="flex items-center gap-2 text-xs text-text-tertiary/90">
                             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span>点击章节快速跳转</span>
+                            <span className="font-medium">点击章节快速跳转</span>
                         </div>
                     </div>
                 </div>

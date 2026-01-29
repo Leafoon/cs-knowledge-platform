@@ -18,13 +18,13 @@ export default function KVCacheComparisonVisualizer() {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         KV Cache 对比：动态 vs 静态
       </h3>
 
       {/* 控制滑块 */}
       <div className="mb-8">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-100 mb-2">
           已生成 Token 数量: {generatedTokens}
         </label>
         <input

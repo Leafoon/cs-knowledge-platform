@@ -1,4 +1,8 @@
-# Chapter 11: 混合精度训练与数值优化
+---
+title: "Chapter 11. 混合精度训练与数值优化"
+description: "深入理解浮点数格式、FP16/BF16/TF32 差异、torch.amp 的实现机制"
+updated: "2026-01-22"
+---
 
 ## 11.1 浮点数格式基础
 

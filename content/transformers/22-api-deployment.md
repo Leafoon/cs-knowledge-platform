@@ -1,4 +1,8 @@
-# Chapter 22: API 服务与 Docker 部署 - 生产化路径
+---
+title: "Chapter 22. API 服务与 Docker 部署 - 生产化路径"
+description: "掌握 FastAPI 服务封装、Docker 容器化、Kubernetes 部署与监控方案"
+updated: "2026-01-22"
+---
 
 ## 22.1 FastAPI 服务封装
 

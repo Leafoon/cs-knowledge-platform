@@ -85,14 +85,14 @@ export default function ZeROStageDecisionTree() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         ZeRO Stage 决策树
       </h3>
 
       {/* 输入参数 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-100 mb-2">
             模型参数量（B）
           </label>
           <input
@@ -100,7 +100,7 @@ export default function ZeROStageDecisionTree() {
             value={modelSize}
             onChange={(e) => setModelSize(e.target.value)}
             placeholder="例如：7"
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-100"
           />
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             GPT-2 XL: 1.3, LLaMA-7B: 7, LLaMA-13B: 13
@@ -108,13 +108,13 @@ export default function ZeROStageDecisionTree() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-100 mb-2">
             单 GPU 显存（GB）
           </label>
           <select
             value={gpuMemory}
             onChange={(e) => setGpuMemory(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-100"
           >
             <option value="">选择显存</option>
             <option value="16">16 GB (V100)</option>
@@ -125,7 +125,7 @@ export default function ZeROStageDecisionTree() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-100 mb-2">
             GPU 数量
           </label>
           <input
@@ -134,7 +134,7 @@ export default function ZeROStageDecisionTree() {
             onChange={(e) => setNumGPUs(Math.max(1, parseInt(e.target.value) || 1))}
             min="1"
             max="64"
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-100"
           />
         </div>
       </div>
@@ -152,10 +152,10 @@ export default function ZeROStageDecisionTree() {
           >
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <h4 className="text-xl font-bold text-gray-100 mb-2">
                   推荐配置：{recommendation.stage}
                 </h4>
-                <p className="text-gray-700 dark:text-gray-300">
+                <p className="text-gray-100">
                   {recommendation.reason}
                 </p>
               </div>
@@ -170,14 +170,14 @@ export default function ZeROStageDecisionTree() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Offload 策略</p>
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                <p className="text-sm text-gray-300 mb-1">Offload 策略</p>
+                <p className="text-lg font-semibold text-gray-100">
                   {recommendation.offload}
                 </p>
               </div>
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">预计显存占用</p>
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                <p className="text-sm text-gray-300 mb-1">预计显存占用</p>
+                <p className="text-lg font-semibold text-gray-100">
                   {recommendation.expectedMemory}
                 </p>
               </div>

@@ -38,6 +38,17 @@ export { default as TorchScriptVisualizer } from "./TorchScriptVisualizer";
 export { default as StridedMemoryVisualizer } from "./StridedMemoryVisualizer";
 export { default as CUDAStreamVisualizer } from "./CUDAStreamVisualizer";
 
+// LangChain Ch28-30 Components
+export { default as HumanInLoopFlow } from './HumanInLoopFlow';
+export { default as LongTermMemoryArchitecture } from './LongTermMemoryArchitecture';
+export { default as ToolOrchestrationVisualizer } from './ToolOrchestrationVisualizer';
+export { default as FrameworkComparisonMatrix } from './FrameworkComparisonMatrix';
+export { default as MigrationPathGuide } from './MigrationPathGuide';
+export { default as APIMappingTable } from './APIMappingTable';
+export { default as CachingStrategyComparison } from './CachingStrategyComparison';
+export { default as CostOptimizationDashboard } from './CostOptimizationDashboard';
+export { default as ReliabilityDecisionTree } from './ReliabilityDecisionTree';
+
 // Transformers Components
 export { default as TransformersEcosystemComparison } from "./TransformersEcosystemComparison";
 export { default as HuggingFaceEcosystemMap } from "./HuggingFaceEcosystemMap";
@@ -47,7 +58,8 @@ export { default as GenerationParametersExplorer } from "./GenerationParametersE
 export { default as TopKTopPVisualizer } from "./TopKTopPVisualizer";
 export { default as NERVisualizer } from "./NERVisualizer";
 export { default as QuestionAnsweringVisualizer } from "./QuestionAnsweringVisualizer";
-export { default as PipelinePerformanceAnalyzer } from "./PipelinePerformanceAnalyzer";export { default as TokenizationVisualizer } from './TokenizationVisualizer'
+export { default as PipelinePerformanceAnalyzer } from "./PipelinePerformanceAnalyzer";
+export { default as TokenizationVisualizer } from './TokenizationVisualizer'
 export { default as TokenAlgorithmComparison } from './TokenAlgorithmComparison'
 export { default as AttentionMaskBuilder } from './AttentionMaskBuilder'
 export { default as ArchitectureExplorer } from './ArchitectureExplorer'
@@ -193,3 +205,144 @@ export { ExtremeLowMemoryTraining, FloatPrecisionRangeTradeoff, PrecisionLossCom
   CollectiveCommunicationPrimitives, TGIArchitectureDiagram, ModelExportDecisionTree,
   BackendAutoSelector, OptimizationEffectComparison, ProfilerVisualizationDemo,
   PEFTTrainingSpeedComparison } from './_placeholders'
+
+// LangChain Components
+export { default as LangChainEcosystemMap } from './LangChainEcosystemMap'
+export { default as LangChainArchitectureFlow } from './LangChainArchitectureFlow'
+export { default as RunnableProtocolVisualizer } from './RunnableProtocolVisualizer'
+export { default as PromptTemplateBuilder } from './PromptTemplateBuilder'
+export { default as MessageFlowDiagram } from './MessageFlowDiagram'
+export { default as LegacyVsLCELComparison } from './LegacyVsLCELComparison'
+export { default as ErrorHandlingFlow } from './ErrorHandlingFlow'
+export { default as ChainGraphVisualizer } from './ChainGraphVisualizer'
+export { default as RunnableCompositionFlow } from './RunnableCompositionFlow'
+export { default as ParallelExecutionDemo } from './ParallelExecutionDemo'
+export { default as StreamingVisualizer } from './StreamingVisualizer'
+export { default as AsyncPerformanceComparison } from './AsyncPerformanceComparison'
+export { default as ChainOrchestrationDiagram } from './ChainOrchestrationDiagram'
+export { default as MapReduceVisualizer } from './MapReduceVisualizer'
+export { default as RouterDecisionTree } from './RouterDecisionTree';
+export { default as FewShotExampleSelector } from './FewShotExampleSelector';
+export { default as PromptComposer } from './PromptComposer';
+export { default as HubBrowser } from './HubBrowser';
+export { default as OutputParserFlow } from './OutputParserFlow';
+export { default as StructuredOutputBuilder } from './StructuredOutputBuilder';
+export { default as ParsingErrorDemo } from './ParsingErrorDemo';
+export { default as ToolCallingFlow } from './ToolCallingFlow';
+export { default as FunctionSchemaBuilder } from './FunctionSchemaBuilder';
+export { default as ToolExecutionTimeline } from './ToolExecutionTimeline';
+export { default as MemoryEvolutionTimeline } from './MemoryEvolutionTimeline';
+export { default as MemoryTypeComparison } from './MemoryTypeComparison';
+export { default as EntityMemoryGraph } from './EntityMemoryGraph';
+
+// Chapter 10: Persistence & State Storage
+export { default as PersistenceBackendComparison } from './PersistenceBackendComparison';
+export { default as SessionLifecycleFlow } from './SessionLifecycleFlow';
+export { default as StateCheckpointVisualizer } from './StateCheckpointVisualizer';
+
+// Chapter 11: Memory Optimization & Best Practices
+export { default as TokenManagementDashboard } from './TokenManagementDashboard';
+export { default as MemoryRetrievalPerformance } from './MemoryRetrievalPerformance';
+export { default as PrivacyComplianceFlow } from './PrivacyComplianceFlow';
+
+// Chapter 12: RAG Foundation
+export { default as RAGArchitectureDiagram } from './RAGArchitectureDiagram';
+export { default as TextSplittingVisualizer } from './TextSplittingVisualizer';
+export { default as EmbeddingSpaceVisualization } from './EmbeddingSpaceVisualization';
+
+// Chapter 13: Vector Stores & Retrieval
+export { default as VectorStoreComparison } from './VectorStoreComparison';
+export { default as SimilaritySearchDemo } from './SimilaritySearchDemo';
+export { default as HybridRetrievalFlow } from './HybridRetrievalFlow';
+
+// Chapter 14: LangGraph Basics
+export { default as LangGraphArchitectureDiagram } from './LangGraphArchitectureDiagram';
+export { default as StateGraphExecution } from './StateGraphExecution';
+export { default as CheckpointTimeline } from './CheckpointTimeline';
+
+// Chapter 15: Agent System Design
+export { default as AgentArchitectureComparison } from './AgentArchitectureComparison';
+export { default as ToolCallFlow } from './ToolCallFlow';
+export { default as MultiAgentArchitecture } from './MultiAgentArchitecture';
+
+// Chapter 16: LangSmith Observability & Debugging
+export { default as LangSmithTraceVisualization } from './LangSmithTraceVisualization';
+export { default as EvaluationDashboard } from './EvaluationDashboard';
+export { default as MonitoringDashboard } from './MonitoringDashboard';
+
+// Chapter 17: LangServe Deployment
+export { default as LangServePlayground } from './LangServePlayground';
+export { default as DeploymentArchitecture } from './DeploymentArchitecture';
+export { default as KubernetesArchitecture } from './KubernetesArchitecture';
+
+// Chapter 18: Advanced RAG & Optimization
+export { default as AdvancedRAGComparison } from './AdvancedRAGComparison';
+export { default as QueryTransformationFlow } from './QueryTransformationFlow';
+export { default as HybridSearchArchitecture } from './HybridSearchArchitecture';
+
+// Chapter 19: Production Engineering & Best Practices
+export { default as RetryFallbackFlow } from './RetryFallbackFlow';
+export { default as PerformanceOptimizationDashboard } from './PerformanceOptimizationDashboard';
+export { default as ProductionArchitectureDiagram } from './ProductionArchitectureDiagram';
+
+// Chapter 20: Multi-Agent Systems
+export { default as MultiAgentArchitectureComparison } from './MultiAgentArchitectureComparison';
+export { default as SupervisorRoutingFlow } from './SupervisorRoutingFlow';
+export { default as CollaborativeDebateFlow } from './CollaborativeDebateFlow';
+export { default as MultiAgentCodeGenFlow } from './MultiAgentCodeGenFlow';
+
+// Chapter 21: Planning & Reflection Agents
+export { default as PlanExecuteFlowDiagram } from './PlanExecuteFlowDiagram';
+export { default as ReflectionLoopVisualizer } from './ReflectionLoopVisualizer';
+export { default as ErrorRecoveryFlowDiagram } from './ErrorRecoveryFlowDiagram';
+
+// Chapter 22: LangSmith Tracing
+export { default as TraceTreeVisualizer } from './TraceTreeVisualizer';
+export { default as SpanTimelineChart } from './SpanTimelineChart';
+export { default as TokenUsageBreakdown } from './TokenUsageBreakdown';
+
+// Chapter 23: LangSmith Evaluation
+export { default as EvaluationPipeline } from './EvaluationPipeline';
+export { default as ABTestComparison } from './ABTestComparison';
+export { default as FeedbackDashboard } from './FeedbackDashboard';
+
+// Chapter 24: LangSmith Production Monitoring
+export { default as MonitoringDashboardReal } from './MonitoringDashboardReal';
+export { default as AlertRuleBuilder } from './AlertRuleBuilder';
+export { default as CostAnalysisDashboard } from './CostAnalysisDashboard';
+
+// Chapter 25: LangServe Basics
+export { default as LangServeArchitecture } from './LangServeArchitecture';
+export { default as EndpointExplorer } from './EndpointExplorer';
+export { default as RemoteRunnableDemo } from './RemoteRunnableDemo';
+
+// Chapter 26: LangServe Advanced Features
+export { default as AuthenticationFlow } from './AuthenticationFlow';
+export { default as RateLimitingVisualizer } from './RateLimitingVisualizer';
+export { default as MetricsDashboard } from './MetricsDashboard';
+
+// Chapter 27: Deployment & Containerization
+export { default as DockerBuildFlow } from './DockerBuildFlow';
+export { default as CloudPlatformComparison } from './CloudPlatformComparison';
+export { default as K8sArchitectureDiagram } from './K8sArchitectureDiagram';
+
+// Note: LangChain Ch28-30 components are exported at the top of this file (lines 41-50)
+
+// LangChain Ch31-33 Components
+export { default as PromptInjectionDefense } from './PromptInjectionDefense';
+export { default as PIIDetectionFlow } from './PIIDetectionFlow';
+export { default as SecurityAuditDashboard } from './SecurityAuditDashboard';
+export { default as MicroserviceArchitecture } from './MicroserviceArchitecture';
+export { default as ModelRoutingFlow } from './ModelRoutingFlow';
+export { default as ABTestDashboard } from './ABTestDashboard';
+export { default as SpeculativeDecodingFlowLangChain } from './SpeculativeDecodingFlow';
+export { default as MultimodalMemoryGraph } from './MultimodalMemoryGraph';
+export { default as PluginEcosystemMap } from './PluginEcosystemMap';
+
+// Reinforcement Learning Components
+export { RLEcosystemMap } from './RLEcosystemMap';
+export { AgentEnvironmentLoop } from './AgentEnvironmentLoop';
+export { RLTimelineEvolution } from './RLTimelineEvolution';
+export { MDPGraphVisualizer } from './MDPGraphVisualizer';
+export { BellmanEquationDerivation } from './BellmanEquationDerivation';
+export { ValueFunctionEvolution } from './ValueFunctionEvolution';

@@ -4,8 +4,6 @@ description: "深入理解 Python 函数机制、作用域规则 (LEGB)、参数
 updated: "2026-01-22"
 ---
 
-# Chapter 7. 函数与作用域深度解析
-
 > **Learning Objectives**
 > * 理解函数是第一类对象 (First-Class Object) 的含义
 > * 掌握 LEGB 作用域查找规则与命名空间机制

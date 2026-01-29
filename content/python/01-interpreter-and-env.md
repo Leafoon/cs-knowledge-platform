@@ -4,8 +4,6 @@ description: "深入剖析 CPython 的执行流水线、PEG 解析器、字节�
 updated: "2024-03-22"
 ---
 
-# Chapter 1. Python 解释器与运行环境
-
 > **Learning Objectives**
 > *   深入理解 Source -> Token -> AST -> Bytecode 的完整编译链
 > *   掌握 Python 独特的词法分析机制（逻辑行与缩进处理）

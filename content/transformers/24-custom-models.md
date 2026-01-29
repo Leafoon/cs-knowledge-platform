@@ -1,4 +1,8 @@
-# Chapter 24: 自定义模型开发 (Custom Model Development)
+---
+title: "Chapter 24. 自定义模型开发"
+description: "从零构建自定义 Transformer 模型、继承 PreTrainedModel 基类、实现完整 BERT"
+updated: "2026-01-22"
+---
 
 在前面的章节中，我们学习了如何使用 Hugging Face Transformers 库中的预训练模型。本章将深入探讨如何**从零构建自定义模型**，包括继承 `PreTrainedModel` 基类、实现完整的 BERT 模型、注册新架构、自定义注意力机制以及训练新的 Tokenizer。这些技能对于研究新架构、适配特殊任务或理解模型内部机制至关重要。
 

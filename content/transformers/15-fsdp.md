@@ -1,4 +1,8 @@
-# Chapter 15: FSDP (Fully Sharded Data Parallel)
+---
+title: "Chapter 15. FSDP （Fully Sharded Data Parallel）"
+description: "深入理解 FSDP 分片机制、零冗余优化器、与 DeepSpeed 对比"
+updated: "2026-01-22"
+---
 
 > **官方文档**: https://pytorch.org/tutorials/intermediate/FSDP_tutorial.html  
 > **Hugging Face 集成**: https://huggingface.co/docs/transformers/main_classes/trainer#fsdp  

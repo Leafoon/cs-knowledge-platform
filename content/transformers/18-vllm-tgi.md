@@ -1,4 +1,8 @@
-# Chapter 18: vLLM 与 TGI - 高性能推理框架
+---
+title: "Chapter 18. vLLM 与 TGI - 高性能推理框架"
+description: "掌握 vLLM 的 PagedAttention、Continuous Batching 和 TGI 部署方案"
+updated: "2026-01-22"
+---
 
 ## 18.1 vLLM 深度剖析
 

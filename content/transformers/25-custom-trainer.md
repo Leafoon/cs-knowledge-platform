@@ -1,4 +1,8 @@
-# Chapter 25: 自定义 Trainer 与训练循环 (Custom Trainer & Training Loop)
+---
+title: "Chapter 25. 自定义 Trainer 与训练循环"
+description: "深入理解 Trainer 内部机制、实现自定义训练逻辑、Callback 与高级损失函数"
+updated: "2026-01-22"
+---
 
 在前面的章节中，我们使用 `Trainer` API 进行了大量训练实验。本章将深入探讨 **Trainer 的内部机制**，学习如何通过继承 `Trainer` 类来自定义训练逻辑、实现自定义 Callback、完全自定义训练循环（使用 Accelerate）以及实现高级损失函数（Focal Loss、Contrastive Loss、KL Divergence 等）。这些技能对于研究前沿方法、适配特殊任务至关重要。
 

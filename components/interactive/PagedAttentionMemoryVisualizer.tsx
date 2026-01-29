@@ -33,14 +33,14 @@ export default function PagedAttentionMemoryVisualizer() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         PagedAttention 内存分配可视化
       </h3>
 
       {/* 控制面板 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-100 mb-2">
             并发请求数：{numRequests}
           </label>
           <input
@@ -59,7 +59,7 @@ export default function PagedAttentionMemoryVisualizer() {
             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all ${
               activeView === 'traditional'
                 ? 'bg-red-500 text-white scale-105'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-100'
             }`}
           >
             传统 KV Cache
@@ -69,7 +69,7 @@ export default function PagedAttentionMemoryVisualizer() {
             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all ${
               activeView === 'paged'
                 ? 'bg-green-500 text-white scale-105'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-100'
             }`}
           >
             PagedAttention
@@ -93,7 +93,7 @@ export default function PagedAttentionMemoryVisualizer() {
                 className="space-y-2"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 w-24">
+                  <span className="text-sm font-semibold text-gray-100 w-24">
                     Request {req.id}
                   </span>
                   <div className="flex-1 relative h-8 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
@@ -119,7 +119,7 @@ export default function PagedAttentionMemoryVisualizer() {
                       </span>
                     </div>
                   </div>
-                  <span className="text-xs text-gray-600 dark:text-gray-400 w-32">
+                  <span className="text-xs text-gray-300 w-32">
                     预分配：{maxSeqLen}
                   </span>
                 </div>
@@ -150,7 +150,7 @@ export default function PagedAttentionMemoryVisualizer() {
                   className="space-y-2"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 w-24">
+                    <span className="text-sm font-semibold text-gray-100 w-24">
                       Request {req.id}
                     </span>
                     <div className="flex-1 flex gap-1">
@@ -174,11 +174,11 @@ export default function PagedAttentionMemoryVisualizer() {
                         )
                       })}
                     </div>
-                    <span className="text-xs text-gray-600 dark:text-gray-400 w-32">
+                    <span className="text-xs text-gray-300 w-32">
                       {blocksNeeded} blocks
                     </span>
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400 ml-24">
+                  <div className="flex items-center gap-3 text-xs text-gray-300 ml-24">
                     <span>实际：{req.actualLen} tokens</span>
                     <span>分配：{allocatedTokens} tokens</span>
                     {internalWaste > 0 && (

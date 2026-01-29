@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export function useScrollSpy(selectors: string[]) {
+export function useScrollSpy(ids: string[]) {
     const [activeId, setActiveId] = useState<string>("");
 
     useEffect(() => {
+        if (ids.length === 0) return;
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -20,14 +22,16 @@ export function useScrollSpy(selectors: string[]) {
             }
         );
 
-        // Observe all heading elements
-        selectors.forEach((selector) => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach((el) => observer.observe(el));
+        // Observe all heading elements by ID
+        ids.forEach((id) => {
+            const element = document.getElementById(id);
+            if (element) {
+                observer.observe(element);
+            }
         });
 
         return () => observer.disconnect();
-    }, [selectors]);
+    }, [ids]);
 
     return activeId;
 }

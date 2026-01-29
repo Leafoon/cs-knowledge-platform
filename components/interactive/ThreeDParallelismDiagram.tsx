@@ -47,7 +47,7 @@ export default function ThreeDParallelismDiagram() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         3D 并行架构可视化
       </h3>
 
@@ -66,11 +66,11 @@ export default function ThreeDParallelismDiagram() {
             <div className={`font-bold mb-1 ${
               activeType === type.id 
                 ? `text-${type.color}-700 dark:text-${type.color}-300` 
-                : 'text-gray-700 dark:text-gray-300'
+                : 'text-gray-100'
             }`}>
               {type.name}
             </div>
-            <div className="text-xs text-gray-600 dark:text-gray-400">
+            <div className="text-xs text-gray-300">
               {type.memoryPerGPU}
             </div>
           </button>
@@ -169,7 +169,7 @@ export default function ThreeDParallelismDiagram() {
               <th className="px-4 py-2 text-left text-gray-900 dark:text-gray-100">适用场景</th>
             </tr>
           </thead>
-          <tbody className="text-gray-700 dark:text-gray-300">
+          <tbody className="text-gray-100">
             <tr className="border-b border-gray-200 dark:border-gray-600">
               <td className="px-4 py-3 font-semibold">数据并行</td>
               <td className="px-4 py-3">100%/GPU</td>
@@ -224,7 +224,7 @@ function DataParallelismViz() {
           <div className="bg-blue-800 rounded p-2 text-xs">数据分片 {i+1}/4</div>
         </motion.div>
       ))}
-      <div className="col-span-4 text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
+      <div className="col-span-4 text-center text-sm text-gray-300 mt-4">
         ↓ All-Reduce 梯度 ↓ 同步模型参数
       </div>
     </div>
@@ -235,7 +235,7 @@ function DataParallelismViz() {
 function TensorParallelismViz() {
   return (
     <div className="space-y-4">
-      <div className="text-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+      <div className="text-center text-sm text-gray-300 mb-2">
         单层 Attention 矩阵分片（Q/K/V）
       </div>
       <div className="grid grid-cols-8 gap-2">
@@ -253,7 +253,7 @@ function TensorParallelismViz() {
           </motion.div>
         ))}
       </div>
-      <div className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
+      <div className="text-center text-sm text-gray-300 mt-4">
         ↓ All-Reduce 激活值 ↓ 每层 2 次通信
       </div>
     </div>
@@ -296,7 +296,7 @@ function PipelineParallelismViz() {
 function ThreeDParallelismViz() {
   return (
     <div className="space-y-6">
-      <div className="text-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+      <div className="text-center text-sm font-semibold text-gray-100 mb-4">
         64 GPU 配置：DP=4 × TP=8 × PP=2
       </div>
 
@@ -339,7 +339,7 @@ function ThreeDParallelismViz() {
         </div>
       ))}
 
-      <div className="text-xs text-center text-gray-600 dark:text-gray-400 mt-4 space-y-1">
+      <div className="text-xs text-center text-gray-300 mt-4 space-y-1">
         <p>• <strong>DP (数据并行)</strong>: 4 个副本，跨 DP Rank 同步梯度</p>
         <p>• <strong>TP (张量并行)</strong>: 8-way 分片，每层内通信</p>
         <p>• <strong>PP (流水线并行)</strong>: 2 个阶段，跨 stage 传递激活值</p>

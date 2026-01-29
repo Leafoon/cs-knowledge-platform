@@ -1,4 +1,8 @@
-# Chapter 20: 模型导出与转换 - 生产部署基础
+---
+title: "Chapter 20. 模型导出与转换 - 生产部署基础"
+description: "掌握 ONNX、TorchScript、TensorRT 等模型导出格式与转换流程"
+updated: "2026-01-22"
+---
 
 ## 20.1 模型序列化格式
 

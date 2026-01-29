@@ -1,4 +1,8 @@
-# Chapter 8: 分布式训练与加速
+---
+title: "Chapter 8. 分布式训练与加速"
+description: "掌握 DDP、FSDP、DeepSpeed 等分布式训练策略与多 GPU 协同"
+updated: "2026-01-22"
+---
 
 ## 8.1 分布式训练概述
 

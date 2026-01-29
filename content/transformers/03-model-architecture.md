@@ -1,6 +1,8 @@
-# Chapter 3: 模型架构与 Auto 类
-
-> **本章目标**：全面掌握 Transformer 模型家族的架构差异，深入理解 Auto 类体系的自动匹配机制，学习模型加载、配置管理和权重迁移的最佳实践。
+---
+title: "Chapter 3. 模型架构与 Auto 类"
+description: "全面掌握 Transformer 模型家族架构差异、深入理解 Auto 类自动匹配机制"
+updated: "2026-01-22"
+---
 
 ---
 

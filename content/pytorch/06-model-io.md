@@ -4,8 +4,6 @@ description: "学会保存和加载模型状态，实现断点续训 (Resume Tra
 updated: "2026-01-22"
 ---
 
-# Chapter 6. 模型 IO 与 Checkpoint
-
 > **Learning Objectives**
 > *   理解 `state_dict` 的字典结构。
 > *   **Deep Dive**: 为什么不推荐 `torch.save(model)`。

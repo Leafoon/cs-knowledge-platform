@@ -19,51 +19,28 @@ export function ModuleCard({ module }: ModuleCardProps) {
         <CardWrapper {...linkProps}>
             <Card
                 hover
-                className="group cursor-pointer relative overflow-hidden backdrop-blur-md bg-bg-elevated/90 border border-border-subtle hover:border-accent-primary/50 transition-all duration-500 hover:shadow-[0_20px_60px_-15px_rgba(99,102,241,0.4)] hover:-translate-y-2 hover:scale-[1.02]"
+                className="group cursor-pointer relative overflow-hidden bg-bg-elevated border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 will-change-transform"
             >
-                {/* Animated Gradient Border */}
-                <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-lg animate-gradient"
-                    style={{
-                        background: `linear-gradient(135deg, ${module.color}, transparent, ${module.color})`,
-                        backgroundSize: '200% 200%',
-                    }}
-                />
 
-                {/* Glow Effect */}
+                {/* Top Accent Line - Optimized */}
                 <div
-                    className="absolute -inset-1 opacity-0 group-hover:opacity-75 blur-xl transition-opacity duration-500 -z-10"
+                    className="absolute top-0 left-0 right-0 h-2 opacity-70 group-hover:opacity-100 transition-opacity duration-300"
                     style={{
-                        background: `radial-gradient(circle, ${module.color}40, transparent 70%)`,
-                    }}
-                />
-
-                {/* Top Accent Line - Thicker and More Visible */}
-                <div
-                    className="absolute top-0 left-0 right-0 h-2 opacity-60 group-hover:opacity-100 transition-all duration-300 group-hover:h-3"
-                    style={{
-                        background: `linear-gradient(90deg, ${module.color}, ${module.color}cc, ${module.color})`,
+                        backgroundColor: module.color,
                     }}
                 />
 
                 <CardHeader className="relative z-10 pt-8">
                     <div className="flex items-start justify-between mb-6">
-                        {/* Icon Container - Much Larger and More Prominent */}
+                        {/* Icon Container - Optimized */}
                         <div
-                            className="relative w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:rotate-6 shadow-lg"
+                            className="relative w-20 h-20 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg will-change-transform"
                             style={{
                                 backgroundColor: `${module.color}20`,
-                                boxShadow: `0 0 0 2px ${module.color}30, 0 8px 24px ${module.color}20`,
+                                boxShadow: `0 0 0 2px ${module.color}30`,
                             }}
                         >
-                            {/* Pulsing Glow */}
-                            <div
-                                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl animate-pulse"
-                                style={{
-                                    backgroundColor: `${module.color}50`,
-                                }}
-                            />
-                            <span className="text-5xl relative z-10 drop-shadow-lg" style={{ color: module.color }}>
+                            <span className="text-5xl relative z-10" style={{ color: module.color }}>
                                 {getModuleIcon(module.id)}
                             </span>
                         </div>
@@ -98,16 +75,16 @@ export function ModuleCard({ module }: ModuleCardProps) {
                         </div>
                     )}
 
-                    {/* Arrow Icon - Larger and More Animated */}
-                    <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                        <div className="bg-accent-primary text-white p-3 rounded-full shadow-lg">
+                    {/* Arrow Icon - Optimized Animation */}
+                    <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 will-change-transform">
+                        <div className="bg-accent-primary text-white p-3 rounded-full shadow-md">
                             <svg
-                                className="w-6 h-6"
+                                className="w-5 h-5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
                         </div>
                     </div>

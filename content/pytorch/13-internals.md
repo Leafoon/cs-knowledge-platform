@@ -4,8 +4,6 @@ description: "解剖 PyTorch 内部架构：Dispatcher, Strided Layout 与 C++ �
 updated: "2026-01-22"
 ---
 
-# Chapter 13. 深入底层 (Internals)
-
 > **Learning Objectives**
 > *   了解 PyTorch C++ 核心库 **LibTorch (ATen)**。
 > *   **Deep Dive**: 为什么 `transpose()` 是零拷贝的？（Strided Layout）。

@@ -4,8 +4,6 @@ description: "使用 TensorBoard 监控训练指标，利用 Profiler 分析性�
 updated: "2026-01-22"
 ---
 
-# Chapter 7. 可视化与监控
-
 > **Learning Objectives**
 > *   学会编写 TensorBoard 监控代码 (`add_scalar`, `add_image`)。
 > *   **Deep Dive**: 如何根据 Loss 曲线识别过拟合。

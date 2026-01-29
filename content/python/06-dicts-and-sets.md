@@ -4,8 +4,6 @@ description: "深入剖析 Python 字典和集合的哈希表实现、冲突解�
 updated: "2026-01-22"
 ---
 
-# Chapter 6. 字典与集合：哈希表的力量
-
 > **Learning Objectives**
 > * 理解哈希表 (Hash Table) 的核心原理与 Python 实现
 > * 掌握字典的底层结构：`PyDictObject` 与开放寻址法

@@ -84,7 +84,7 @@ export default function DeepSpeedOffloadFlow() {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h3 className="text-2xl font-bold mb-6 text-center text-gray-100">
         DeepSpeed Offload 工作流程
       </h3>
 
@@ -157,7 +157,7 @@ export default function DeepSpeedOffloadFlow() {
                 <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold">
                   All-Gather
                 </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">
+                <div className="text-xs text-gray-300">
                   PCIe 传输
                 </div>
               </motion.div>
@@ -175,7 +175,7 @@ export default function DeepSpeedOffloadFlow() {
                 <div className="text-xs text-orange-600 dark:text-orange-400 font-semibold">
                   释放参数
                 </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">
+                <div className="text-xs text-gray-300">
                   节省 GPU 显存
                 </div>
               </motion.div>

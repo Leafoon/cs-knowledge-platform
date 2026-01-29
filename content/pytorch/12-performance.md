@@ -4,8 +4,6 @@ description: "使用 PyTorch 2.0 torch.compile, CUDA Streams 和 Profiler 榨干
 updated: "2026-01-22"
 ---
 
-# Chapter 12. 性能极致优化 (Performance Tuning)
-
 > **Learning Objectives**
 > *   理解 **Memory Bound** (内存受限) vs **Compute Bound** (计算受限)。
 > *   使用 `torch.compile` 进行算子融合 (Kernel Fusion)。

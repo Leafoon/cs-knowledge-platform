@@ -4,8 +4,6 @@ description: "从 ResNet 到 Transformer：现代深度学习基石的实现精�
 updated: "2026-01-22"
 ---
 
-# Chapter 8. 经典架构实战 (Architectures Guide)
-
 > **Learning Objectives**
 > *   彻底搞懂卷积的 **Stride** (步长) 和 **Padding** (填充)。
 > *   从零实现 **ResNet** 的核心组件 `BasicBlock`。

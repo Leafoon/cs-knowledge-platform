@@ -1,4 +1,8 @@
-# Chapter 19: Speculative Decoding 与其他前沿技术
+---
+title: "Chapter 19. Speculative Decoding 与前沿技术"
+description: "理解推测解码原理、大小模型协同、加速策略与工程实践"
+updated: "2026-01-22"
+---
 
 ## 19.1 Speculative Decoding 原理
 
