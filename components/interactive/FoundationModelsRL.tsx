@@ -3,35 +3,35 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Scenario: Robot Assistant making coffee
+const scenario = [
+    { role: "user", content: "Robot, please make me a cup of coffee." },
+    {
+        role: "assistant",
+        type: "thought",
+        content: "Goal: Make coffee. \nPlan:\n1. Find mug.\n2. Find coffee machine.\n3. Place mug under machine.\n4. Press 'Start'."
+    },
+    { role: "assistant", type: "action", content: "Action: navigate_to(kitchen)" },
+    { role: "environment", content: "Obs: You are in the kitchen. You see a coffee_machine and a cabinet." },
+    {
+        role: "assistant",
+        type: "thought",
+        content: "I see the machine. Now I need a mug. Usually mugs are in the cabinet."
+    },
+    { role: "assistant", type: "action", content: "Action: open(cabinet)" },
+    { role: "environment", content: "Obs: Cabinet is open. You see a white_mug and a blue_plate." },
+    { role: "assistant", type: "action", content: "Action: pick_up(white_mug)" },
+    { role: "environment", content: "Obs: You are holding white_mug." },
+    { role: "assistant", type: "action", content: "Action: place_under(white_mug, coffee_machine)" },
+    { role: "environment", content: "Obs: Mug placed. Machine is ready." },
+    { role: "assistant", type: "action", content: "Action: toggle(coffee_machine)" },
+    { role: "environment", content: "Reward: +10. Coffee is brewing!" }
+];
+
 export function FoundationModelsRL() {
     const [step, setStep] = useState(0);
     const [history, setHistory] = useState<any[]>([]);
     const [isThinking, setIsThinking] = useState(false);
-
-    // Scenario: Robot Assistant making coffee
-    const scenario = [
-        { role: "user", content: "Robot, please make me a cup of coffee." },
-        {
-            role: "assistant",
-            type: "thought",
-            content: "Goal: Make coffee. \nPlan:\n1. Find mug.\n2. Find coffee machine.\n3. Place mug under machine.\n4. Press 'Start'."
-        },
-        { role: "assistant", type: "action", content: "Action: navigate_to(kitchen)" },
-        { role: "environment", content: "Obs: You are in the kitchen. You see a coffee_machine and a cabinet." },
-        {
-            role: "assistant",
-            type: "thought",
-            content: "I see the machine. Now I need a mug. Usually mugs are in the cabinet."
-        },
-        { role: "assistant", type: "action", content: "Action: open(cabinet)" },
-        { role: "environment", content: "Obs: Cabinet is open. You see a white_mug and a blue_plate." },
-        { role: "assistant", type: "action", content: "Action: pick_up(white_mug)" },
-        { role: "environment", content: "Obs: You are holding white_mug." },
-        { role: "assistant", type: "action", content: "Action: place_under(white_mug, coffee_machine)" },
-        { role: "environment", content: "Obs: Mug placed. Machine is ready." },
-        { role: "assistant", type: "action", content: "Action: toggle(coffee_machine)" },
-        { role: "environment", content: "Reward: +10. Coffee is brewing!" }
-    ];
 
     useEffect(() => {
         if (step < scenario.length) {
@@ -167,9 +167,9 @@ export function FoundationModelsRL() {
                                     }`}
                             >
                                 <div className={`px-3 py-2 rounded-lg whitespace-pre-wrap ${msg.role === "user" ? "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200" :
-                                        msg.role === "environment" ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300" :
-                                            msg.type === "thought" ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 text-slate-600 dark:text-slate-400 italic" :
-                                                "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200"
+                                    msg.role === "environment" ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300" :
+                                        msg.type === "thought" ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 text-slate-600 dark:text-slate-400 italic" :
+                                            "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200"
                                     }`}>
                                     {msg.role === "assistant" && msg.type === "thought" && <span className="mr-1">💭</span>}
                                     {msg.role === "assistant" && msg.type !== "thought" && <span className="mr-1">🤖</span>}

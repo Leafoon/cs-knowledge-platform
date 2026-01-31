@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function PolicyIterationVisualizer() {
@@ -62,15 +62,15 @@ export function PolicyIterationVisualizer() {
         }
     };
 
-    const reset = () => {
+    const reset = useCallback(() => {
         setIter(0);
         setStage("eval");
         setPolicy(Array(16).fill("?").map((_, i) => getPolicyArrow(i, 0)));
         setValues(Array(16).fill(0));
-    };
+    }, []);
 
     // Init
-    useEffect(() => reset(), []);
+    useEffect(() => reset(), [reset]);
 
     return (
         <div className="w-full max-w-2xl mx-auto p-6 bg-slate-50 dark:bg-slate-900 rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col items-center">

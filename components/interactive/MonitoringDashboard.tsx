@@ -28,16 +28,16 @@ export default function MonitoringDashboard() {
   const metricsData: MetricData[] = useMemo(() => {
     const baseData: MetricData[] = [];
     const now = Date.now();
-    const interval = selectedTimeRange === '1h' ? 5 * 60 * 1000 : 
-                     selectedTimeRange === '24h' ? 60 * 60 * 1000 : 
-                     24 * 60 * 60 * 1000;
+    const interval = selectedTimeRange === '1h' ? 5 * 60 * 1000 :
+      selectedTimeRange === '24h' ? 60 * 60 * 1000 :
+        24 * 60 * 60 * 1000;
     const points = 12;
 
     for (let i = points - 1; i >= 0; i--) {
       const timestamp = new Date(now - i * interval);
       const hour = timestamp.getHours();
       const isPeakHour = hour >= 9 && hour <= 17;
-      
+
       baseData.push({
         timestamp: timestamp.toISOString(),
         requests: isPeakHour ? 150 + Math.random() * 50 : 50 + Math.random() * 30,
@@ -101,8 +101,8 @@ export default function MonitoringDashboard() {
     };
   }, [metricsData]);
 
-  const getMetricData = (metric: 'latency' | 'errors' | 'cost') => {
-    switch (metric) {
+  const chartData = useMemo(() => {
+    switch (selectedMetric) {
       case 'latency':
         return metricsData.map(d => ({ x: d.timestamp, y: d.avg_latency }));
       case 'errors':
@@ -110,9 +110,7 @@ export default function MonitoringDashboard() {
       case 'cost':
         return metricsData.map(d => ({ x: d.timestamp, y: d.total_cost }));
     }
-  };
-
-  const chartData = useMemo(() => getMetricData(selectedMetric), [selectedMetric, metricsData]);
+  }, [selectedMetric, metricsData]);
 
   const maxValue = useMemo(() => Math.max(...chartData.map(d => d.y)), [chartData]);
 
@@ -128,31 +126,28 @@ export default function MonitoringDashboard() {
       <div className="flex gap-3 mb-6">
         <button
           onClick={() => setSelectedTimeRange('1h')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-            selectedTimeRange === '1h'
+          className={`px-4 py-2 rounded-lg font-semibold transition-all ${selectedTimeRange === '1h'
               ? 'bg-blue-500 text-white shadow-lg'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-          }`}
+            }`}
         >
           1 小时
         </button>
         <button
           onClick={() => setSelectedTimeRange('24h')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-            selectedTimeRange === '24h'
+          className={`px-4 py-2 rounded-lg font-semibold transition-all ${selectedTimeRange === '24h'
               ? 'bg-blue-500 text-white shadow-lg'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-          }`}
+            }`}
         >
           24 小时
         </button>
         <button
           onClick={() => setSelectedTimeRange('7d')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-            selectedTimeRange === '7d'
+          className={`px-4 py-2 rounded-lg font-semibold transition-all ${selectedTimeRange === '7d'
               ? 'bg-blue-500 text-white shadow-lg'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-          }`}
+            }`}
         >
           7 天
         </button>
@@ -225,31 +220,28 @@ export default function MonitoringDashboard() {
             <div className="flex gap-2">
               <button
                 onClick={() => setSelectedMetric('latency')}
-                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                  selectedMetric === 'latency'
+                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${selectedMetric === 'latency'
                     ? 'bg-purple-500 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                }`}
+                  }`}
               >
                 延迟
               </button>
               <button
                 onClick={() => setSelectedMetric('errors')}
-                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                  selectedMetric === 'errors'
+                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${selectedMetric === 'errors'
                     ? 'bg-red-500 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                }`}
+                  }`}
               >
                 错误率
               </button>
               <button
                 onClick={() => setSelectedMetric('cost')}
-                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                  selectedMetric === 'cost'
+                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${selectedMetric === 'cost'
                     ? 'bg-green-500 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                }`}
+                  }`}
               >
                 成本
               </button>
@@ -266,7 +258,7 @@ export default function MonitoringDashboard() {
               </defs>
 
               <line x1="0" y1="260" x2="800" y2="260" stroke="#d1d5db" strokeWidth="1" />
-              
+
               {chartData.map((_, idx) => (
                 <line
                   key={`grid-${idx}`}
@@ -330,25 +322,23 @@ export default function MonitoringDashboard() {
             {alerts.map((alert) => (
               <div
                 key={alert.id}
-                className={`p-3 rounded-lg border-2 ${
-                  alert.status === 'triggered'
+                className={`p-3 rounded-lg border-2 ${alert.status === 'triggered'
                     ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
                     : alert.status === 'active'
-                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                    : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700'
-                }`}
+                      ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                      : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="font-semibold text-sm text-gray-800 dark:text-gray-200">
                     {alert.name}
                   </div>
-                  <div className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                    alert.status === 'triggered'
+                  <div className={`px-2 py-0.5 rounded-full text-xs font-bold ${alert.status === 'triggered'
                       ? 'bg-red-500 text-white'
                       : alert.status === 'active'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gray-400 text-white'
-                  }`}>
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-400 text-white'
+                    }`}>
                     {alert.status === 'triggered' ? '🔴 触发' : alert.status === 'active' ? '✅ 活跃' : '⏸️ 禁用'}
                   </div>
                 </div>

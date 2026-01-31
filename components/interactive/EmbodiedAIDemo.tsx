@@ -16,6 +16,45 @@ export function EmbodiedAIDemo() {
 
     // Run a trial
     useEffect(() => {
+        const runTrial = () => {
+            setIsMoving(true);
+            setAttempts(prev => ({ ...prev, [mode]: prev[mode] + 1 }));
+
+            // 1. Generate new target
+            const newTarget = {
+                x: 100 + Math.random() * 100,
+                y: 50 + Math.random() * 100
+            };
+            setTargetPos(newTarget);
+
+            // 2. Compute "ideal" angle (inverse kinematics simplified)
+            const idealAngle = Math.atan2(newTarget.y, newTarget.x) * (180 / Math.PI);
+
+            // 3. Add noise (domain gap)
+            // Sim has small noise, Real has large noise (unless Domain Randomization used)
+            let noise = 0;
+            if (mode === "sim") {
+                noise = (Math.random() - 0.5) * 5; // +/- 2.5 deg
+            } else {
+                noise = (Math.random() - 0.5) * (noiseLevel * 60); // Up to +/- 30 deg depending on level
+            }
+
+            const actualAngle = idealAngle + noise;
+
+            // Check success (within 10 degrees)
+            const success = Math.abs(actualAngle - idealAngle) < 10;
+
+            // Animate
+            setRobotAngle(actualAngle);
+
+            setTimeout(() => {
+                if (success) {
+                    setSuccessCount(prev => ({ ...prev, [mode]: prev[mode] + 1 }));
+                }
+                setIsMoving(false);
+            }, 800);
+        };
+
         if (isMoving) return;
 
         const interval = setInterval(() => {
@@ -24,45 +63,6 @@ export function EmbodiedAIDemo() {
 
         return () => clearInterval(interval);
     }, [mode, noiseLevel, isMoving]);
-
-    const runTrial = () => {
-        setIsMoving(true);
-        setAttempts(prev => ({ ...prev, [mode]: prev[mode] + 1 }));
-
-        // 1. Generate new target
-        const newTarget = {
-            x: 100 + Math.random() * 100,
-            y: 50 + Math.random() * 100
-        };
-        setTargetPos(newTarget);
-
-        // 2. Compute "ideal" angle (inverse kinematics simplified)
-        const idealAngle = Math.atan2(newTarget.y, newTarget.x) * (180 / Math.PI);
-
-        // 3. Add noise (domain gap)
-        // Sim has small noise, Real has large noise (unless Domain Randomization used)
-        let noise = 0;
-        if (mode === "sim") {
-            noise = (Math.random() - 0.5) * 5; // +/- 2.5 deg
-        } else {
-            noise = (Math.random() - 0.5) * (noiseLevel * 60); // Up to +/- 30 deg depending on level
-        }
-
-        const actualAngle = idealAngle + noise;
-
-        // Check success (within 10 degrees)
-        const success = Math.abs(actualAngle - idealAngle) < 10;
-
-        // Animate
-        setRobotAngle(actualAngle);
-
-        setTimeout(() => {
-            if (success) {
-                setSuccessCount(prev => ({ ...prev, [mode]: prev[mode] + 1 }));
-            }
-            setIsMoving(false);
-        }, 800);
-    };
 
     return (
         <div className="w-full max-w-4xl mx-auto p-6 bg-slate-100 dark:bg-slate-900 rounded-2xl shadow-lg flex flex-col md:flex-row gap-8">
@@ -80,8 +80,8 @@ export function EmbodiedAIDemo() {
                     <button
                         onClick={() => setMode("sim")}
                         className={`flex-1 py-2 rounded-md font-bold text-sm transition ${mode === "sim"
-                                ? "bg-blue-500 text-white shadow"
-                                : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+                            ? "bg-blue-500 text-white shadow"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
                             }`}
                     >
                         Simulation
@@ -89,8 +89,8 @@ export function EmbodiedAIDemo() {
                     <button
                         onClick={() => setMode("real")}
                         className={`flex-1 py-2 rounded-md font-bold text-sm transition ${mode === "real"
-                                ? "bg-orange-500 text-white shadow"
-                                : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+                            ? "bg-orange-500 text-white shadow"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
                             }`}
                     >
                         Real World
@@ -122,7 +122,7 @@ export function EmbodiedAIDemo() {
                     <div className="text-sm font-bold text-slate-500 mb-2">Success Rate ({mode.toUpperCase()})</div>
                     <div className="flex items-baseline gap-2">
                         <span className={`text-4xl font-bold ${(successCount[mode] / Math.max(1, attempts[mode])) > 0.8 ? "text-green-500" :
-                                (successCount[mode] / Math.max(1, attempts[mode])) > 0.5 ? "text-yellow-500" : "text-red-500"
+                            (successCount[mode] / Math.max(1, attempts[mode])) > 0.5 ? "text-yellow-500" : "text-red-500"
                             }`}>
                             {attempts[mode] === 0 ? "0" : ((successCount[mode] / attempts[mode]) * 100).toFixed(0)}%
                         </span>

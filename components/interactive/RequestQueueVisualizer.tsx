@@ -11,6 +11,17 @@ interface Request {
   batchId?: number
 }
 
+const exampleTexts = [
+  "This movie is amazing!",
+  "Terrible experience",
+  "Absolutely loved it",
+  "Not recommended",
+  "Best film ever",
+  "Waste of time",
+  "Highly recommend",
+  "Disappointing",
+]
+
 export default function RequestQueueVisualizer() {
   const [mode, setMode] = useState<'sync' | 'batch'>('sync')
   const [requests, setRequests] = useState<Request[]>([])
@@ -21,17 +32,6 @@ export default function RequestQueueVisualizer() {
     avgLatency: 0,
     throughput: 0,
   })
-
-  const exampleTexts = [
-    "This movie is amazing!",
-    "Terrible experience",
-    "Absolutely loved it",
-    "Not recommended",
-    "Best film ever",
-    "Waste of time",
-    "Highly recommend",
-    "Disappointing",
-  ]
 
   // 添加新请求
   const addRequest = useCallback(() => {
@@ -62,7 +62,7 @@ export default function RequestQueueVisualizer() {
       const queuedRequests = requests.filter(r => r.status === 'queued')
       if (queuedRequests.length > 0 && !requests.some(r => r.status === 'processing')) {
         const nextRequest = queuedRequests[0]
-        
+
         // 开始处理
         setRequests(prev =>
           prev.map(r => r.id === nextRequest.id ? { ...r, status: 'processing' as const } : r)
@@ -74,7 +74,7 @@ export default function RequestQueueVisualizer() {
             const updated = prev.map(r =>
               r.id === nextRequest.id ? { ...r, status: 'completed' as const } : r
             )
-            
+
             // 计算统计
             const latency = Date.now() - nextRequest.timestamp
             setStats(s => ({
@@ -95,11 +95,11 @@ export default function RequestQueueVisualizer() {
     } else {
       // 批处理模式：批量处理
       const queuedRequests = requests.filter(r => r.status === 'queued')
-      
+
       if (queuedRequests.length >= batchSize && !requests.some(r => r.status === 'batching' || r.status === 'processing')) {
         const batch = queuedRequests.slice(0, batchSize)
         const batchId = Date.now()
-        
+
         // 标记为批处理中
         setRequests(prev =>
           prev.map(r =>
@@ -170,21 +170,19 @@ export default function RequestQueueVisualizer() {
       <div className="flex gap-3 mb-6 justify-center">
         <button
           onClick={() => { setMode('sync'); reset(); }}
-          className={`px-6 py-3 rounded-lg font-medium transition-all ${
-            mode === 'sync'
+          className={`px-6 py-3 rounded-lg font-medium transition-all ${mode === 'sync'
               ? 'bg-blue-600 text-white shadow-lg scale-105'
               : 'bg-white text-slate-700 hover:bg-slate-100'
-          }`}
+            }`}
         >
           🔄 同步处理
         </button>
         <button
           onClick={() => { setMode('batch'); reset(); }}
-          className={`px-6 py-3 rounded-lg font-medium transition-all ${
-            mode === 'batch'
+          className={`px-6 py-3 rounded-lg font-medium transition-all ${mode === 'batch'
               ? 'bg-green-600 text-white shadow-lg scale-105'
               : 'bg-white text-slate-700 hover:bg-slate-100'
-          }`}
+            }`}
         >
           📦 批处理模式
         </button>
@@ -218,9 +216,8 @@ export default function RequestQueueVisualizer() {
       <div className="flex gap-3 mb-6 justify-center">
         <button
           onClick={() => setIsRunning(!isRunning)}
-          className={`px-6 py-2 rounded-lg font-medium text-white ${
-            isRunning ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
-          }`}
+          className={`px-6 py-2 rounded-lg font-medium text-white ${isRunning ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
+            }`}
         >
           {isRunning ? '⏸️ 暂停' : '▶️ 开始'}
         </button>
@@ -391,8 +388,8 @@ export default function RequestQueueVisualizer() {
             {mode === 'batch' ? `${batchSize}x` : '1x'}
           </div>
           <div className="text-xs text-slate-500 mt-1">
-            {mode === 'batch' 
-              ? `批大小 ${batchSize}，GPU 并行处理` 
+            {mode === 'batch'
+              ? `批大小 ${batchSize}，GPU 并行处理`
               : '单个请求串行处理'}
           </div>
         </div>

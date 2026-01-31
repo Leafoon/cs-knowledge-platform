@@ -146,10 +146,10 @@ export function OnlineLearningArchitecture() {
 
             <div className="mt-4 grid grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-400">
                 <div className="bg-white dark:bg-slate-800 p-3 rounded-lg shadow-sm">
-                    <strong>1. Inference Loop:</strong> Users -> App -> Model Serving -> App
+                    <strong>1. Inference Loop:</strong> Users &rarr; App &rarr; Model Serving &rarr; App
                 </div>
                 <div className="bg-white dark:bg-slate-800 p-3 rounded-lg shadow-sm">
-                    <strong>2. Training Loop:</strong> Logs -> Queue -> Trainer -> Registry
+                    <strong>2. Training Loop:</strong> Logs &rarr; Queue &rarr; Trainer &rarr; Registry
                 </div>
             </div>
         </div>

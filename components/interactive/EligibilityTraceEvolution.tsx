@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+const gamma = 0.9;
+const lambda = 0.8;
+const path = [0, 1, 2, 1, 3, 4];  // 示例路径
+
 export function EligibilityTraceEvolution() {
     const [step, setStep] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [traces, setTraces] = useState([0, 0, 0, 0, 0]);
     const [visitedStates, setVisitedStates] = useState<number[]>([]);
-
-    const gamma = 0.9;
-    const lambda = 0.8;
-    const path = [0, 1, 2, 1, 3, 4];  // 示例路径
 
     useEffect(() => {
         if (!isPlaying || step >= path.length) {
@@ -21,17 +21,17 @@ export function EligibilityTraceEvolution() {
 
         const timer = setTimeout(() => {
             const currentState = path[step];
-            const newTraces = traces.map((trace, idx) => {
+
+            setTraces(prevTraces => prevTraces.map((trace, idx) => {
                 if (idx === currentState) {
                     return trace * gamma * lambda + 1;  // 累积迹
                 } else {
                     return trace * gamma * lambda;  // 衰减
                 }
-            });
+            }));
 
-            setTraces(newTraces);
-            setVisitedStates([...visitedStates, currentState]);
-            setStep(step + 1);
+            setVisitedStates(prev => [...prev, currentState]);
+            setStep(s => s + 1);
         }, 1500);
 
         return () => clearTimeout(timer);
@@ -83,11 +83,10 @@ export function EligibilityTraceEvolution() {
                     {traces.map((trace, idx) => (
                         <div key={idx} className="flex flex-col items-center">
                             <motion.div
-                                className={`w-20 h-20 rounded-xl flex items-center justify-center border-4 ${
-                                    step < path.length && path[step] === idx
+                                className={`w-20 h-20 rounded-xl flex items-center justify-center border-4 ${step < path.length && path[step] === idx
                                         ? "border-teal-500 bg-teal-100 dark:bg-teal-900/30"
                                         : "border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700"
-                                }`}
+                                    }`}
                                 animate={step < path.length && path[step] === idx ? { scale: [1, 1.2, 1] } : {}}
                             >
                                 <div className="text-center">
@@ -97,7 +96,7 @@ export function EligibilityTraceEvolution() {
                                     </div>
                                 </div>
                             </motion.div>
-                            
+
                             {/* 资格迹柱状图 */}
                             <div className="w-full h-24 mt-2 bg-slate-100 dark:bg-slate-700 rounded relative overflow-hidden">
                                 <motion.div
