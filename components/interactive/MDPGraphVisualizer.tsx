@@ -39,6 +39,19 @@ const getSelfLoopPath = (x: number, y: number, size = 40, direction: 'top' | 'le
     }
 };
 
+// Define types
+interface Edge {
+    from: string;
+    to: string;
+    label: string;
+    straight?: boolean;
+    dashed?: boolean;
+    curvature?: number;
+    loop?: 'top' | 'left' | 'right' | 'bottom';
+    labelIdx?: number;
+    labelOff?: { x: number; y: number };
+}
+
 export function MDPGraphVisualizer() {
     const [activeNode, setActiveNode] = useState<string | null>(null);
 
@@ -60,7 +73,7 @@ export function MDPGraphVisualizer() {
         { id: "act_pub", label: "P", x: 300, y: 340, type: "action", color: "slate" },     // Pub -> Class (Loop)
     ];
 
-    const edges = [
+    const edges: Edge[] = [
         // CLASS Outgoing
         { from: "class", to: "act_fb", label: "facebook (-1)", straight: true, labelIdx: 0.5, labelOff: { x: 0, y: -20 } },
         { from: "act_fb", to: "fb", label: "", straight: true, dashed: true },

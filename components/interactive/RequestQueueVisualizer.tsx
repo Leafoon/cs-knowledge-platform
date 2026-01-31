@@ -42,7 +42,7 @@ export default function RequestQueueVisualizer() {
       status: 'queued',
     }
     setRequests(prev => [...prev, newRequest])
-  }, [exampleTexts])
+  }, [])
 
   // 自动添加请求
   useEffect(() => {
@@ -171,8 +171,8 @@ export default function RequestQueueVisualizer() {
         <button
           onClick={() => { setMode('sync'); reset(); }}
           className={`px-6 py-3 rounded-lg font-medium transition-all ${mode === 'sync'
-              ? 'bg-blue-600 text-white shadow-lg scale-105'
-              : 'bg-white text-slate-700 hover:bg-slate-100'
+            ? 'bg-blue-600 text-white shadow-lg scale-105'
+            : 'bg-white text-slate-700 hover:bg-slate-100'
             }`}
         >
           🔄 同步处理
@@ -180,8 +180,8 @@ export default function RequestQueueVisualizer() {
         <button
           onClick={() => { setMode('batch'); reset(); }}
           className={`px-6 py-3 rounded-lg font-medium transition-all ${mode === 'batch'
-              ? 'bg-green-600 text-white shadow-lg scale-105'
-              : 'bg-white text-slate-700 hover:bg-slate-100'
+            ? 'bg-green-600 text-white shadow-lg scale-105'
+            : 'bg-white text-slate-700 hover:bg-slate-100'
             }`}
         >
           📦 批处理模式
