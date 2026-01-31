@@ -1,256 +1,165 @@
 "use client";
 
+import { InlineMath } from "@/components/ui/Math";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Card } from "@/components/ui/Card";
+import { Slider } from "@/components/ui/Slider";
 
 export function ImportanceSamplingVisualizer() {
-    const [scenario, setScenario] = useState<"similar" | "different">("similar");
-    const [method, setMethod] = useState<"ordinary" | "weighted">("weighted");
+    const [targetProb, setTargetProb] = useState(0.8);
+    const [behaviorProb, setBehaviorProb] = useState(0.5);
 
-    // 模拟数据
-    const episodes = [
-        { id: 1, targetProb: 0.8, behaviorProb: 0.7, return: 10 },
-        { id: 2, targetProb: 0.6, behaviorProb: 0.5, return: 8 },
-        { id: 3, targetProb: 0.9, behaviorProb: 0.8, return: 12 },
-        { id: 4, targetProb: 0.1, behaviorProb: 0.3, return: -5 },
-        { id: 5, targetProb: 0.7, behaviorProb: 0.6, return: 9 },
-    ];
+    // 计算重要性采样比率
+    const ratio = (targetProb / behaviorProb).toFixed(2);
 
-    const differentEpisodes = [
-        { id: 1, targetProb: 0.9, behaviorProb: 0.1, return: 10 },
-        { id: 2, targetProb: 0.8, behaviorProb: 0.2, return: 8 },
-        { id: 3, targetProb: 0.95, behaviorProb: 0.15, return: 12 },
-        { id: 4, targetProb: 0.1, behaviorProb: 0.7, return: -5 },
-        { id: 5, targetProb: 0.85, behaviorProb: 0.25, return: 9 },
-    ];
+    // 模拟采样
+    const samples = Array.from({ length: 20 }, (_, i) => {
+        // 简单的可视化模拟，不是真实的统计采样
+        const rand = Math.random();
+        // 在 Behavior 分布下采样
+        const isActionA = rand < behaviorProb;
+        return { id: i, action: isActionA ? "A" : "B" };
+    });
 
-    const data = scenario === "similar" ? episodes : differentEpisodes;
+    const actionACount = samples.filter(s => s.action === "A").length;
 
-    const calculateEstimate = () => {
-        if (method === "ordinary") {
-            // 普通重要性采样
-            const n = data.length;
-            const sum = data.reduce((acc, ep) => {
-                const ratio = ep.targetProb / ep.behaviorProb;
-                return acc + ratio * ep.return;
-            }, 0);
-            return sum / n;
-        } else {
-            // 加权重要性采样
-            const numerator = data.reduce((acc, ep) => {
-                const ratio = ep.targetProb / ep.behaviorProb;
-                return acc + ratio * ep.return;
-            }, 0);
-            const denominator = data.reduce((acc, ep) => {
-                const ratio = ep.targetProb / ep.behaviorProb;
-                return acc + ratio;
-            }, 0);
-            return numerator / denominator;
-        }
-    };
+    // 计算期望估计
+    // 真实期望 (Target) E_pi = P(A)*V(A) + P(B)*V(B) 假设 V(A)=1, V(B)=0
+    const trueExpectation = targetProb * 1 + (1 - targetProb) * 0;
 
-    const estimate = calculateEstimate();
+    // 原始平均 (Behavior Average)
+    const naiveAverage = actionACount / 20;
 
-    const getMaxRatio = () => {
-        return Math.max(...data.map(ep => ep.targetProb / ep.behaviorProb));
-    };
+    // 加权平均 (Correction)
+    // Weight for A = pi(A)/b(A), Weight for B = pi(B)/b(B)
+    const weightA = targetProb / behaviorProb;
+    const weightB = (1 - targetProb) / (1 - behaviorProb);
 
-    const maxRatio = getMaxRatio();
+    const weightedSum = samples.reduce((acc, s) => {
+        return acc + (s.action === "A" ? 1 * weightA : 0 * weightB);
+    }, 0);
+    const weightedAverage = weightedSum / 20;
 
     return (
-        <div className="w-full max-w-6xl mx-auto p-6 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-slate-900 dark:to-violet-950 rounded-2xl shadow-xl">
-            <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                    重要性采样可视化
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                    Off-policy 学习的核心技术
-                </p>
-            </div>
+        <Card className="p-6 w-full max-w-4xl mx-auto bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-sans">
+            <h3 className="text-lg font-bold mb-6">Importance Sampling (重要性采样) 直观演示</h3>
 
-            {/* 控制面板 */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4">
-                    <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-3">
-                        策略差异
-                    </h4>
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setScenario("similar")}
-                            className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${scenario === "similar"
-                                    ? "bg-violet-600 text-white"
-                                    : "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
-                                }`}
-                        >
-                            相似策略
-                        </button>
-                        <button
-                            onClick={() => setScenario("different")}
-                            className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${scenario === "different"
-                                    ? "bg-fuchsia-600 text-white"
-                                    : "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-300"
-                                }`}
-                        >
-                            差异策略
-                        </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                {/* Target Policy pi */}
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <span className="font-bold text-blue-600">Target Policy <InlineMath>{"\\pi(A)"}</InlineMath></span>
+                        <span className="font-mono">{targetProb.toFixed(2)}</span>
+                    </div>
+                    <Slider
+                        value={[targetProb]}
+                        onValueChange={(v) => setTargetProb(v[0])}
+                        min={0.1} max={0.9} step={0.1}
+                        className="bg-slate-200 rounded-full"
+                    />
+                    <div className="h-24 bg-white dark:bg-slate-800 rounded-lg flex items-end border border-slate-200 overflow-hidden relative">
+                        <motion.div
+                            className="w-1/2 bg-blue-500"
+                            animate={{ height: `${targetProb * 100}%` }}
+                        />
+                        <motion.div
+                            className="w-1/2 bg-slate-300"
+                            animate={{ height: `${(1 - targetProb) * 100}%` }}
+                        />
+                        <div className="absolute bottom-1 left-4 text-xs text-white mix-blend-difference">A</div>
+                        <div className="absolute bottom-1 right-4 text-xs text-slate-600">B</div>
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4">
-                    <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-3">
-                        采样方法
-                    </h4>
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setMethod("ordinary")}
-                            className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${method === "ordinary"
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                                }`}
-                        >
-                            普通 IS
-                        </button>
-                        <button
-                            onClick={() => setMethod("weighted")}
-                            className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${method === "weighted"
-                                    ? "bg-green-600 text-white"
-                                    : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                                }`}
-                        >
-                            加权 IS
-                        </button>
+                {/* Behavior Policy b */}
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <span className="font-bold text-orange-600">Behavior Policy <InlineMath>{"b(A)"}</InlineMath></span>
+                        <span className="font-mono">{behaviorProb.toFixed(2)}</span>
+                    </div>
+                    <Slider
+                        value={[behaviorProb]}
+                        onValueChange={(v) => setBehaviorProb(v[0])}
+                        min={0.1} max={0.9} step={0.1}
+                        className="bg-slate-200 rounded-full"
+                    />
+                    <div className="h-24 bg-white dark:bg-slate-800 rounded-lg flex items-end border border-slate-200 overflow-hidden relative">
+                        <motion.div
+                            className="w-1/2 bg-orange-500"
+                            animate={{ height: `${behaviorProb * 100}%` }}
+                        />
+                        <motion.div
+                            className="w-1/2 bg-slate-300"
+                            animate={{ height: `${(1 - behaviorProb) * 100}%` }}
+                        />
+                        <div className="absolute bottom-1 left-4 text-xs text-white mix-blend-difference">A</div>
+                        <div className="absolute bottom-1 right-4 text-xs text-slate-600">B</div>
                     </div>
                 </div>
             </div>
 
-            {/* 统计信息 */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-center">
-                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">价值估计</div>
-                    <div className="text-2xl font-bold text-violet-600">{estimate.toFixed(2)}</div>
+            {/* Weights Display */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div className="text-xs text-slate-500 mb-1">Weight for A (<InlineMath>{"\\rho_A"}</InlineMath>)</div>
+                    <div className="text-2xl font-mono font-bold text-purple-600">
+                        {weightA.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-slate-400"><InlineMath>{"\\pi(A)/b(A)"}</InlineMath></div>
                 </div>
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-center">
-                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">最大比率</div>
-                    <div className="text-2xl font-bold text-fuchsia-600">{maxRatio.toFixed(2)}</div>
+                <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div className="text-xs text-slate-500 mb-1">Weight for B (<InlineMath>{"\\rho_B"}</InlineMath>)</div>
+                    <div className="text-2xl font-mono font-bold text-purple-600">
+                        {weightB.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-slate-400"><InlineMath>{"\\pi(B)/b(B)"}</InlineMath></div>
                 </div>
-                <div className={`rounded-lg p-4 text-center ${maxRatio > 5
-                        ? "bg-red-100 dark:bg-red-900/30"
-                        : "bg-green-100 dark:bg-green-900/30"
-                    }`}>
-                    <div className="text-sm font-semibold mb-1">方差状态</div>
-                    <div className="text-xl font-bold">
-                        {maxRatio > 5 ? "⚠️ 高方差" : "✅ 正常"}
+            </div>
+
+            {/* Simulation Results */}
+            <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-xl">
+                <h4 className="font-bold mb-4">Monte Carlo Estimation (Sample N=20)</h4>
+                <div className="flex gap-1 flex-wrap mb-4">
+                    {samples.map((s) => (
+                        <div
+                            key={s.id}
+                            className={`w-3 h-3 rounded-full ${s.action === "A" ? "bg-orange-500" : "bg-slate-400"}`}
+                            title={`Action ${s.action}`}
+                        />
+                    ))}
+                </div>
+
+                <div className="space-y-2 font-mono text-sm">
+                    <div className="flex justify-between text-slate-500">
+                        <span>True Val (<InlineMath>{"\\pi"}</InlineMath>):</span>
+                        <span>{trueExpectation.toFixed(3)}</span>
+                    </div>
+                    <div className="flex justify-between text-red-500">
+                        <span>Naive Avg (Direct from <InlineMath>{"b"}</InlineMath>):</span>
+                        <span>{naiveAverage.toFixed(3)} (Biased!)</span>
+                    </div>
+                    <div className="flex justify-between text-green-600 font-bold border-t pt-2 border-slate-300">
+                        <span>IS Estimate (Corrected):</span>
+                        <span>{weightedAverage.toFixed(3)} (Unbiased)</span>
                     </div>
                 </div>
             </div>
 
-            {/* Episode 表格 */}
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg mb-6">
-                <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">
-                    Episode 数据与重要性采样比
-                </h4>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                        <thead>
-                            <tr className="border-b-2 border-slate-200 dark:border-slate-600">
-                                <th className="px-4 py-2 text-left">Episode</th>
-                                <th className="px-4 py-2 text-center">π(τ)</th>
-                                <th className="px-4 py-2 text-center">b(τ)</th>
-                                <th className="px-4 py-2 text-center">ρ = π/b</th>
-                                <th className="px-4 py-2 text-center">Return G</th>
-                                <th className="px-4 py-2 text-center">ρ × G</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((ep, idx) => {
-                                const ratio = ep.targetProb / ep.behaviorProb;
-                                const weighted = ratio * ep.return;
-
-                                return (
-                                    <motion.tr
-                                        key={ep.id}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        className="border-b border-slate-100 dark:border-slate-700"
-                                    >
-                                        <td className="px-4 py-3 font-semibold">{ep.id}</td>
-                                        <td className="px-4 py-3 text-center">{ep.targetProb.toFixed(2)}</td>
-                                        <td className="px-4 py-3 text-center">{ep.behaviorProb.toFixed(2)}</td>
-                                        <td className={`px-4 py-3 text-center font-bold ${ratio > 3 ? "text-red-600" : "text-green-600"
-                                            }`}>
-                                            {ratio.toFixed(2)}
-                                        </td>
-                                        <td className="px-4 py-3 text-center">{ep.return}</td>
-                                        <td className="px-4 py-3 text-center font-semibold">
-                                            {weighted.toFixed(2)}
-                                        </td>
-                                    </motion.tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
-                    <div className="text-sm font-mono text-slate-700 dark:text-slate-300">
-                        {method === "ordinary" ? (
-                            <>
-                                <div>普通 IS: V(s) = (1/n) Σ ρᵢGᵢ</div>
-                                <div className="mt-1">
-                                    = (1/{data.length}) × {data.reduce((acc, ep) => {
-                                        const ratio = ep.targetProb / ep.behaviorProb;
-                                        return acc + ratio * ep.return;
-                                    }, 0).toFixed(2)}
-                                </div>
-                                <div className="mt-1">= {estimate.toFixed(2)}</div>
-                            </>
-                        ) : (
-                            <>
-                                <div>加权 IS: V(s) = (Σ ρᵢGᵢ) / (Σ ρᵢ)</div>
-                                <div className="mt-1">
-                                    = {data.reduce((acc, ep) => {
-                                        const ratio = ep.targetProb / ep.behaviorProb;
-                                        return acc + ratio * ep.return;
-                                    }, 0).toFixed(2)} / {data.reduce((acc, ep) => {
-                                        const ratio = ep.targetProb / ep.behaviorProb;
-                                        return acc + ratio;
-                                    }, 0).toFixed(2)}
-                                </div>
-                                <div className="mt-1">= {estimate.toFixed(2)}</div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* 对比说明 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border-l-4 border-blue-500">
-                    <h5 className="font-bold text-blue-800 dark:text-blue-300 mb-2">
-                        📊 普通重要性采样
-                    </h5>
-                    <p className="text-sm text-blue-700 dark:text-blue-400">
-                        <strong>无偏</strong>：E[V(s)] = V^π(s)<br />
-                        <strong>高方差</strong>：ρ 可能很大导致方差爆炸<br />
-                        <strong>实践</strong>：很少使用
-                    </p>
-                </div>
-                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border-l-4 border-green-500">
-                    <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">
-                        ✅ 加权重要性采样
-                    </h5>
-                    <p className="text-sm text-green-700 dark:text-green-400">
-                        <strong>有偏（渐近无偏）</strong>：lim E[V(s)] = V^π(s)<br />
-                        <strong>低方差</strong>：权重归一化抑制极值<br />
-                        <strong>实践</strong>：推荐使用
-                    </p>
-                </div>
-            </div>
-
-            <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                💡 提示：ρ = π(τ)/b(τ) 是重要性采样的核心，策略差异越大方差越大
-            </div>
-        </div>
+            {/* Variance Warning */}
+            {weightA > 3 || weightB > 3 ? (
+                <motion.div
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    className="mt-4 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg flex items-start gap-2 border border-yellow-200"
+                >
+                    <span>⚠️</span>
+                    <span>
+                        <strong>高方差警告：</strong> 权重非常大（{Math.max(weightA, weightB).toFixed(2)}）。
+                        这意味着 Behavior Policy 很少采样到 Target Policy 所需的动作，导致估计值极不稳定。
+                        这就是 Off-policy MC 很难收敛的原因。
+                    </span>
+                </motion.div>
+            ) : null}
+        </Card>
     );
 }

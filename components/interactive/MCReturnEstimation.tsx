@@ -1,219 +1,163 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { InlineMath } from "@/components/ui/Math";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Slider } from "@/components/ui/Slider";
 
 export function MCReturnEstimation() {
-    const [numEpisodes, setNumEpisodes] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [estimates, setEstimates] = useState<any[]>([]);
-    const [currentEpisode, setCurrentEpisode] = useState<number[]>([]);
+    const [gamma, setGamma] = useState(0.9);
+    const [selectedStep, setSelectedStep] = useState<number | null>(null);
 
-    const trueValue = 5.0; // 真实价值
-    const gamma = 0.9;
-    const maxEpisodes = 100;
+    // 模拟一个 Episode 的轨迹
+    const episode = [
+        { t: 0, s: "S1", a: "Up", r: 0 },
+        { t: 1, s: "S2", a: "Right", r: 0 },
+        { t: 2, s: "S3", a: "Right", r: 1 },
+        { t: 3, s: "S4", a: "Up", r: 0 },
+        { t: 4, s: "S5", a: "Right", r: 5 },
+        { t: 5, s: "S6", a: "Stop", r: 0 }, // Terminal
+    ];
 
-    const generateEpisode = () => {
-        // 模拟生成一个 episode 的奖励序列
-        const length = Math.floor(Math.random() * 8) + 3; // 3-10 步
-        const rewards = Array(length).fill(0).map(() =>
-            Math.random() > 0.5 ? 1 : -1
-        );
-        return rewards;
-    };
-
-    const calculateReturn = (rewards: number[]) => {
+    // 计算 Gt
+    const calculateReturn = (t: number) => {
         let G = 0;
-        for (let i = rewards.length - 1; i >= 0; i--) {
-            G = rewards[i] + gamma * G;
+        let terms = [];
+        for (let k = t; k < episode.length - 1; k++) {
+            const r = episode[k + 1].r;
+            const power = k - t;
+            const discount = Math.pow(gamma, power);
+            G += discount * r;
+
+            terms.push({
+                r,
+                power,
+                discount: discount.toFixed(2),
+                val: (discount * r).toFixed(2)
+            });
         }
-        return G;
+        return { G: G.toFixed(2), terms };
     };
 
-    useEffect(() => {
-        if (!isPlaying || numEpisodes >= maxEpisodes) {
-            if (numEpisodes >= maxEpisodes) setIsPlaying(false);
-            return;
-        }
-
-        const timer = setTimeout(() => {
-            const episode = generateEpisode();
-            const G = calculateReturn(episode);
-
-            // 计算当前平均估计
-            const currentMean = estimates.length > 0
-                ? (estimates[estimates.length - 1].mean * estimates.length + G) / (estimates.length + 1)
-                : G;
-
-            setEstimates(prev => [
-                ...prev,
-                {
-                    episode: numEpisodes + 1,
-                    return: G,
-                    mean: currentMean,
-                    error: Math.abs(currentMean - trueValue),
-                }
-            ]);
-
-            setCurrentEpisode(episode);
-            setNumEpisodes(numEpisodes + 1);
-        }, 300);
-
-        return () => clearTimeout(timer);
-    }, [isPlaying, numEpisodes, estimates]);
-
-    const reset = () => {
-        setNumEpisodes(0);
-        setIsPlaying(false);
-        setEstimates([]);
-        setCurrentEpisode([]);
-    };
-
-    const currentEstimate = estimates.length > 0
-        ? estimates[estimates.length - 1].mean
-        : 0;
-
-    const error = Math.abs(currentEstimate - trueValue);
+    const calculation = selectedStep !== null ? calculateReturn(selectedStep) : null;
 
     return (
-        <div className="w-full max-w-6xl mx-auto p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-emerald-950 rounded-2xl shadow-xl">
-            <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                    MC Return 估计过程
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                    观察样本平均如何收敛到真实值
+        <Card className="p-6 w-full max-w-4xl mx-auto bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+            <div className="mb-6">
+                <h3 className="text-lg font-bold mb-2">Monte Carlo Return Calculation (<InlineMath>G_t</InlineMath>)</h3>
+                <p className="text-sm text-slate-500 mb-4">
+                    点击下方时间轴上的某个时间步 <InlineMath>t</InlineMath>，查看累积回报 <InlineMath>G_t</InlineMath> 的计算过程。
+                    <InlineMath>{"G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\dots"}</InlineMath>
                 </p>
-            </div>
 
-            {/* 控制面板 */}
-            <div className="flex justify-center items-center gap-4 mb-6">
-                <button
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    disabled={numEpisodes >= maxEpisodes}
-                    className="px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-300 text-white font-semibold transition-colors"
-                >
-                    {isPlaying ? "⏸ 暂停" : "▶ 播放"}
-                </button>
-                <button
-                    onClick={reset}
-                    className="px-6 py-2 rounded-lg bg-slate-600 hover:bg-slate-700 text-white font-semibold transition-colors"
-                >
-                    🔄 重置
-                </button>
-            </div>
+                <div className="flex items-center space-x-4 mb-8">
+                    <span className="text-sm font-mono flex items-center gap-2">Discount Factor <InlineMath>{"\\gamma"}</InlineMath> = {gamma}</span>
+                    <Slider
+                        value={[gamma]}
+                        onValueChange={(v) => setGamma(v[0])}
+                        min={0}
+                        max={1}
+                        step={0.1}
+                        className="w-48"
+                    />
+                </div>
 
-            {/* 统计面板 */}
-            <div className="grid grid-cols-4 gap-4 mb-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-center">
-                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">Episodes</div>
-                    <div className="text-2xl font-bold text-emerald-600">{numEpisodes}</div>
-                </div>
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-center">
-                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">真实值</div>
-                    <div className="text-2xl font-bold text-blue-600">{trueValue.toFixed(2)}</div>
-                </div>
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-center">
-                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">当前估计</div>
-                    <div className="text-2xl font-bold text-teal-600">{currentEstimate.toFixed(2)}</div>
-                </div>
-                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-center">
-                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">误差</div>
-                    <div className="text-2xl font-bold text-orange-600">{error.toFixed(3)}</div>
-                </div>
-            </div>
+                {/* Timeline */}
+                <div className="relative flex justify-between items-center h-24 mt-8 px-4">
+                    {/* Line */}
+                    <div className="absolute left-0 right-0 h-1 bg-slate-200 dark:bg-slate-700 top-1/2 -translate-y-1/2 -z-0" />
 
-            {/* 当前 Episode 可视化 */}
-            {currentEpisode.length > 0 && (
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg mb-6">
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">
-                        当前 Episode（T = {currentEpisode.length}）
-                    </h4>
-                    <div className="flex items-center justify-center gap-2 flex-wrap">
-                        {currentEpisode.map((reward, idx) => {
-                            const cumulative = calculateReturn(currentEpisode.slice(idx));
-                            return (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    className="flex flex-col items-center"
-                                >
-                                    <div
-                                        className={`w-16 h-16 rounded-lg flex items-center justify-center font-bold text-white ${reward > 0 ? "bg-green-500" : "bg-red-500"
-                                            }`}
-                                    >
-                                        {reward > 0 ? "+1" : "-1"}
+                    {episode.map((step, idx) => (
+                        <div key={idx} className="relative z-10 flex flex-col items-center group">
+                            <motion.button
+                                onClick={() => setSelectedStep(step.t)}
+                                className={`w-12 h-12 rounded-full flex items-center justify-center border-4 transition-all ${selectedStep === step.t
+                                    ? "bg-blue-500 border-blue-200 text-white scale-110 shadow-lg"
+                                    : selectedStep !== null && step.t > selectedStep
+                                        ? "bg-green-100 border-green-500 text-slate-700"
+                                        : "bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-500 hover:border-blue-400"
+                                    }`}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                disabled={idx === episode.length - 1} // Terminal state has no Gt in this simplified view
+                            >
+                                <span className="font-bold text-sm">t={step.t}</span>
+                            </motion.button>
+
+                            {/* Info */}
+                            <div className="absolute top-14 text-center w-24">
+                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300">{step.s}</div>
+                                {idx < episode.length - 1 && (
+                                    <div className="text-xs text-slate-500">{step.a}</div>
+                                )}
+                            </div>
+
+                            {/* Rewards */}
+                            {idx > 0 && (
+                                <div className="absolute -top-10 text-center">
+                                    <div className={`text-xs font-mono px-2 py-1 rounded ${selectedStep !== null && step.t > selectedStep
+                                        ? "bg-green-100 text-green-700 font-bold"
+                                        : "text-slate-400"
+                                        }`}>
+                                        R={step.r}
                                     </div>
-                                    <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                                        t={idx}
-                                    </div>
-                                    <div className="text-xs text-slate-500 dark:text-slate-400">
-                                        G={cumulative.toFixed(1)}
-                                    </div>
-                                    {idx < currentEpisode.length - 1 && (
-                                        <div className="text-lg text-slate-400">→</div>
-                                    )}
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                    <div className="mt-4 text-center">
-                        <div className="text-sm text-slate-600 dark:text-slate-400">
-                            Return: G = R₁ + γR₂ + γ²R₃ + ... = {calculateReturn(currentEpisode).toFixed(2)}
+                                </div>
+                            )}
                         </div>
-                    </div>
+                    ))}
                 </div>
-            )}
 
-            {/* 收敛曲线 */}
-            {estimates.length > 1 && (
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg">
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">
-                        估计收敛曲线
-                    </h4>
-                    <ResponsiveContainer width="100%" height={250}>
-                        <LineChart data={estimates}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis
-                                dataKey="episode"
-                                label={{ value: 'Episode 数量', position: 'insideBottom', offset: -5 }}
-                            />
-                            <YAxis
-                                label={{ value: '价值估计', angle: -90, position: 'insideLeft' }}
-                            />
-                            <Tooltip />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="mean"
-                                stroke="#10b981"
-                                strokeWidth={3}
-                                name="样本平均"
-                                dot={false}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey={() => trueValue}
-                                stroke="#3b82f6"
-                                strokeWidth={2}
-                                strokeDasharray="5 5"
-                                name="真实值"
-                                dot={false}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                    <div className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-                        <p>💡 大数定律：lim(n→∞) (1/n)Σ Gᵢ = V^π(s)</p>
-                        <p className="mt-1">📊 标准误差：SE = σ / √n （误差以 1/√n 速度下降）</p>
-                    </div>
-                </div>
-            )}
+                {/* Calculation Detail */}
+                <AnimatePresence mode="wait">
+                    {calculation && selectedStep !== null && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="mt-12 p-6 bg-white dark:bg-slate-800 rounded-xl shadow-inner border border-slate-100 dark:border-slate-700"
+                        >
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                                <div className="flex-1 space-y-4">
+                                    <h4 className="font-mono text-blue-600 dark:text-blue-400 text-lg">
+                                        Calculate <InlineMath>{`G_${selectedStep}`}</InlineMath>
+                                    </h4>
+                                    <div className="font-mono text-sm space-y-2 text-slate-600 dark:text-slate-300">
+                                        {calculation.terms.map((term, i) => (
+                                            <div key={i} className="flex items-center gap-2">
+                                                <span className="w-4 text-slate-400">+</span>
+                                                <span className="text-orange-500">{term.discount}</span>
+                                                <span className="text-slate-400">×</span>
+                                                <span className="text-green-600 font-bold">{term.r}</span>
+                                                <span className="text-slate-400">=</span>
+                                                <span>{term.val}</span>
+                                                <span className="text-xs text-slate-400 ml-2">
+                                                    (<InlineMath>{`\\gamma^{${term.power}} \\times R_{${selectedStep + term.power + 1}}`}</InlineMath>)
+                                                </span>
+                                            </div>
+                                        ))}
+                                        <div className="h-px bg-slate-200 dark:bg-slate-600 my-2 w-48" />
+                                        <div className="flex items-center gap-2 font-bold text-lg">
+                                            <span>Total Return:</span>
+                                            <span className="text-blue-600 dark:text-blue-400">{calculation.G}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-            <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                💡 提示：MC 通过样本平均估计价值函数，无偏但方差较大
+                                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg text-sm text-blue-800 dark:text-blue-200 max-w-xs">
+                                    <p className="mb-2 font-bold">Concept Note:</p>
+                                    <p>
+                                        MC 方法在 episode 结束后，沿着时间轴**反向（Backward）**计算所有 <InlineMath>G_t</InlineMath>。
+                                        这就是为什么它必须用于**Episodic Tasks**。
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-        </div>
+        </Card>
     );
 }

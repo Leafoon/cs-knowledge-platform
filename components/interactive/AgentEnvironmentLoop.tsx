@@ -1,222 +1,139 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export function AgentEnvironmentLoop() {
     const [step, setStep] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [state, setState] = useState("S₀");
-    const [action, setAction] = useState("—");
-    const [reward, setReward] = useState("—");
-    const [history, setHistory] = useState<Array<{ state: string, action: string, reward: string }>>([]);
 
-    const states = ["S₀", "S₁", "S₂", "S₃", "S₄"];
-    const actions = ["↑", "→", "↓", "←"];
-    const rewards = ["+1", "+5", "-1", "+10", "0"];
-
-    useEffect(() => {
-        if (!isPlaying) return;
-
-        const interval = setInterval(() => {
-            setStep(s => {
-                const newStep = (s + 1) % 4;
-
-                if (newStep === 0) {
-                    // 新的循环
-                    const newState = states[Math.floor(Math.random() * states.length)];
-                    const newAction = actions[Math.floor(Math.random() * actions.length)];
-                    const newReward = rewards[Math.floor(Math.random() * rewards.length)];
-
-                    setState(newState);
-                    setAction(newAction);
-                    setReward(newReward);
-
-                    setHistory(prev => [...prev.slice(-4), {
-                        state: newState,
-                        action: newAction,
-                        reward: newReward
-                    }]);
-                }
-
-                return newStep;
-            });
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [isPlaying, states, actions, rewards]);
-
-    const phases = [
-        { name: "观察状态", desc: "Agent 接收环境状态", color: "#6366f1" },
-        { name: "选择动作", desc: "Agent 根据策略选择动作", color: "#8b5cf6" },
-        { name: "执行动作", desc: "环境执行动作并转移状态", color: "#ec4899" },
-        { name: "获得反馈", desc: "Agent 接收奖励和新状态", color: "#10b981" },
+    const stages = [
+        { id: 0, agent: "观察 State", env: "提供当前状态", highlight: "state" },
+        { id: 1, agent: "选择 Action", env: "等待动作", highlight: "action" },
+        { id: 2, agent: "等待反馈", env: "执行动作", highlight: "env" },
+        { id: 3, agent: "计算 Reward & State'", env: "返回奖励和新状态", highlight: "reward" },
     ];
 
+    const handlePlay = () => {
+        if (isPlaying) return;
+        setIsPlaying(true);
+        const interval = setInterval(() => {
+            setStep(prev => {
+                const next = (prev + 1) % stages.length;
+                if (next === 0) {
+                    clearInterval(interval);
+                    setIsPlaying(false);
+                }
+                return next;
+            });
+        }, 1500);
+    };
+
+    const currentStage = stages[step];
+
     return (
-        <div className="w-full max-w-5xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 rounded-2xl shadow-xl">
-            <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+        <div className="w-full max-w-4xl mx-auto p-8 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 rounded-2xl shadow-xl">
+            <div className="flex justify-between items-center mb-12">
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
                     Agent-Environment 交互循环
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                    强化学习的核心机制
-                </p>
-            </div>
-
-            {/* 控制按钮 */}
-            <div className="flex justify-center gap-4 mb-8">
                 <button
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    className="px-6 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors"
+                    onClick={handlePlay}
+                    disabled={isPlaying}
+                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center gap-2 shadow-md"
                 >
-                    {isPlaying ? "⏸ 暂停" : "▶ 播放"}
-                </button>
-                <button
-                    onClick={() => {
-                        setStep(0);
-                        setIsPlaying(false);
-                        setHistory([]);
-                    }}
-                    className="px-6 py-2 rounded-lg bg-slate-600 hover:bg-slate-700 text-white font-semibold transition-colors"
-                >
-                    🔄 重置
+                    {isPlaying ? (
+                        <span className="flex items-center gap-1">
+                            <span className="animate-spin text-lg">↻</span> 运行中...
+                        </span>
+                    ) : (
+                        <span>▶️ 演示交互</span>
+                    )}
                 </button>
             </div>
 
-            {/* 主循环可视化 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {/* Agent */}
+            <div className="relative h-64 flex items-center justify-between px-12">
+                {/* Agent Node */}
                 <motion.div
-                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border-2"
-                    style={{
-                        borderColor: step === 1 ? "#6366f1" : "#e2e8f0"
-                    }}
+                    className="w-48 h-48 bg-white dark:bg-slate-800 rounded-2xl shadow-lg border-2 border-purple-500/30 flex flex-col items-center justify-center relative z-10"
                     animate={{
-                        scale: step === 1 ? 1.05 : 1,
+                        scale: currentStage.highlight === "action" || currentStage.highlight === "state" ? 1.05 : 1,
+                        borderColor: currentStage.highlight === "action" ? "rgba(168, 85, 247, 1)" : "rgba(168, 85, 247, 0.3)",
+                        boxShadow: currentStage.highlight === "action" ? "0 0 30px rgba(168, 85, 247, 0.4)" : "0 4px 6px rgba(0,0,0,0.1)",
                     }}
                 >
-                    <div className="text-center">
-                        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold">
-                            🤖
-                        </div>
-                        <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                            Agent（智能体）
-                        </h4>
-                        <div className="space-y-2 text-sm">
-                            <div className="flex justify-between">
-                                <span className="text-slate-600 dark:text-slate-400">当前状态:</span>
-                                <span className="font-mono font-bold text-indigo-600">{state}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-slate-600 dark:text-slate-400">选择动作:</span>
-                                <span className="font-mono font-bold text-purple-600">{action}</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div className="text-6xl mb-4">🧠</div>
+                    <div className="text-xl font-bold text-purple-600 dark:text-purple-400">Agent</div>
+                    <div className="text-xs text-slate-500 font-mono mt-1">Policy π(s)</div>
                 </motion.div>
 
-                {/* Environment */}
-                <motion.div
-                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border-2"
-                    style={{
-                        borderColor: step === 2 || step === 3 ? "#10b981" : "#e2e8f0"
-                    }}
-                    animate={{
-                        scale: step === 2 || step === 3 ? 1.05 : 1,
-                    }}
-                >
-                    <div className="text-center">
-                        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-3xl font-bold">
-                            🌍
+                {/* Connections */}
+                <div className="flex-1 h-full relative mx-4">
+                    {/* Top Arrow: Action */}
+                    <div className="absolute top-1/3 left-0 right-0 h-[2px] bg-slate-300 dark:bg-slate-600">
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 px-2 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                            Action ($a_t$)
                         </div>
-                        <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                            Environment（环境）
-                        </h4>
-                        <div className="space-y-2 text-sm">
-                            <div className="flex justify-between">
-                                <span className="text-slate-600 dark:text-slate-400">下一状态:</span>
-                                <span className="font-mono font-bold text-green-600">{state}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-slate-600 dark:text-slate-400">奖励:</span>
-                                <span className="font-mono font-bold text-emerald-600">{reward}</span>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-
-            {/* 交互流程 */}
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg mb-6">
-                <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 text-center">
-                    交互流程（第 {Math.floor(history.length / 4) + 1} 轮）
-                </h4>
-                <div className="grid grid-cols-4 gap-2">
-                    {phases.map((phase, idx) => (
-                        <motion.div
-                            key={idx}
-                            className="p-4 rounded-lg text-center"
-                            style={{
-                                backgroundColor: step === idx ? `${phase.color}20` : "#f8fafc",
-                                borderWidth: 2,
-                                borderColor: step === idx ? phase.color : "#e2e8f0",
-                            }}
-                            animate={{
-                                scale: step === idx ? 1.05 : 1,
-                            }}
-                        >
-                            <div
-                                className="w-8 h-8 mx-auto mb-2 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                                style={{ backgroundColor: phase.color }}
-                            >
-                                {idx + 1}
-                            </div>
-                            <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                {phase.name}
-                            </div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400">
-                                {phase.desc}
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-
-            {/* 历史记录 */}
-            {history.length > 0 && (
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg">
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">
-                        交互历史
-                    </h4>
-                    <div className="space-y-2">
-                        {history.map((item, idx) => (
+                        {currentStage.highlight === "action" && (
                             <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className="flex items-center gap-4 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg text-sm"
-                            >
-                                <span className="font-mono text-slate-600 dark:text-slate-400">
-                                    t={idx}
-                                </span>
-                                <span className="font-mono">
-                                    状态: <span className="text-indigo-600 font-bold">{item.state}</span>
-                                </span>
-                                <span className="font-mono">
-                                    动作: <span className="text-purple-600 font-bold">{item.action}</span>
-                                </span>
-                                <span className="font-mono">
-                                    奖励: <span className="text-emerald-600 font-bold">{item.reward}</span>
-                                </span>
-                            </motion.div>
-                        ))}
+                                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-purple-500 rounded-full shadow-lg"
+                                initial={{ left: "0%" }}
+                                animate={{ left: "100%" }}
+                                transition={{ duration: 1.0, ease: "easeInOut" }}
+                            />
+                        )}
+                        <div className="absolute right-0 top-1/2 -translate-y-[5px] border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-slate-300 dark:border-l-slate-600"></div>
+                    </div>
+
+                    {/* Bottom Arrow: Reward & State */}
+                    <div className="absolute bottom-1/3 left-0 right-0 h-[2px] bg-slate-300 dark:bg-slate-600">
+                        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 px-2 text-xs font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">
+                            Reward {'($r_{t + 1}$)'} + State {'($s_{t + 1}$)'}
+                        </div>
+                        {currentStage.highlight === "reward" && (
+                            <motion.div
+                                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-green-500 rounded-full shadow-lg"
+                                initial={{ right: "0%" }}
+                                animate={{ right: "100%" }}
+                                transition={{ duration: 1.0, ease: "easeInOut" }}
+                            />
+                        )}
+                        <div className="absolute left-0 top-1/2 -translate-y-[5px] -rotate-180 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-slate-300 dark:border-l-slate-600"></div>
                     </div>
                 </div>
-            )}
 
-            <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                💡 提示：这个循环会一直重复，直到 episode 结束（terminated 或 truncated）
+                {/* Environment Node */}
+                <motion.div
+                    className="w-48 h-48 bg-white dark:bg-slate-800 rounded-2xl shadow-lg border-2 border-green-500/30 flex flex-col items-center justify-center relative z-10"
+                    animate={{
+                        scale: currentStage.highlight === "env" || currentStage.highlight === "reward" ? 1.05 : 1,
+                        borderColor: currentStage.highlight === "env" ? "rgba(34, 197, 94, 1)" : "rgba(34, 197, 94, 0.3)",
+                        boxShadow: currentStage.highlight === "env" ? "0 0 30px rgba(34, 197, 94, 0.4)" : "0 4px 6px rgba(0,0,0,0.1)",
+                    }}
+                >
+                    <div className="text-6xl mb-4">🌍</div>
+                    <div className="text-xl font-bold text-green-600 dark:text-green-400">Environment</div>
+                    <div className="text-xs text-slate-500 font-mono mt-1">Dynamics P(s'|s,a)</div>
+                </motion.div>
+            </div>
+
+            {/* Status Panel */}
+            <div className="mt-8 grid grid-cols-2 gap-4">
+                <motion.div
+                    animate={{ opacity: currentStage.highlight.includes("action") || currentStage.highlight === "state" ? 1 : 0.5 }}
+                    className="p-4 bg-purple-50 dark:bg-purple-900/10 rounded-xl border border-purple-100 dark:border-purple-800"
+                >
+                    <div className="font-bold text-purple-700 dark:text-purple-300 mb-1">Agent Status</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">{currentStage.agent}</div>
+                </motion.div>
+
+                <motion.div
+                    animate={{ opacity: currentStage.highlight.includes("env") || currentStage.highlight === "reward" ? 1 : 0.5 }}
+                    className="p-4 bg-green-50 dark:bg-green-900/10 rounded-xl border border-green-100 dark:border-green-800"
+                >
+                    <div className="font-bold text-green-700 dark:text-green-300 mb-1">Environment Status</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">{currentStage.env}</div>
+                </motion.div>
             </div>
         </div>
     );

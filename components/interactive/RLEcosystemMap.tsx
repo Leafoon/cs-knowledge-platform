@@ -1,155 +1,110 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function RLEcosystemMap() {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     const categories = [
         {
-            id: "algorithms",
-            name: "核心算法",
-            color: "#6366f1",
-            items: [
-                { name: "DQN", desc: "深度Q网络" },
-                { name: "PPO", desc: "近端策略优化" },
-                { name: "SAC", desc: "软演员-评论家" },
-                { name: "TD3", desc: "双延迟DDPG" },
+            id: "model_free",
+            name: "Model-Free RL",
+            desc: "不学习环境模型，直接由经验学习价值或策略。",
+            color: "blue",
+            children: [
+                { id: "q_learning", name: "Q-Learning", type: "Value-based" },
+                { id: "dqn", name: "DQN", type: "Value-based" },
+                { id: "policy_gradient", name: "Policy Gradient", type: "Policy-based" },
+                { id: "ppo", name: "PPO", type: "Policy-based" },
+                { id: "sac", name: "SAC", type: "Actor-Critic" },
             ]
         },
         {
-            id: "methods",
-            name: "学习范式",
-            color: "#8b5cf6",
-            items: [
-                { name: "Value-Based", desc: "基于价值" },
-                { name: "Policy-Based", desc: "基于策略" },
-                { name: "Actor-Critic", desc: "演员-评论家" },
-                { name: "Model-Based", desc: "基于模型" },
+            id: "model_based",
+            name: "Model-Based RL",
+            desc: "学习环境动态模型 P(s'|s,a)，并在模型中规划。",
+            color: "purple",
+            children: [
+                { id: "dyna", name: "Dyna-Q", type: "Hybrid" },
+                { id: "alphazero", name: "AlphaZero", type: "MCTS" },
+                { id: "dreamer", name: "Dreamer", type: "Latent Dynamics" },
+                { id: "mbpo", name: "MBPO", type: "Dyna-style" },
             ]
         },
         {
-            id: "applications",
-            name: "应用领域",
-            color: "#ec4899",
-            items: [
-                { name: "游戏AI", desc: "AlphaGo, OpenAI Five" },
-                { name: "机器人", desc: "控制与操作" },
-                { name: "LLM对齐", desc: "RLHF, DPO" },
-                { name: "自动驾驶", desc: "决策规划" },
+            id: "advanced",
+            name: "Extension & Frontiers",
+            desc: "解决特定挑战的高级方向。",
+            color: "green",
+            children: [
+                { id: "offline", name: "Offline RL", type: "Sample Efficiency" },
+                { id: "marl", name: "Multi-Agent RL", type: "Interaction" },
+                { id: "meta", name: "Meta-RL", type: "Generalization" },
+                { id: "rlhf", name: "RLHF", type: "Alignment" },
             ]
-        },
-        {
-            id: "environments",
-            name: "环境平台",
-            color: "#10b981",
-            items: [
-                { name: "Gymnasium", desc: "标准RL环境" },
-                { name: "MuJoCo", desc: "物理仿真" },
-                { name: "Atari", desc: "视觉游戏" },
-                { name: "Procgen", desc: "泛化测试" },
-            ]
-        },
-        {
-            id: "frameworks",
-            name: "开发框架",
-            color: "#f59e0b",
-            items: [
-                { name: "Stable-Baselines3", desc: "PyTorch实现" },
-                { name: "RLlib", desc: "Ray分布式" },
-                { name: "CleanRL", desc: "简洁实现" },
-                { name: "Acme", desc: "DeepMind框架" },
-            ]
-        },
-        {
-            id: "frontiers",
-            name: "前沿方向",
-            color: "#06b6d4",
-            items: [
-                { name: "Offline RL", desc: "离线强化学习" },
-                { name: "Multi-Agent", desc: "多智能体" },
-                { name: "Meta-RL", desc: "元强化学习" },
-                { name: "Safe RL", desc: "安全强化学习" },
-            ]
-        },
+        }
     ];
 
     return (
-        <div className="w-full max-w-6xl mx-auto p-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-2xl shadow-xl">
-            <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                    强化学习生态全景图
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                    点击类别查看详细信息
-                </p>
-            </div>
+        <div className="w-full max-w-5xl mx-auto p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800">
+            <h3 className="text-2xl font-bold text-center mb-8 text-slate-800 dark:text-slate-100">
+                强化学习技术生态图谱
+            </h3>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                {categories.map((category) => (
-                    <motion.button
-                        key={category.id}
-                        onClick={() => setSelectedCategory(
-                            selectedCategory === category.id ? null : category.id
-                        )}
-                        className="relative p-6 rounded-xl border-2 transition-all duration-300 hover:scale-105"
-                        style={{
-                            borderColor: selectedCategory === category.id ? category.color : "#e2e8f0",
-                            backgroundColor: selectedCategory === category.id
-                                ? `${category.color}15`
-                                : "white",
-                        }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {categories.map((cat) => (
+                    <motion.div
+                        key={cat.id}
+                        className={`relative p-6 rounded-xl border-2 cursor-pointer transition-all ${selectedCategory === cat.id
+                                ? `bg-${cat.color}-50 dark:bg-${cat.color}-900/20 border-${cat.color}-500 shadow-lg scale-105 z-10`
+                                : `bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-${cat.color}-300`
+                            }`}
+                        onClick={() => setSelectedCategory(cat.id === selectedCategory ? null : cat.id)}
+                        layout
                     >
-                        <div
-                            className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center text-white font-bold text-xl"
-                            style={{ backgroundColor: category.color }}
-                        >
-                            {category.name.charAt(0)}
+                        <div className={`text-${cat.color}-600 dark:text-${cat.color}-400 font-bold text-xl mb-2 flex items-center justify-between`}>
+                            {cat.name}
+                            <motion.span
+                                animate={{ rotate: selectedCategory === cat.id ? 180 : 0 }}
+                                className="text-sm opacity-50"
+                            >
+                                ▼
+                            </motion.span>
                         </div>
-                        <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                            {category.name}
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 h-10 line-clamp-2">
+                            {cat.desc}
+                        </p>
+
+                        <div className="space-y-2">
+                            {cat.children.map((child) => (
+                                <motion.div
+                                    key={child.id}
+                                    className={`p-2 rounded-lg text-sm border flex justify-between items-center ${selectedCategory === cat.id
+                                            ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                            : "opacity-60 grayscale bg-slate-100 dark:bg-slate-800"
+                                        }`}
+                                >
+                                    <span className="font-bold text-slate-700 dark:text-slate-300">{child.name}</span>
+                                    {selectedCategory === cat.id && (
+                                        <span className={`text-[10px] px-2 py-0.5 rounded-full bg-${cat.color}-100 dark:bg-${cat.color}-900/50 text-${cat.color}-700 dark:text-${cat.color}-300`}>
+                                            {child.type}
+                                        </span>
+                                    )}
+                                </motion.div>
+                            ))}
                         </div>
-                    </motion.button>
+                    </motion.div>
                 ))}
             </div>
 
-            {selectedCategory && (
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg"
-                >
-                    <h4 className="text-xl font-bold mb-4 text-slate-800 dark:text-slate-100">
-                        {categories.find(c => c.id === selectedCategory)?.name}
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {categories
-                            .find(c => c.id === selectedCategory)
-                            ?.items.map((item, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    className="p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600"
-                                >
-                                    <div className="font-semibold text-slate-800 dark:text-slate-100 mb-1">
-                                        {item.name}
-                                    </div>
-                                    <div className="text-sm text-slate-600 dark:text-slate-400">
-                                        {item.desc}
-                                    </div>
-                                </motion.div>
-                            ))}
-                    </div>
-                </motion.div>
-            )}
-
-            <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                💡 提示：强化学习是一个庞大的生态系统，涵盖理论、算法、应用和工具
+            <div className="mt-8 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg text-center text-sm text-slate-500">
+                点击上方卡片查看详细算法分类。学习路径建议：
+                <span className="font-bold text-blue-600 dark:text-blue-400 mx-2">Model-Free (DQN/PPO)</span>
+                →
+                <span className="font-bold text-purple-600 dark:text-purple-400 mx-2">Model-Based</span>
+                →
+                <span className="font-bold text-green-600 dark:text-green-400 mx-2">Advanced</span>
             </div>
         </div>
     );

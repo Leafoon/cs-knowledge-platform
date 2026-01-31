@@ -183,9 +183,6 @@ export { default as LossFunctionExplorer } from './LossFunctionExplorer'
 // Chapter 26 Multimodal Models components
 export { default as MultimodalArchitecture } from './MultimodalArchitecture'
 export { default as VisionEncoderVisualizer } from './VisionEncoderVisualizer'
-// Chapter 27 RLHF components
-export { default as RLHFPipeline } from './RLHFPipeline'
-export { default as DPOvsRLHF } from './DPOvsRLHF'
 // Chapter 28 Frontier Research components
 export { default as LongContextStrategies } from './LongContextStrategies'
 export { default as MoERouting } from './MoERouting'
@@ -198,13 +195,15 @@ export { default as TaskInferenceFlowchart } from './TaskInferenceFlowchart'
 export { default as LoRAMemoryAccuracyTradeoff } from './LoRAMemoryAccuracyTradeoff'
 export { default as FSDPScalingChart } from './FSDPScalingChart'
 // Placeholder components (from _placeholders.tsx)
-export { ExtremeLowMemoryTraining, FloatPrecisionRangeTradeoff, PrecisionLossComparison,
+export {
+  ExtremeLowMemoryTraining, FloatPrecisionRangeTradeoff, PrecisionLossComparison,
   QuantizationMethodComparison, QuantizationMethodsComprehensiveComparison,
   PerTensorVsPerChannelQuant, NF4vsINT4Comparison, DistributedMixedPrecision,
   AccelerateWorkflowVisualizer, AcceleratorAPIDemo, ThreeDParallelismVisualizer,
   CollectiveCommunicationPrimitives, TGIArchitectureDiagram, ModelExportDecisionTree,
   BackendAutoSelector, OptimizationEffectComparison, ProfilerVisualizationDemo,
-  PEFTTrainingSpeedComparison } from './_placeholders'
+  PEFTTrainingSpeedComparison
+} from './_placeholders'
 
 // LangChain Components
 export { default as LangChainEcosystemMap } from './LangChainEcosystemMap'
@@ -352,3 +351,172 @@ export { GPIFramework } from './GPIFramework';
 export { MCReturnEstimation } from './MCReturnEstimation';
 export { ImportanceSamplingVisualizer } from './ImportanceSamplingVisualizer';
 export { OnPolicyVsOffPolicy } from './OnPolicyVsOffPolicy';
+export { TDUpdateVisualizer } from './TDUpdateVisualizer';
+export { SARSAvsQLearning } from './SARSAvsQLearning';
+export { MaximizationBiasDemo } from './MaximizationBiasDemo';
+export { NStepReturnComparison } from './NStepReturnComparison';
+export { EligibilityTraceEvolution } from './EligibilityTraceEvolution';
+export { LambdaReturnWeighting } from './LambdaReturnWeighting';
+export { ForwardVsBackwardView } from './ForwardVsBackwardView';
+export { FunctionApproximationComparison } from './FunctionApproximationComparison';
+export { FeatureEngineeringVisualizer } from './FeatureEngineeringVisualizer';
+export { DeadlyTriadDemo } from './DeadlyTriadDemo';
+export { NeuralNetworkApproximation } from './NeuralNetworkApproximation';
+export { DQNArchitecture } from './DQNArchitecture';
+export { ExperienceReplayVisualizer } from './ExperienceReplayVisualizer';
+export { TargetNetworkUpdate } from './TargetNetworkUpdate';
+export { DuelingDQNDecomposition } from './DuelingDQNDecomposition';
+export { PrioritizedReplayWeighting } from './PrioritizedReplayWeighting';
+export { PolicyGradientTheorem } from './PolicyGradientTheorem';
+export { REINFORCEVariance } from './REINFORCEVariance';
+export { BaselineEffect } from './BaselineEffect';
+export { ActorCriticArchitecture } from './ActorCriticArchitecture';
+export { AdvantageEstimation } from './AdvantageEstimation';
+export { GAEWeighting } from './GAEWeighting';
+export { A3CArchitecture } from './A3CArchitecture';
+export { SharedNetworkVisualization } from './SharedNetworkVisualization';
+export { DeterministicPolicyVisualization } from './DeterministicPolicyVisualization';
+export { DDPGArchitecture } from './DDPGArchitecture';
+export { TD3Improvements } from './TD3Improvements';
+export { OUNoiseProcess } from './OUNoiseProcess';
+export { TrustRegionVisualization } from './TrustRegionVisualization';
+export { KLConstraintEffect } from './KLConstraintEffect';
+export { MonotonicImprovement } from './MonotonicImprovement';
+export { ConjugateGradientProcess } from './ConjugateGradientProcess';
+export { PPOClipMechanism } from './PPOClipMechanism';
+export { RatioClippingEffect } from './RatioClippingEffect';
+export { PPOvsTRPO } from './PPOvsTRPO';
+export { MultiEpochUpdate } from './MultiEpochUpdate';
+export { MaxEntropyFramework } from './MaxEntropyFramework';
+export { SoftBellmanEquation } from './SoftBellmanEquation';
+export { SACArchitecture } from './SACArchitecture';
+export { TemperatureEffect } from './TemperatureEffect';
+export { ParameterSpaceVsPolicySpace } from './ParameterSpaceVsPolicySpace';
+export { FisherInformationMatrix } from './FisherInformationMatrix';
+export { NaturalGradientVisualization } from './NaturalGradientVisualization';
+export { DistributedRLArchitecture } from './DistributedRLArchitecture';
+export { IMPALAFlow } from './IMPALAFlow';
+export { VTraceCorrection } from './VTraceCorrection';
+export { ModelBasedVsModelFree } from './ModelBasedVsModelFree';
+export { DynaArchitecture } from './DynaArchitecture';
+export { WorldModelVisualization } from './WorldModelVisualization';
+export { DreamerRollout } from './DreamerRollout';
+export { ExplorationVsExploitation } from './ExplorationVsExploitation';
+export { CountBasedBonus } from './CountBasedBonus';
+export { ICMArchitecture } from './ICMArchitecture';
+export { RNDNovelty } from './RNDNovelty';
+export { GoExploreProcess } from './GoExploreProcess';
+export { OptionsFramework } from './OptionsFramework';
+export { FeudalArchitecture } from './FeudalArchitecture';
+export { SkillDiscovery } from './SkillDiscovery';
+export { MAXQDecomposition } from './MAXQDecomposition';
+export { IRLProblemVisualization } from './IRLProblemVisualization';
+export { GAILArchitecture } from './GAILArchitecture';
+export { RewardRecovery } from './RewardRecovery';
+export { BehavioralCloningProcess } from './BehavioralCloningProcess';
+export { DAggerIteration } from './DAggerIteration';
+export { DistributionShift } from './DistributionShift';
+export { OfflineRLChallenge } from './OfflineRLChallenge';
+export { OODActionProblem } from './OODActionProblem';
+export { CQLObjective } from './CQLObjective';
+export { DecisionTransformerArchitecture } from './DecisionTransformerArchitecture';
+export { MultiTaskLearning } from './MultiTaskLearning';
+export { TransferLearningFlow } from './TransferLearningFlow';
+export { CurriculumProgression } from './CurriculumProgression';
+export { MetaLearningConcept } from './MetaLearningConcept';
+export { MAMLInnerOuterLoop } from './MAMLInnerOuterLoop';
+export { TaskDistributionSampling } from './TaskDistributionSampling';
+export { PEARLArchitecture } from './PEARLArchitecture';
+export { ParetoFrontVisualization } from './ParetoFrontVisualization';
+export { MultiObjectiveTradeoff } from './MultiObjectiveTradeoff';
+export { ScalarizationComparison } from './ScalarizationComparison';
+export { SafetyConstraintVisualization } from './SafetyConstraintVisualization';
+export { SafeExplorationDemo } from './SafeExplorationDemo';
+export { RobustPolicyComparison } from './RobustPolicyComparison';
+export { CVaRRiskMeasure } from './CVaRRiskMeasure';
+export { MARLProblemVisualization } from './MARLProblemVisualization';
+export { NashEquilibriumDemo } from './NashEquilibriumDemo';
+export { CTDEArchitecture } from './CTDEArchitecture';
+export { AgentCommunication } from './AgentCommunication';
+export { ValueDecompositionComparison } from './ValueDecompositionComparison';
+export { QMIXMixingNetwork } from './QMIXMixingNetwork';
+export { MAPPOArchitecture } from './MAPPOArchitecture';
+export { MeanFieldApproximation } from './MeanFieldApproximation';
+
+// Chapter 28: Self-Play & Emergent Behaviors
+export { SelfPlayEvolution } from './SelfPlayEvolution';
+export { PopulationDiversity } from './PopulationDiversity';
+export { LeagueTrainingArchitecture } from './LeagueTrainingArchitecture';
+export { EmergentBehaviorDemo } from './EmergentBehaviorDemo';
+
+// Chapter 29: Cooperative Multi-Agent Tasks
+export { CooperativeTaskVisualization } from './CooperativeTaskVisualization';
+export { RoleAssignment } from './RoleAssignment';
+export { SMACEnvironment } from './SMACEnvironment';
+
+// Chapter 30: Competitive Multi-Agent & Game Theory
+export { ZeroSumGameVisualization } from './ZeroSumGameVisualization';
+export { ExploitabilityMeasure } from './ExploitabilityMeasure';
+export { CFRAlgorithm } from './CFRAlgorithm';
+export { MixedStrategyNash } from './MixedStrategyNash';
+
+// Chapter 31: RLHF (Reinforcement Learning from Human Feedback)
+export { default as RLHFPipeline } from './RLHFPipeline';
+export { BradleyTerryModel } from './BradleyTerryModel';
+export { RewardModelTraining } from './RewardModelTraining';
+export { KLPenaltyEffect } from './KLPenaltyEffect';
+export { RewardHackingDemo } from './RewardHackingDemo';
+
+// Chapter 32: DPO (Direct Preference Optimization)
+export { default as DPOvsRLHF } from './DPOvsRLHF';
+export { ImplicitRewardVisualization } from './ImplicitRewardVisualization';
+export { IterativeDPOLoop } from './IterativeDPOLoop';
+export { DPOLossLandscape } from './DPOLossLandscape';
+
+// Chapter 33: Reasoning-Time RL
+export { ReasoningTimeScaling } from './ReasoningTimeScaling';
+export { ProcessVsOutcomeReward } from './ProcessVsOutcomeReward';
+export { MCTSForReasoning } from './MCTSForReasoning';
+export { SelfVerificationLoop } from './SelfVerificationLoop';
+export { ComputePerformanceTradeoff } from './ComputePerformanceTradeoff';
+
+// Chapter 34: LLM Agent
+export { ReActFramework } from './ReActFramework';
+export { ToolSelectionProcess } from './ToolSelectionProcess';
+export { AgentPlanningTree } from './AgentPlanningTree';
+export { MultiStepExecution } from './MultiStepExecution';
+
+// Chapter 35: Alignment Tax & Efficiency
+export { AlignmentTaxVisualization } from './AlignmentTaxVisualization';
+export { EfficientRLHFComparison } from './EfficientRLHFComparison';
+export { CarbonFootprintTracker } from './CarbonFootprintTracker';
+
+// Chapter 36: RL Theory Foundations
+export { ConvergenceProofVisualization } from './ConvergenceProofVisualization';
+export { RegretBoundsChart } from './RegretBoundsChart';
+export { ExplorationStrategiesComparison } from './ExplorationStrategiesComparison';
+
+// Chapter 37: Reliability & Robustness
+export { DistributionShiftVisualization } from './DistributionShiftVisualization';
+export { AdversarialAttackDemo } from './AdversarialAttackDemo';
+export { UncertaintyQuantification } from './UncertaintyQuantification';
+export { PolicyExplainability } from './PolicyExplainability';
+
+// Chapter 38: Hyperparameter Tuning
+export { HyperparameterSensitivity } from './HyperparameterSensitivity';
+export { LearningCurveComparison } from './LearningCurveComparison';
+export { AblationStudyVisualizer } from './AblationStudyVisualizer';
+export { BenchmarkLeaderboard } from './BenchmarkLeaderboard';
+
+// Chapter 39: Production Deployment
+export { DeploymentPipeline } from './DeploymentPipeline';
+export { OnlineLearningArchitecture } from './OnlineLearningArchitecture';
+export { RLMonitoringDashboard } from './RLMonitoringDashboard';
+export { ToolchainComparison } from './ToolchainComparison';
+
+// Chapter 40: Future Directions
+export { FoundationModelsRL } from './FoundationModelsRL';
+export { EmbodiedAIDemo } from './EmbodiedAIDemo';
+export { OpenWorldExploration } from './OpenWorldExploration';
+export { FutureRoadmap } from './FutureRoadmap';
+
