@@ -154,7 +154,7 @@ export function ReasoningTimeScaling() {
                                 key={task.name}
                                 d={curvePoints.map((p, i) => {
                                     const x = (p.compute / 100) * 100;
-                                    const y = 100 - (p[task.name] as number * 100);
+                                    const y = 100 - ((p as any)[task.name] as number * 100);
                                     return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
                                 }).join(' ')}
                                 stroke={
