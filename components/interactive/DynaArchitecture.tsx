@@ -79,13 +79,13 @@ export function DynaArchitecture() {
             <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg mb-6">
                 <h4 className="text-lg font-bold mb-4">Dyna-Q 伪代码</h4>
                 <div className="font-mono text-xs p-4 bg-slate-50 dark:bg-slate-700 rounded overflow-x-auto">
-                    <div className="text-orange-600 mb-2">// 每一步循环</div>
+                    <div className="text-orange-600 mb-2">{"// 每一步循环"}</div>
                     <div>(s, a) → Environment → (r, s')</div>
-                    <div className="text-green-600 mt-2">// Direct RL</div>
+                    <div className="text-green-600 mt-2">{"// Direct RL"}</div>
                     <div>Q[s,a] += α(r + γ max Q[s'] - Q[s,a])</div>
-                    <div className="text-green-600 mt-2">// Model Learning</div>
+                    <div className="text-green-600 mt-2">{"// Model Learning"}</div>
                     <div>Model[s,a] = (r, s')</div>
-                    <div className="text-green-600 mt-2">// Planning (n 步)</div>
+                    <div className="text-green-600 mt-2">{"// Planning (n 步)"}</div>
                     <div className="ml-2">for i in range(n):</div>
                     <div className="ml-4">s, a = random_visited_pair()</div>
                     <div className="ml-4">r, s' = Model[s,a]</div>
