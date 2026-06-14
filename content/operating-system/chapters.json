@@ -1,0 +1,263 @@
+{
+  "chapters": [
+    {
+      "id": "00-os-overview",
+      "file": "00-os-overview.md",
+      "title": "Chapter 0: 操作系统概论",
+      "description": "理解操作系统的本质定义与核心价值，掌握三大核心功能（虚拟化、并发、持久化），了解操作系统的历史演进与架构类型，区分单体内核、微内核、混合内核等设计范式。",
+      "order": 0
+    },
+    {
+      "id": "01-hardware-and-boot",
+      "file": "01-hardware-and-boot.md",
+      "title": "Chapter 1: 硬件基础与系统启动",
+      "description": "深入理解冯·诺依曼架构与现代硬件组成，掌握处理器模式（用户态/内核态）、中断与异常机制、MMU 地址翻译与 TLB，理解从 BIOS/UEFI 到内核初始化的完整启动流程。",
+      "order": 1
+    },
+    {
+      "id": "02-system-calls",
+      "file": "02-system-calls.md",
+      "title": "Chapter 2: 系统调用与操作系统接口",
+      "description": "深入理解系统调用的本质与实现机制，掌握用户态与内核态交互的底层细节（软件中断、参数传递、系统调用表），理解系统调用的性能开销与 vDSO 优化。",
+      "order": 2
+    },
+    {
+      "id": "03-process-fundamentals",
+      "file": "03-process-fundamentals.md",
+      "title": "Chapter 3: 进程抽象基础",
+      "description": "深入理解进程的定义、组成与状态模型（五状态/七状态），掌握 PCB 数据结构、fork/exec/wait/exit 系列系统调用，理解写时复制（COW）机制与 xv6 进程实现。",
+      "order": 3
+    },
+    {
+      "id": "04-context-switch",
+      "file": "04-context-switch.md",
+      "title": "Chapter 4: 上下文切换与进程调度基础",
+      "description": "深入理解上下文切换的完整机制（寄存器保存/恢复、地址空间切换、TLB 刷新），掌握 xv6 swtch() 汇编实现与 sched()/scheduler() 协作，了解 Linux 上下文切换优化与性能测量方法。",
+      "order": 4
+    },
+    {
+      "id": "05-threads",
+      "file": "05-threads.md",
+      "title": "Chapter 5: 线程与多线程编程",
+      "description": "深入理解线程的概念与线程模型（用户级/内核级/混合），掌握 POSIX 线程 API、线程控制块（TCB）、线程局部存储（TLS），理解竞态条件、数据竞争与线程安全，了解 Linux clone()/NPTL 实现。",
+      "order": 5
+    },
+    {
+      "id": "06-memory-abstraction",
+      "file": "06-memory-abstraction.md",
+      "title": "Chapter 6: 内存抽象与地址空间",
+      "description": "深入理解内存抽象的必要性，掌握虚拟地址空间与物理地址空间的概念，理解地址翻译机制、基址/界限寄存器、连续内存分配策略与碎片问题。",
+      "order": 6
+    },
+    {
+      "id": "07-paging",
+      "file": "07-paging.md",
+      "title": "Chapter 7: 分页机制",
+      "description": "深入理解分页的基本原理，掌握页表结构、地址翻译过程、PTE 标志位，理解 TLB 工作原理与命中率分析，掌握 xv6 分页实现与大页优化。",
+      "order": 7
+    },
+    {
+      "id": "08-advanced-paging",
+      "file": "08-advanced-paging.md",
+      "title": "Chapter 8: 高级分页技术",
+      "description": "深入理解多级页表的设计动机与空间-时间权衡，掌握 x86-64 四级分页机制，了解反向页表、ARM 分页机制与页表缓存优化技术。",
+      "order": 8
+    },
+    {
+      "id": "09-segmentation",
+      "file": "09-segmentation.md",
+      "title": "Chapter 9: 分段与段页式管理",
+      "description": "深入理解分段机制的设计动机与实现，掌握段页式管理的两级地址翻译过程，了解 x86-64 平坦内存模型中分段的退化与 FS/GS 的特殊用途。",
+      "order": 9
+    },
+    {
+      "id": "10-cpu-scheduling-basics",
+      "file": "10-cpu-scheduling-basics.md",
+      "title": "Chapter 10: CPU 调度基础",
+      "description": "深入理解 CPU 调度的基本概念与必要性，掌握周转时间、等待时间、响应时间等核心评价指标，理解工作负载假设对调度算法设计的影响。",
+      "order": 10
+    },
+    {
+      "id": "11-classical-scheduling",
+      "file": "11-classical-scheduling.md",
+      "title": "Chapter 11: 经典调度算法",
+      "description": "深入理解 FCFS、SJF、SRTF、RR、优先级调度等经典算法的实现与性能分析，掌握 SJF 最优性证明，理解优先级反转问题与老化技术。",
+      "order": 11
+    },
+    {
+      "id": "12-advanced-scheduling",
+      "file": "12-advanced-scheduling.md",
+      "title": "Chapter 12: 高级调度算法与真实系统",
+      "description": "深入理解 MLFQ、CFS、实时调度（RMS/EDF）、多处理器调度的设计原理与实现，掌握 Linux 调度器的核心机制与 xv6 调度器分析。",
+      "order": 12
+    },
+    {
+      "id": "13-concurrency-basics",
+      "file": "13-concurrency-basics.md",
+      "title": "Chapter 13: 并发编程基础",
+      "description": "深入理解并发的挑战与竞态条件，掌握临界区问题的三个要求，理解 Peterson 算法、硬件原子指令（TSL/CAS/LL-SC）与自旋锁实现。",
+      "order": 13
+    },
+    {
+      "id": "14-locks-and-mutex",
+      "file": "14-locks-and-mutex.md",
+      "title": "Chapter 14: 锁与互斥",
+      "description": "深入理解锁的抽象与实现，掌握自旋锁、睡眠锁、futex 机制，理解读写锁设计与 Linux RCU，了解锁的性能优化技术。",
+      "order": 14
+    },
+    {
+      "id": "15-semaphores-and-cv",
+      "file": "15-semaphores-and-cv.md",
+      "title": "Chapter 15: 信号量与条件变量",
+      "description": "深入理解 Dijkstra 信号量的设计与实现，掌握信号量的三种使用模式，理解条件变量的 Mesa 语义与 Hoare 语义，掌握 xv6 sleep/wakeup 机制。",
+      "order": 15
+    },
+    {
+      "id": "16-classical-sync-problems",
+      "file": "16-classical-sync-problems.md",
+      "title": "Chapter 16: 经典同步问题",
+      "description": "深入理解生产者-消费者、读者-写者、哲学家就餐、睡理发师等经典同步问题的完整解决方案与正确性分析。",
+      "order": 16
+    },
+    {
+      "id": "17-deadlock-basics",
+      "file": "17-deadlock-basics.md",
+      "title": "Chapter 17: 死锁基础",
+      "description": "深入理解死锁的概念、四个必要条件（Coffman 条件）、资源分配图，掌握死锁的四种处理策略（预防、避免、检测、忽略）。",
+      "order": 17
+    },
+    {
+      "id": "18-deadlock-handling",
+      "file": "18-deadlock-handling.md",
+      "title": "Chapter 18: 死锁预防、避免与检测",
+      "description": "深入理解死锁预防的四种策略，掌握银行家算法的完整实现与手算，理解等待图死锁检测算法，了解死锁恢复策略。",
+      "order": 18
+    },
+    {
+      "id": "19-filesystem-basics",
+      "file": "19-filesystem-basics.md",
+      "title": "Chapter 19: 文件系统基础",
+      "description": "深入理解文件系统的核心抽象（文件、目录、文件描述符），掌握 POSIX 文件 API 与文件共享机制，理解持久化存储的必要性与存储设备特性。",
+      "order": 19
+    },
+    {
+      "id": "20-filesystem-implementation",
+      "file": "20-filesystem-implementation.md",
+      "title": "Chapter 20: 文件系统实现",
+      "description": "深入理解文件系统的磁盘布局、inode 结构与数据块索引机制，掌握目录实现与路径解析，理解空闲空间管理策略。",
+      "order": 20
+    },
+    {
+      "id": "21-xv6-filesystem",
+      "file": "21-xv6-filesystem.md",
+      "title": "Chapter 21: xv6 文件系统剖析",
+      "description": "深入理解 xv6 文件系统的七层架构，掌握缓冲区缓存、inode 层、路径解析的实现细节，理解文件创建/读取/删除的完整过程。",
+      "order": 21
+    },
+    {
+      "id": "22-crash-consistency",
+      "file": "22-crash-consistency.md",
+      "title": "Chapter 22: 崩溃一致性与日志",
+      "description": "深入理解文件系统崩溃一致性问题，掌握写前日志（WAL）的原理与实现，理解 xv6 日志系统与现代文件系统的崩溃一致性策略。",
+      "order": 22
+    },
+    {
+      "id": "23-io-devices",
+      "file": "23-io-devices.md",
+      "title": "Chapter 23: I/O 设备与驱动",
+      "description": "深入理解 I/O 设备分类与特性，掌握轮询、中断驱动、DMA 三种 I/O 方式的原理与权衡，理解设备驱动程序的设计与 I/O 缓冲机制。",
+      "order": 23
+    },
+    {
+      "id": "24-disk-storage",
+      "file": "24-disk-storage.md",
+      "title": "Chapter 24: 磁盘与存储管理",
+      "description": "深入理解 HDD/SSD 物理结构与性能特性，掌握磁盘调度算法（FCFS/SSTF/SCAN/C-SCAN），理解 RAID 各级别的设计原理与权衡。",
+      "order": 24
+    },
+    {
+      "id": "25-xv6-boot",
+      "file": "25-xv6-boot.md",
+      "title": "Chapter 25: xv6 启动与初始化",
+      "description": "深入理解 RISC-V 架构基础与特权模式，掌握 xv6 从 entry.S 到 main() 的完整启动流程，理解第一个用户进程的创建过程。",
+      "order": 25
+    },
+    {
+      "id": "26-xv6-traps",
+      "file": "26-xv6-traps.md",
+      "title": "Chapter 26: xv6 陷阱与系统调用",
+      "description": "深入理解 xv6 陷阱处理机制（uservec/usertrap/usertrapret/userret），掌握系统调用从 ecall 到返回的完整路径，理解 trapframe 与 trampoline 页的设计。",
+      "order": 26
+    },
+    {
+      "id": "27-xv6-memory",
+      "file": "27-xv6-memory.md",
+      "title": "Chapter 27: xv6 内存管理",
+      "description": "深入理解 xv6 物理内存分配器（kalloc/kfree）、内核页表与用户页表的布局，掌握 fork()/exec() 的内存管理实现。",
+      "order": 27
+    },
+    {
+      "id": "28-xv6-scheduling",
+      "file": "28-xv6-scheduling.md",
+      "title": "Chapter 28: xv6 进程调度与同步",
+      "description": "深入理解 xv6 进程结构与状态转换，掌握 scheduler()/swtch() 的实现，理解 sleep/wakeup 机制与 xv6 锁的使用规则。",
+      "order": 28
+    },
+    {
+      "id": "29-multicore",
+      "file": "29-multicore.md",
+      "title": "Chapter 29: 多核与并发扩展性",
+      "description": "深入理解 SMP/NUMA 架构与缓存一致性协议，掌握 Amdahl 定律与锁竞争分析，理解细粒度锁、无锁数据结构与 RCU 机制。",
+      "order": 29
+    },
+    {
+      "id": "30-virtualization",
+      "file": "30-virtualization.md",
+      "title": "Chapter 30: 虚拟化技术",
+      "description": "深入理解全虚拟化/半虚拟化/硬件辅助虚拟化的原理，掌握 CPU/内存/I/O 虚拟化技术，理解容器（Namespace/cgroup）与虚拟机的区别。",
+      "order": 30
+    },
+    {
+      "id": "31-security",
+      "file": "31-security.md",
+      "title": "Chapter 31: 操作系统安全基础",
+      "description": "深入理解访问控制模型（DAC/MAC/RBAC），掌握缓冲区溢出攻击原理与防护（ASLR/Stack Canary/DEP），理解侧信道攻击与安全增强技术。",
+      "order": 31
+    },
+    {
+      "id": "32-performance",
+      "file": "32-performance.md",
+      "title": "Chapter 32: 性能分析与优化",
+      "description": "深入理解性能指标（吞吐量/延迟/利用率），掌握 perf/strace/flame graph 等分析工具，理解 CPU/内存/I/O 瓶颈的定位与优化技术。",
+      "order": 32
+    },
+    {
+      "id": "33-distributed",
+      "file": "33-distributed.md",
+      "title": "Chapter 33: 分布式操作系统概念",
+      "description": "深入理解分布式系统的挑战与 CAP 定理，掌握分布式文件系统（NFS/GFS/HDFS）的设计，理解 Lamport 时钟、向量时钟与共识算法（Paxos/Raft）。",
+      "order": 33
+    },
+    {
+      "id": "34-realtime",
+      "file": "34-realtime.md",
+      "title": "Chapter 34: 实时操作系统",
+      "description": "深入理解硬实时/软实时系统的特性，掌握 RMS/EDF 调度算法与可调度性分析，了解 VxWorks/FreeRTOS/QNX/PREEMPT_RT Linux 的设计。",
+      "order": 34
+    },
+    {
+      "id": "35-research",
+      "file": "35-research.md",
+      "title": "Chapter 35: 操作系统研究前沿",
+      "description": "了解新型硬件架构（NVM/FPGA/异构计算）对操作系统的影响，理解 Unikernel/eBPF/形式化验证等前沿技术，探索 AI 与操作系统的交叉方向。",
+      "order": 35
+    },
+    {
+      "id": "36-philosophy",
+      "file": "36-philosophy.md",
+      "title": "Chapter 36: 操作系统设计哲学与未来",
+      "description": "回顾操作系统设计原则（简单性/模块化/机制与策略分离），理解 Unix 哲学，导读经典论文，展望操作系统未来趋势。",
+      "order": 36
+    }
+  ]
+}

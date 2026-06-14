@@ -1,0 +1,228 @@
+{
+  "chapters": [
+    {
+      "id": "00-introduction",
+      "file": "00-introduction.md",
+      "title": "Chapter 0: 计算机网络概论",
+      "description": "理解计算机网络的定义、组成与分类，了解互联网的发展历史与体系结构，掌握网络性能指标（带宽、延迟、吞吐量），认识标准化组织与 RFC 流程。",
+      "order": 0
+    },
+    {
+      "id": "01-architecture",
+      "file": "01-architecture.md",
+      "title": "Chapter 1: 网络体系结构与参考模型",
+      "description": "深入理解分层设计思想，掌握 OSI 七层模型与 TCP/IP 四层模型的结构与对比，理解协议、服务、接口的核心概念，掌握数据封装与解封装过程。",
+      "order": 1
+    },
+    {
+      "id": "02-physical-layer",
+      "file": "02-physical-layer.md",
+      "title": "Chapter 2: 物理层基础 — 数据通信原理",
+      "description": "理解数据通信的基本概念（信号、编码、调制），掌握数字信号与模拟信号的转换技术，了解传输介质特性与信道复用技术（FDM/TDM/WDM/CDMA）。",
+      "order": 2
+    },
+    {
+      "id": "03-physical-transmission",
+      "file": "03-physical-transmission.md",
+      "title": "Chapter 3: 物理层 — 传输介质与数字传输技术",
+      "description": "深入理解各类传输介质（双绞线、同轴电缆、光纤、无线信道）的物理特性与适用场景，掌握基带传输与通带传输技术，理解 Nyquist 定理与 Shannon 定理。",
+      "order": 3
+    },
+    {
+      "id": "04-datalink-fundamentals",
+      "file": "04-datalink-fundamentals.md",
+      "title": "Chapter 4: 数据链路层 — 成帧与差错控制",
+      "description": "深入理解数据链路层的功能与服务模型，掌握成帧技术（字节计数/字节填充/比特填充），理解差错检测（奇偶校验/校验和/CRC）与差错纠正（海明码）原理。",
+      "order": 4
+    },
+    {
+      "id": "05-datalink-sliding-window",
+      "file": "05-datalink-sliding-window.md",
+      "title": "Chapter 5: 数据链路层 — 滑动窗口协议",
+      "description": "深入理解滑动窗口协议的核心思想，掌握停止-等待协议、后退 N 帧协议（GBN）与选择重传协议（SR）的工作原理与性能分析，理解窗口大小与序号空间的关系。",
+      "order": 5
+    },
+    {
+      "id": "06-datalink-mac",
+      "file": "06-datalink-mac.md",
+      "title": "Chapter 6: 数据链路层 — MAC 与以太网",
+      "description": "深入理解信道分配问题与 ALOHA/CSMA/CD 协议原理，掌握以太网帧格式与交换机工作原理，理解 ARP 协议与 VLAN 技术。",
+      "order": 6
+    },
+    {
+      "id": "07-datalink-switching",
+      "file": "07-datalink-switching.md",
+      "title": "Chapter 7: 数据链路层 — 网桥与交换技术",
+      "description": "深入理解网桥的工作原理与转发/学习算法，掌握生成树协议（STP）的收敛过程，理解交换机内部结构与 VLAN 配置，了解链路聚合与生成树的高级变体。",
+      "order": 7
+    },
+    {
+      "id": "08-network-ip",
+      "file": "08-network-ip.md",
+      "title": "Chapter 8: 网络层 — IP 协议与编址",
+      "description": "深入理解 IPv4 数据报格式与分片机制，掌握 IP 地址分类、子网划分与 CIDR 无类别编址，理解 NAT 网络地址转换与 ARP 地址解析协议。",
+      "order": 8
+    },
+    {
+      "id": "09-network-routing",
+      "file": "09-network-routing.md",
+      "title": "Chapter 9: 网络层 — 路由算法与协议",
+      "description": "深入理解路由选择的核心问题，掌握距离向量算法（Bellman-Ford）与链路状态算法（Dijkstra），理解 RIP/OSPF/BGP 协议的工作原理与适用场景。",
+      "order": 9
+    },
+    {
+      "id": "10-network-icmp",
+      "file": "10-network-icmp.md",
+      "title": "Chapter 10: 网络层 — ICMP、DHCP 与网络管理",
+      "description": "深入理解 ICMP 差错报告与查询机制，掌握 DHCP 自动配置流程，理解 traceroute 工作原理，了解 SNMP 网络管理基础。",
+      "order": 10
+    },
+    {
+      "id": "11-network-router",
+      "file": "11-network-router.md",
+      "title": "Chapter 11: 网络层 — 路由器架构与工作原理",
+      "description": "深入理解路由器的硬件架构（输入端口/交换结构/输出端口/路由处理器），掌握路由表查找算法与转发表设计，理解交换结构的三种类型（内存/总线/交叉开关），掌握排队分析与缓冲区管理。",
+      "order": 11
+    },
+    {
+      "id": "12-network-sdn",
+      "file": "12-network-sdn.md",
+      "title": "Chapter 12: 网络层 — SDN 与网络虚拟化",
+      "description": "深入理解 SDN 控制平面与数据平面分离的设计思想，掌握 OpenFlow 协议基础与流表结构，理解 NFV 网络功能虚拟化架构，了解网络可编程性与自动化运维。",
+      "order": 12
+    },
+    {
+      "id": "13-transport-udp",
+      "file": "13-transport-udp.md",
+      "title": "Chapter 13: 传输层 — UDP 协议",
+      "description": "深入理解传输层的核心职责（进程到进程通信），掌握端口号与套接字概念，理解 UDP 协议的特点、报文格式与校验和计算，了解 UDP 的典型应用场景。",
+      "order": 13
+    },
+    {
+      "id": "14-transport-tcp-basics",
+      "file": "14-transport-tcp-basics.md",
+      "title": "Chapter 14: 传输层 — TCP 协议基础",
+      "description": "深入理解 TCP 面向连接的可靠传输服务，掌握 TCP 报文段格式与各字段含义，理解三次握手与四次挥手的完整过程，掌握 TCP 状态机与有限状态转换。",
+      "order": 14
+    },
+    {
+      "id": "15-transport-tcp-reliable",
+      "file": "15-transport-tcp-reliable.md",
+      "title": "Chapter 15: 传输层 — TCP 可靠传输机制",
+      "description": "深入理解 TCP 可靠传输的核心机制，掌握超时重传与快速重传原理，理解滑动窗口协议与流量控制（rwnd），掌握 Nagle 算法与延迟确认技术。",
+      "order": 15
+    },
+    {
+      "id": "16-transport-tcp-congestion",
+      "file": "16-transport-tcp-congestion.md",
+      "title": "Chapter 16: 传输层 — TCP 拥塞控制",
+      "description": "深入理解网络拥塞的成因与后果，掌握 TCP 拥塞控制四大机制（慢启动、拥塞避免、快速恢复、快速重传），理解 CUBIC 与 BBR 拥塞控制算法，了解主动队列管理（RED/ECN）。",
+      "order": 16
+    },
+    {
+      "id": "17-transport-tcp-timer",
+      "file": "17-transport-tcp-timer.md",
+      "title": "Chapter 17: 传输层 — TCP 定时器管理与性能优化",
+      "description": "深入理解 TCP 的四类定时器（重传/坚持/保活/时间等待）的设计与实现，掌握 RTO 估计算法（Jacobson/Karels），理解延迟确认、Nagle 算法、窗口缩放与时间戳选项。",
+      "order": 17
+    },
+    {
+      "id": "18-transport-quic",
+      "file": "18-transport-quic.md",
+      "title": "Chapter 18: 传输层 — QUIC 协议与现代传输技术",
+      "description": "深入理解 QUIC 协议的设计动机与核心特性（0-RTT 建立、多路复用、连接迁移），掌握 QUIC 的可靠传输与拥塞控制机制，理解 HTTP/3 与 QUIC 的协作关系。",
+      "order": 18
+    },
+    {
+      "id": "19-application-dns",
+      "file": "19-application-dns.md",
+      "title": "Chapter 19: 应用层 — DNS 域名系统",
+      "description": "深入理解 DNS 的设计动机与层次结构，掌握域名解析的递归与迭代查询过程，理解 DNS 记录类型（A/AAAA/CNAME/MX/NS/TXT）与 DNS 缓存机制，了解 DNS 安全问题（DNSSEC）。",
+      "order": 19
+    },
+    {
+      "id": "20-application-http",
+      "file": "20-application-http.md",
+      "title": "Chapter 20: 应用层 — HTTP 与 Web 技术",
+      "description": "深入理解 HTTP 协议的请求-响应模型，掌握 HTTP 报文格式与状态码，理解 HTTP/1.1、HTTP/2、HTTP/3 的演进与优化技术，掌握 HTTPS/TLS 安全通信原理。",
+      "order": 20
+    },
+    {
+      "id": "21-application-email",
+      "file": "21-application-email.md",
+      "title": "Chapter 21: 应用层 — 电子邮件系统",
+      "description": "深入理解电子邮件系统的架构与工作流程，掌握 SMTP 发送协议与 POP3/IMAP 接收协议，理解 MIME 多媒体扩展与垃圾邮件过滤技术。",
+      "order": 21
+    },
+    {
+      "id": "22-application-p2p",
+      "file": "22-application-p2p.md",
+      "title": "Chapter 22: 应用层 — P2P 与 CDN 技术",
+      "description": "深入理解 P2P 架构的核心思想，掌握 BitTorrent 协议的分片与激励机制，理解 CDN 内容分发网络的架构与 DNS 重定向原理，了解 DHT 分布式哈希表。",
+      "order": 22
+    },
+    {
+      "id": "23-socket-programming",
+      "file": "23-socket-programming.md",
+      "title": "Chapter 23: 套接字编程与网络应用开发",
+      "description": "深入理解套接字 API 的设计与使用，掌握 TCP 与 UDP 套接字编程模型，理解客户端-服务器架构的实现，掌握多进程/多线程/IO 多路复用服务器设计。",
+      "order": 23
+    },
+    {
+      "id": "24-security-fundamentals",
+      "file": "24-security-fundamentals.md",
+      "title": "Chapter 24: 网络安全基础 — 密码学与认证",
+      "description": "深入理解网络安全的核心目标（机密性/完整性/可用性），掌握对称加密与非对称加密算法原理，理解消息认证码（MAC）与数字签名机制，掌握 PKI 证书体系。",
+      "order": 24
+    },
+    {
+      "id": "25-security-protocols",
+      "file": "25-security-protocols.md",
+      "title": "Chapter 25: 网络安全协议 — TLS、IPsec 与防火墙",
+      "description": "深入理解 TLS/SSL 握手与数据传输过程，掌握 IPsec 传输模式与隧道模式，理解防火墙分类（包过滤/状态检测/应用代理）与 VPN 技术，了解常见网络攻击与防御。",
+      "order": 25
+    },
+    {
+      "id": "26-security-attacks",
+      "file": "26-security-attacks.md",
+      "title": "Chapter 26: 网络攻击与防御实战",
+      "description": "深入理解常见网络攻击类型（SYN Flood/ARP 欺骗/DNS 投毒/DDoS/中间人攻击）的原理与实现，掌握入侵检测系统（IDS/IPS）与流量分析技术，理解安全事件响应流程。",
+      "order": 26
+    },
+    {
+      "id": "27-wireless-networks",
+      "file": "27-wireless-networks.md",
+      "title": "Chapter 27: 无线与移动网络",
+      "description": "深入理解无线信道特性与挑战，掌握 WiFi（IEEE 802.11）协议族的 CSMA/CA 机制，理解蜂窝网络架构（4G LTE/5G NR），掌握移动 IP 与无线网络安全。",
+      "order": 27
+    },
+    {
+      "id": "28-multimedia-networking",
+      "file": "28-multimedia-networking.md",
+      "title": "Chapter 28: 多媒体网络与服务质量",
+      "description": "深入理解多媒体应用的网络需求（延迟/抖动/丢包），掌握流媒体传输协议（RTP/RTCP/RTSP），理解 QoS 服务质量模型（IntServ/DiffServ），掌握流量整形与拥塞避免技术。",
+      "order": 28
+    },
+    {
+      "id": "29-network-performance",
+      "file": "29-network-performance.md",
+      "title": "Chapter 29: 网络性能分析与测量",
+      "description": "深入理解网络性能的核心指标与分析方法，掌握排队论基础（M/M/1 模型）在延迟分析中的应用，理解网络测量工具（ping/traceroute/iperf/Wireshark），掌握网络故障排查方法论。",
+      "order": 29
+    },
+    {
+      "id": "30-ipv6-future",
+      "file": "30-ipv6-future.md",
+      "title": "Chapter 30: IPv6 与网络技术演进",
+      "description": "深入理解 IPv6 的设计动机与报文格式，掌握 IPv6 地址表示与地址类型，理解 IPv4 到 IPv6 的过渡技术（双栈/隧道/翻译），了解物联网、5G 与边缘计算对网络架构的影响。",
+      "order": 30
+    },
+    {
+      "id": "31-network-iot-edge",
+      "file": "31-network-iot-edge.md",
+      "title": "Chapter 31: 物联网与边缘计算网络",
+      "description": "深入理解物联网网络架构与通信协议栈（MQTT/CoAP/LPWAN），掌握边缘计算的网络设计与数据面优化，理解 5G 网络切片与 MEC 多接入边缘计算，了解 IoT 安全挑战与轻量级加密方案。",
+      "order": 31
+    }
+  ]
+}

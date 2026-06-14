@@ -1,297 +1,238 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import { TrendingDown, Award, Zap, Eye, EyeOff } from 'lucide-react'
+import React, { useState } from 'react';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend
+} from 'recharts';
+import { TrendingDown, Award, Zap, Activity } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
+// Metric Data Interface
 interface MetricData {
-  epoch: number
-  trainLoss: number
-  evalLoss: number
-  accuracy: number
-  learningRate: number
+  epoch: number;
+  trainLoss: number;
+  evalLoss: number;
+  accuracy: number;
+  learningRate: number;
 }
 
+// Custom Tooltip Component
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white/90 dark:bg-slate-800/90 p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl backdrop-blur-sm">
+        <p className="font-bold text-slate-700 dark:text-slate-200 mb-2">Epoch {label}</p>
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-sm mb-1">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-slate-600 dark:text-slate-400 capitalize">
+              {entry.name === 'trainLoss' ? 'Train Loss' :
+                entry.name === 'evalLoss' ? 'Eval Loss' :
+                  entry.name === 'learningRate' ? 'Learning Rate' : entry.name}:
+            </span>
+            <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
+              {entry.value.toFixed(4)}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function TrainingMetricsPlot() {
-  const [selectedMetric, setSelectedMetric] = useState<'loss' | 'accuracy' | 'lr'>('loss')
-  const [showTrain, setShowTrain] = useState(true)
-  const [showEval, setShowEval] = useState(true)
+  const [viewMode, setViewMode] = useState<'loss' | 'performance'>('loss');
 
-  // Simulated training data
+  // Simulated robust training data
   const data: MetricData[] = [
-    { epoch: 0, trainLoss: 2.3, evalLoss: 2.28, accuracy: 0.52, learningRate: 5e-5 },
-    { epoch: 1, trainLoss: 1.15, evalLoss: 1.22, accuracy: 0.68, learningRate: 4.5e-5 },
-    { epoch: 2, trainLoss: 0.68, evalLoss: 0.75, accuracy: 0.78, learningRate: 4e-5 },
-    { epoch: 3, trainLoss: 0.45, evalLoss: 0.51, accuracy: 0.85, learningRate: 3.5e-5 },
-    { epoch: 4, trainLoss: 0.32, evalLoss: 0.42, accuracy: 0.89, learningRate: 3e-5 },
-    { epoch: 5, trainLoss: 0.24, evalLoss: 0.38, accuracy: 0.91, learningRate: 2.5e-5 },
-    { epoch: 6, trainLoss: 0.18, evalLoss: 0.36, accuracy: 0.92, learningRate: 2e-5 },
-    { epoch: 7, trainLoss: 0.14, evalLoss: 0.35, accuracy: 0.93, learningRate: 1.5e-5 },
-    { epoch: 8, trainLoss: 0.11, evalLoss: 0.34, accuracy: 0.935, learningRate: 1e-5 },
-    { epoch: 9, trainLoss: 0.09, evalLoss: 0.34, accuracy: 0.936, learningRate: 5e-6 },
-    { epoch: 10, trainLoss: 0.08, evalLoss: 0.35, accuracy: 0.934, learningRate: 1e-6 }
-  ]
+    { epoch: 1, trainLoss: 2.30, evalLoss: 2.28, accuracy: 0.52, learningRate: 5e-5 },
+    { epoch: 2, trainLoss: 1.85, evalLoss: 1.92, accuracy: 0.61, learningRate: 4.8e-5 },
+    { epoch: 3, trainLoss: 1.45, evalLoss: 1.55, accuracy: 0.68, learningRate: 4.5e-5 },
+    { epoch: 4, trainLoss: 1.15, evalLoss: 1.25, accuracy: 0.74, learningRate: 4.0e-5 },
+    { epoch: 5, trainLoss: 0.88, evalLoss: 0.98, accuracy: 0.79, learningRate: 3.5e-5 },
+    { epoch: 6, trainLoss: 0.65, evalLoss: 0.82, accuracy: 0.83, learningRate: 3.0e-5 },
+    { epoch: 7, trainLoss: 0.48, evalLoss: 0.75, accuracy: 0.86, learningRate: 2.5e-5 },
+    { epoch: 8, trainLoss: 0.35, evalLoss: 0.68, accuracy: 0.88, learningRate: 2.0e-5 },
+    { epoch: 9, trainLoss: 0.28, evalLoss: 0.65, accuracy: 0.89, learningRate: 1.5e-5 },
+    { epoch: 10, trainLoss: 0.22, evalLoss: 0.64, accuracy: 0.90, learningRate: 1.0e-5 }, // Best Eval Loss around here
+    { epoch: 11, trainLoss: 0.18, evalLoss: 0.66, accuracy: 0.91, learningRate: 0.5e-5 }, // Overfitting starts
+    { epoch: 12, trainLoss: 0.15, evalLoss: 0.69, accuracy: 0.91, learningRate: 0.0e-5 },
+  ];
 
-  const maxLoss = Math.max(...data.map(d => Math.max(d.trainLoss, d.evalLoss)))
-  const minLoss = Math.min(...data.map(d => Math.min(d.trainLoss, d.evalLoss)))
-
-  const getYValue = (d: MetricData) => {
-    if (selectedMetric === 'loss') return d.trainLoss
-    if (selectedMetric === 'accuracy') return d.accuracy * 100
-    return d.learningRate * 1e6
-  }
-
-  const getMaxY = () => {
-    if (selectedMetric === 'loss') return maxLoss
-    if (selectedMetric === 'accuracy') return 100
-    return 50
-  }
-
-  const bestEpoch = selectedMetric === 'loss' 
-    ? data.reduce((min, d) => d.evalLoss < min.evalLoss ? d : min, data[0])
-    : data.reduce((max, d) => d.accuracy > max.accuracy ? d : max, data[0])
+  const bestEpoch = data.reduce((prev, current) =>
+    (prev.evalLoss < current.evalLoss) ? prev : current
+  );
 
   return (
-    <div className="my-8 p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-emerald-950 rounded-xl border border-slate-200 dark:border-slate-700">
+    <div className="my-8 p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <TrendingDown className="w-5 h-5 text-emerald-500" />
-            训练指标可视化
+            <Activity className="w-5 h-5 text-indigo-500" />
+            Training Metrics
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            实时监控训练过程
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Real-time visualization of model convergence
           </p>
         </div>
-      </div>
 
-      {/* Metric Selector */}
-      <div className="flex gap-2 mb-6">
-        <button
-          onClick={() => setSelectedMetric('loss')}
-          className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-            selectedMetric === 'loss'
-              ? 'bg-red-500 text-white shadow-lg'
-              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-          }`}
-        >
-          Loss
-        </button>
-        <button
-          onClick={() => setSelectedMetric('accuracy')}
-          className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-            selectedMetric === 'accuracy'
-              ? 'bg-green-500 text-white shadow-lg'
-              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-          }`}
-        >
-          Accuracy
-        </button>
-        <button
-          onClick={() => setSelectedMetric('lr')}
-          className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-            selectedMetric === 'lr'
-              ? 'bg-blue-500 text-white shadow-lg'
-              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-          }`}
-        >
-          Learning Rate
-        </button>
-      </div>
-
-      {/* Toggle Lines */}
-      {selectedMetric === 'loss' && (
-        <div className="flex gap-2 mb-4">
+        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
           <button
-            onClick={() => setShowTrain(!showTrain)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-              showTrain
-                ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
-            }`}
+            onClick={() => setViewMode('loss')}
+            className={cn(
+              "px-4 py-1.5 text-sm font-medium rounded-md transition-all",
+              viewMode === 'loss'
+                ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm"
+                : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            )}
           >
-            {showTrain ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-            Train Loss
+            Loss Curves
           </button>
           <button
-            onClick={() => setShowEval(!showEval)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-              showEval
-                ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
-            }`}
+            onClick={() => setViewMode('performance')}
+            className={cn(
+              "px-4 py-1.5 text-sm font-medium rounded-md transition-all",
+              viewMode === 'performance'
+                ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm"
+                : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            )}
           >
-            {showEval ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-            Eval Loss
+            Performance
           </button>
-        </div>
-      )}
-
-      {/* Chart */}
-      <div className="p-6 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 mb-6">
-        <div className="relative h-64">
-          {/* Y-axis */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 flex flex-col justify-between text-xs text-slate-500">
-            <span>{getMaxY().toFixed(selectedMetric === 'lr' ? 0 : 2)}</span>
-            <span>{(getMaxY() * 0.5).toFixed(selectedMetric === 'lr' ? 0 : 2)}</span>
-            <span>0</span>
-          </div>
-
-          {/* Chart area */}
-          <div className="ml-12 h-full relative">
-            {/* Grid */}
-            <div className="absolute inset-0">
-              {[0, 25, 50, 75, 100].map(percent => (
-                <div
-                  key={percent}
-                  className="absolute w-full border-t border-slate-200 dark:border-slate-700"
-                  style={{ top: `${percent}%` }}
-                />
-              ))}
-              {[0, 25, 50, 75, 100].map(percent => (
-                <div
-                  key={percent}
-                  className="absolute h-full border-l border-slate-200 dark:border-slate-700"
-                  style={{ left: `${percent}%` }}
-                />
-              ))}
-            </div>
-
-            {/* Data points and lines */}
-            <svg className="absolute inset-0 w-full h-full">
-              {/* Train Loss Line */}
-              {selectedMetric === 'loss' && showTrain && (
-                <motion.path
-                  d={`M ${data.map((d, i) => {
-                    const x = (i / (data.length - 1)) * 100
-                    const y = 100 - (d.trainLoss / maxLoss) * 100
-                    return `${x}% ${y}%`
-                  }).join(' L ')}`}
-                  fill="none"
-                  stroke="rgb(59, 130, 246)"
-                  strokeWidth="2"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1 }}
-                />
-              )}
-
-              {/* Eval Loss Line */}
-              {selectedMetric === 'loss' && showEval && (
-                <motion.path
-                  d={`M ${data.map((d, i) => {
-                    const x = (i / (data.length - 1)) * 100
-                    const y = 100 - (d.evalLoss / maxLoss) * 100
-                    return `${x}% ${y}%`
-                  }).join(' L ')}`}
-                  fill="none"
-                  stroke="rgb(249, 115, 22)"
-                  strokeWidth="2"
-                  strokeDasharray="5,5"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                />
-              )}
-
-              {/* Accuracy/LR Line */}
-              {selectedMetric !== 'loss' && (
-                <motion.path
-                  d={`M ${data.map((d, i) => {
-                    const x = (i / (data.length - 1)) * 100
-                    const value = selectedMetric === 'accuracy' ? d.accuracy * 100 : d.learningRate * 1e6
-                    const y = 100 - (value / getMaxY()) * 100
-                    return `${x}% ${y}%`
-                  }).join(' L ')}`}
-                  fill="none"
-                  stroke={selectedMetric === 'accuracy' ? 'rgb(34, 197, 94)' : 'rgb(59, 130, 246)'}
-                  strokeWidth="2"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1 }}
-                />
-              )}
-
-              {/* Data points */}
-              {data.map((d, i) => {
-                const x = (i / (data.length - 1)) * 100
-                let y = 0
-                if (selectedMetric === 'loss') {
-                  y = 100 - (d.evalLoss / maxLoss) * 100
-                } else if (selectedMetric === 'accuracy') {
-                  y = 100 - (d.accuracy * 100 / getMaxY()) * 100
-                } else {
-                  y = 100 - (d.learningRate * 1e6 / getMaxY()) * 100
-                }
-                return (
-                  <motion.circle
-                    key={i}
-                    cx={`${x}%`}
-                    cy={`${y}%`}
-                    r="4"
-                    fill={i === bestEpoch.epoch ? 'rgb(34, 197, 94)' : 'rgb(148, 163, 184)'}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: i * 0.1 }}
-                  />
-                )
-              })}
-            </svg>
-
-            {/* Best epoch marker */}
-            <div
-              className="absolute top-0 bottom-0 border-l-2 border-dashed border-green-500"
-              style={{ left: `${(bestEpoch.epoch / (data.length - 1)) * 100}%` }}
-            >
-              <span className="absolute -top-6 left-2 text-xs font-semibold text-green-600 dark:text-green-400 whitespace-nowrap">
-                Best: Epoch {bestEpoch.epoch}
-              </span>
-            </div>
-          </div>
-
-          {/* X-axis */}
-          <div className="absolute -bottom-6 left-12 right-0 flex justify-between text-xs text-slate-500">
-            <span>0</span>
-            <span>5</span>
-            <span>10 epochs</span>
-          </div>
         </div>
       </div>
 
-      {/* Statistics */}
+      {/* Chart Area */}
+      <div className="h-[350px] w-full mb-8">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <defs>
+              <linearGradient id="colorTrainLoss" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorEvalLoss" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorAccuracy" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#94a3b8" opacity={0.1} />
+            <XAxis
+              dataKey="epoch"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#64748b', fontSize: 12 }}
+              dy={10}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#64748b', fontSize: 12 }}
+              dx={-10}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend iconType="circle" />
+
+            {viewMode === 'loss' ? (
+              <>
+                <Area
+                  type="monotone"
+                  dataKey="trainLoss"
+                  stroke="#6366f1"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorTrainLoss)"
+                  name="Train Loss"
+                  animationDuration={1500}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="evalLoss"
+                  stroke="#f43f5e"
+                  strokeWidth={3}
+                  strokeDasharray="5 5"
+                  fillOpacity={1}
+                  fill="url(#colorEvalLoss)"
+                  name="Eval Loss"
+                  animationDuration={1500}
+                />
+              </>
+            ) : (
+              <>
+                <Area
+                  type="monotone"
+                  dataKey="accuracy"
+                  stroke="#10b981"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorAccuracy)"
+                  name="Accuracy"
+                  animationDuration={1500}
+                />
+              </>
+            )}
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Key Metrics Dashboard */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-          <div className="flex items-center gap-2 mb-2">
-            <Award className="w-4 h-4 text-green-500" />
-            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">最佳 Epoch</span>
+        <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 transition-hover hover:border-indigo-200 dark:hover:border-indigo-900/50">
+          <div className="flex items-center gap-2 mb-2 text-slate-500 dark:text-slate-400">
+            <Award className="w-4 h-4 text-emerald-500" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Best Epoch</span>
           </div>
-          <div className="text-2xl font-bold text-green-500">{bestEpoch.epoch}</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">
+            {bestEpoch.epoch}
+          </div>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingDown className="w-4 h-4 text-red-500" />
-            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">最低 Loss</span>
+
+        <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 transition-hover hover:border-indigo-200 dark:hover:border-indigo-900/50">
+          <div className="flex items-center gap-2 mb-2 text-slate-500 dark:text-slate-400">
+            <TrendingDown className="w-4 h-4 text-rose-500" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Min Loss</span>
           </div>
-          <div className="text-2xl font-bold text-red-500">{bestEpoch.evalLoss.toFixed(3)}</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">
+            {bestEpoch.evalLoss.toFixed(4)}
+          </div>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-          <div className="flex items-center gap-2 mb-2">
-            <Zap className="w-4 h-4 text-blue-500" />
-            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">最高准确率</span>
+
+        <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 transition-hover hover:border-indigo-200 dark:hover:border-indigo-900/50">
+          <div className="flex items-center gap-2 mb-2 text-slate-500 dark:text-slate-400">
+            <Zap className="w-4 h-4 text-amber-500" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Top Accuracy</span>
           </div>
-          <div className="text-2xl font-bold text-blue-500">{(bestEpoch.accuracy * 100).toFixed(1)}%</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">
+            {(Math.max(...data.map(d => d.accuracy)) * 100).toFixed(1)}%
+          </div>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingDown className="w-4 h-4 text-purple-500" />
-            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">改善</span>
+
+        <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 transition-hover hover:border-indigo-200 dark:hover:border-indigo-900/50">
+          <div className="flex items-center gap-2 mb-2 text-slate-500 dark:text-slate-400">
+            <Activity className="w-4 h-4 text-indigo-500" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Samples/Sec</span>
           </div>
-          <div className="text-2xl font-bold text-purple-500">
-            {((1 - data[data.length - 1].evalLoss / data[0].evalLoss) * 100).toFixed(0)}%
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">
+            1,240
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

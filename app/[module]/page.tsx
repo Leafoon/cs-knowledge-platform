@@ -120,6 +120,8 @@ export default async function ModulePage({
 
     // 如果没有章节，使用原来的单页模式
     const { html, frontmatter } = await getModuleContent(params.module);
+    const updated = (frontmatter as any).updated;
+    const updatedText = updated instanceof Date ? updated.toLocaleDateString("zh-CN") : updated ? String(updated) : "";
 
     return (
         <article className="min-h-screen">
@@ -135,12 +137,12 @@ export default async function ModulePage({
                             </svg>
                             知识模块
                         </Badge>
-                        {(frontmatter as any).updated && (
+                        {updatedText && (
                             <div className="flex items-center gap-2 text-sm text-text-tertiary bg-bg-elevated/50 px-3 py-1.5 rounded-full backdrop-blur-sm border border-border-subtle/50">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 0118 0z" />
                                 </svg>
-                                <span className="font-medium">最近更新 {(frontmatter as any).updated}</span>
+                                <span className="font-medium">最近更新 {updatedText}</span>
                             </div>
                         )}
                     </div>

@@ -97,3 +97,76 @@
 .interactive-highlight:hover::before {
     left: 100%;
 }
+
+/* ══════════════════════════════════════════════════
+   Algorithm Visualizer — Adaptive Color Tokens
+   Light mode: clean white cards with colored accents
+   Dark  mode: the original zinc-950 dark theme
+══════════════════════════════════════════════════ */
+:root {
+    --viz-bg:          #ffffff;
+    --viz-bg-elevated: #f8fafc;
+    --viz-bg-panel:    #f1f5f9;
+    --viz-border:      #e2e8f0;
+    --viz-border-mid:  #cbd5e1;
+    --viz-text:        #0f172a;
+    --viz-text-sub:    #475569;
+    --viz-text-mute:   #94a3b8;
+    --viz-btn-bg:      #f1f5f9;
+    --viz-btn-border:  #cbd5e1;
+    --viz-btn-text:    #334155;
+    --viz-input-bg:    #ffffff;
+    /* stat card variants */
+    --stat-sky-bg:     #f0f9ff;
+    --stat-sky-bd:     rgba(56, 189, 248, 0.35);
+    --stat-sky-tx:     #0284c7;
+    --stat-amb-bg:     #fffbeb;
+    --stat-amb-bd:     rgba(251, 191, 36, 0.35);
+    --stat-amb-tx:     #b45309;
+    --stat-em-bg:      #f0fdf4;
+    --stat-em-bd:      rgba(52, 211, 153, 0.35);
+    --stat-em-tx:      #059669;
+    --stat-rose-bg:    #fff1f2;
+    --stat-rose-bd:    rgba(251, 113, 133, 0.35);
+    --stat-rose-tx:    #e11d48;
+    --stat-vio-bg:     #f5f3ff;
+    --stat-vio-bd:     rgba(167, 139, 250, 0.35);
+    --stat-vio-tx:     #7c3aed;
+    /* svg node colors */
+    --viz-node-default:  #1e293b;
+    --viz-node-border:   #475569;
+    --viz-edge:          #334155;
+}
+
+.dark {
+    --viz-bg:          #09090b;
+    --viz-bg-elevated: #18181b;
+    --viz-bg-panel:    #27272a;
+    --viz-border:      #27272a;
+    --viz-border-mid:  #3f3f46;
+    --viz-text:        #ffffff;
+    --viz-text-sub:    #d4d4d8;
+    --viz-text-mute:   #71717a;
+    --viz-btn-bg:      #27272a;
+    --viz-btn-border:  #3f3f46;
+    --viz-btn-text:    #d4d4d8;
+    --viz-input-bg:    #18181b;
+    --stat-sky-bg:     #0c1a2e;
+    --stat-sky-bd:     rgba(56, 189, 248, 0.25);
+    --stat-sky-tx:     #38bdf8;
+    --stat-amb-bg:     #1c1504;
+    --stat-amb-bd:     rgba(251, 191, 36, 0.25);
+    --stat-amb-tx:     #fbbf24;
+    --stat-em-bg:      #052014;
+    --stat-em-bd:      rgba(52, 211, 153, 0.25);
+    --stat-em-tx:      #34d399;
+    --stat-rose-bg:    #200010;
+    --stat-rose-bd:    rgba(251, 113, 133, 0.25);
+    --stat-rose-tx:    #fb7185;
+    --stat-vio-bg:     #1a0a3a;
+    --stat-vio-bd:     rgba(167, 139, 250, 0.25);
+    --stat-vio-tx:     #a78bfa;
+    --viz-node-default:  #1e293b;
+    --viz-node-border:   #475569;
+    --viz-edge:          #334155;
+}

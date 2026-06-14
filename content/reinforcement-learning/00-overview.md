@@ -35,6 +35,443 @@ date: "2026-01-30"
 - **监督学习** 像在学校听老师讲课，老师直接告诉你"这道题答案是 A"。
 - **强化学习** 像婴儿学走路，摔倒了（负奖励），站稳了（正奖励），通过不断试错逐渐掌握平衡技巧，没有老师逐步指导。
 
+---
+
+#### 数据分布视角的深度对比
+
+**监督学习的 i.i.d. 假设**
+
+在监督学习中，我们假设训练数据 $(x_i, y_i)$ 是从某个固定的联合分布 $p_{\text{data}}(x, y)$ 中**独立同分布（i.i.d.）**采样得到的：
+
+$$
+\mathcal{D}_{\text{train}} = \{(x_1, y_1), (x_2, y_2), \ldots, (x_N, y_N)\} \sim p_{\text{data}}(x, y)
+$$
+
+学习目标是最小化经验风险（Empirical Risk）：
+
+$$
+\min_{\theta} \frac{1}{N} \sum_{i=1}^N \mathcal{L}(f_\theta(x_i), y_i)
+$$
+
+**关键特性**：
+- 数据分布 $p_{\text{data}}$ 在训练和测试时保持不变（或至少假设如此）
+- 每个样本 $(x_i, y_i)$ 之间相互独立
+- 模型的预测不会影响未来的数据分布
+
+**强化学习的分布漂移（Distribution Shift）**
+
+在强化学习中，数据分布**不是固定的**，而是由当前策略 $\pi$ 决定的。Agent 的策略会影响它访问哪些状态，从而改变数据分布。
+
+形式化地，在策略 $\pi$ 下，状态的**折现访问频率（Discounted State Visitation Distribution）** 定义为：
+
+$$
+d^\pi(s) = (1-\gamma) \sum_{t=0}^\infty \gamma^t P(s_t = s | s_0, \pi)
+$$
+
+其中：
+- $s_0$ 是初始状态分布
+- $P(s_t = s | s_0, \pi)$ 是在策略 $\pi$ 下，$t$ 步后到达状态 $s$ 的概率
+- $(1-\gamma)$ 是归一化常数，确保 $\sum_s d^\pi(s) = 1$
+
+**核心洞察**：
+- 当策略 $\pi$ 改变时，$d^\pi(s)$ 也会改变
+- 这意味着 Agent 收集的数据分布是**非平稳的（Non-stationary）**
+- 这是 RL 与 SL 最本质的区别之一
+
+**可视化示例：策略如何影响状态分布**
+
+考虑一个简单的网格世界（GridWorld），Agent 从左上角出发，目标是到达右下角的宝藏：
+
+```
+S . . . .
+. # # # .
+. . . . G
+```
+
+- `S`: 起点
+- `G`: 终点（宝藏）
+- `#`: 障碍物
+- `.`: 可通行区域
+
+**策略 A（随机策略）**：每步随机选择上下左右
+- 状态访问分布：几乎均匀分布在所有可达状态
+- 很少到达终点 `G`
+
+**策略 B（最优策略）**：沿最短路径前进
+- 状态访问分布：集中在最短路径上
+- 频繁到达终点 `G`
+
+这两个策略产生的数据分布 $d^{\pi_A}(s)$ 和 $d^{\pi_B}(s)$ 完全不同！
+
+---
+
+#### 反馈信号的本质差异
+
+**监督学习：即时、精确的标签**
+
+在监督学习中，每个输入 $x$ 都有一个对应的标签 $y$，这个标签是：
+- **即时的**：在看到 $x$ 的同时就知道 $y$
+- **精确的**：$y$ 明确告诉你正确答案（如分类任务中的类别，回归任务中的数值）
+- **密集的**：每个样本都有标签
+
+例如，在图像分类中：
+- 输入 $x$：一张猫的图片
+- 标签 $y$：类别 "猫"
+- 损失函数：交叉熵 $\mathcal{L} = -\log p_\theta(\text{猫} | x)$
+
+**强化学习：延迟、稀疏、标量奖励**
+
+在强化学习中，Agent 收到的反馈是：
+- **延迟的**：当前动作的影响可能在多步之后才显现
+- **稀疏的**：很多时候奖励为 0，只有在特定时刻才有非零奖励
+- **标量的**：奖励只是一个数字，不直接告诉你"应该采取哪个动作"
+
+例如，在围棋中：
+- 状态 $s$：当前棋盘局面
+- 动作 $a$：在某个位置落子
+- 奖励 $r$：
+  - 中间步骤：$r = 0$（没有即时反馈）
+  - 游戏结束：$r = +1$（赢）或 $r = -1$（输）
+
+**Credit Assignment Problem（归因问题）**
+
+这是 RL 最核心的挑战之一：**如何将最终的奖励归因到之前的每一步动作？**
+
+形式化地，考虑一个长度为 $T$ 的轨迹：
+
+$$
+\tau = (s_0, a_0, r_1, s_1, a_1, r_2, \ldots, s_{T-1}, a_{T-1}, r_T, s_T)
+$$
+
+总回报（Return）为：
+
+$$
+R(\tau) = \sum_{t=0}^{T-1} \gamma^t r_{t+1}
+$$
+
+问题是：**哪些动作 $a_t$ 对最终的 $R(\tau)$ 贡献最大？**
+
+**实际案例：围棋中的妙手**
+
+在 AlphaGo 与李世石的第二局中，AlphaGo 在第 37 手下出了一步"神之一手"，这步棋在当时看起来很奇怪，但在 100 多手之后才显现出其战略价值，最终帮助 AlphaGo 获胜。
+
+如果用监督学习的思路，我们无法直接知道"第 37 手应该下在这里"，因为没有即时的标签告诉我们这步棋的好坏。只有通过 RL 的方法，利用最终的胜负结果（$r = +1$），结合价值函数估计，才能逐步学会这种深层次的战略思维。
+
+**解决 Credit Assignment 的方法**
+
+1. **时序差分学习（Temporal Difference Learning）**
+   - 不等到游戏结束，而是利用 Bootstrapping 估计中间状态的价值
+   - TD 误差：$\delta_t = r_{t+1} + \gamma V(s_{t+1}) - V(s_t)$
+
+2. **资格迹（Eligibility Traces）**
+   - 追踪每个状态-动作对的"资格"（最近被访问的程度）
+   - TD($\lambda$) 算法结合了多步回报的优势
+
+3. **优势函数（Advantage Function）**
+   - $A(s, a) = Q(s, a) - V(s)$
+   - 衡量动作 $a$ 相对于平均水平的优势
+
+---
+
+#### 学习目标的形式化对比
+
+**监督学习的优化目标**
+
+给定数据集 $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^N$，监督学习的目标是找到参数 $\theta$，使得经验风险最小：
+
+$$
+\theta^* = \arg\min_\theta \frac{1}{N} \sum_{i=1}^N \mathcal{L}(f_\theta(x_i), y_i)
+$$
+
+常见的损失函数：
+- **分类**：交叉熵损失 $\mathcal{L}_{\text{CE}} = -\sum_c y_c \log \hat{y}_c$
+- **回归**：均方误差 $\mathcal{L}_{\text{MSE}} = (y - \hat{y})^2$
+
+**强化学习的优化目标**
+
+RL 的目标是找到最优策略 $\pi^*$，使得期望累积奖励最大：
+
+$$
+\pi^* = \arg\max_\pi \mathbb{E}_{\tau \sim \pi} [R(\tau)]
+$$
+
+其中轨迹 $\tau$ 的回报定义为：
+
+$$
+R(\tau) = \sum_{t=0}^{T-1} \gamma^t r_{t+1}
+$$
+
+展开期望，我们有：
+
+$$
+J(\pi) = \mathbb{E}_{\tau \sim \pi} [R(\tau)] = \mathbb{E}_{s_0} \left[ V^\pi(s_0) \right]
+$$
+
+其中 $V^\pi(s)$ 是状态价值函数，定义为从状态 $s$ 开始，遵循策略 $\pi$ 的期望回报：
+
+$$
+V^\pi(s) = \mathbb{E}_{\pi} \left[ \sum_{t=0}^\infty \gamma^t r_{t+1} \mid s_0 = s \right]
+$$
+
+**轨迹分布的形式化**
+
+轨迹 $\tau = (s_0, a_0, r_1, s_1, \ldots)$ 的概率分布为：
+
+$$
+p_\pi(\tau) = p(s_0) \prod_{t=0}^{T-1} \pi(a_t | s_t) p(s_{t+1}, r_{t+1} | s_t, a_t)
+$$
+
+其中：
+- $p(s_0)$：初始状态分布
+- $\pi(a_t | s_t)$：策略（动作选择概率）
+- $p(s_{t+1}, r_{t+1} | s_t, a_t)$：环境的转移动态（通常未知）
+
+**关键差异总结**
+
+| 维度 | 监督学习 | 强化学习 |
+|:---|:---|:---|
+| **优化目标** | 最小化损失 $\mathcal{L}$ | 最大化回报 $J(\pi)$ |
+| **数据分布** | 固定 $p_{\text{data}}(x, y)$ | 策略依赖 $p_\pi(\tau)$ |
+| **反馈信号** | 即时标签 $y$ | 延迟奖励 $r$ |
+| **学习方式** | 单步优化 | 序列决策 |
+| **评估指标** | 准确率、F1 等 | 累积奖励 |
+
+---
+
+#### 探索-利用困境的理论基础
+
+**Multi-Armed Bandit（多臂老虎机）问题**
+
+为了理解探索-利用困境，我们先考虑一个简化的 RL 问题：**Multi-Armed Bandit（MAB）**。
+
+**问题设定**：
+- 有 $K$ 个老虎机（臂），每个臂 $k$ 有一个未知的期望奖励 $\mu_k$
+- 每次你可以选择拉一个臂 $a_t \in \{1, 2, \ldots, K\}$
+- 拉臂 $k$ 后，你会收到一个随机奖励 $r_t \sim \mathcal{N}(\mu_k, \sigma^2)$
+- 目标：在 $T$ 步内最大化总奖励 $\sum_{t=1}^T r_t$
+
+**Regret（遗憾）的定义**
+
+Regret 衡量你的策略与最优策略之间的差距：
+
+$$
+\text{Regret}_T = T \cdot \mu^* - \sum_{t=1}^T r_t
+$$
+
+其中 $\mu^* = \max_k \mu_k$ 是最优臂的期望奖励。
+
+**理想情况**：如果你一开始就知道哪个臂最好，直接拉 $T$ 次，总奖励为 $T \cdot \mu^*$，Regret 为 0。
+
+**现实情况**：你不知道 $\mu_k$，需要通过试验来估计，这就产生了探索-利用的权衡。
+
+**三种经典策略**
+
+**1. $\epsilon$-Greedy**
+
+- 以概率 $1 - \epsilon$ 选择当前估计最好的臂（Exploitation）
+- 以概率 $\epsilon$ 随机选择一个臂（Exploration）
+
+$$
+a_t = \begin{cases}
+\arg\max_k \hat{\mu}_k & \text{with probability } 1 - \epsilon \\
+\text{Uniform}(\{1, \ldots, K\}) & \text{with probability } \epsilon
+\end{cases}
+$$
+
+其中 $\hat{\mu}_k = \frac{1}{N_k} \sum_{t: a_t = k} r_t$ 是臂 $k$ 的平均奖励估计，$N_k$ 是拉臂 $k$ 的次数。
+
+**2. Upper Confidence Bound (UCB)**
+
+- 选择"乐观估计"最高的臂
+- 对不确定性高的臂给予奖励（鼓励探索）
+
+$$
+a_t = \arg\max_k \left[ \hat{\mu}_k + c \sqrt{\frac{\log t}{N_k}} \right]
+$$
+
+其中：
+- $\hat{\mu}_k$：臂 $k$ 的平均奖励（Exploitation）
+- $c \sqrt{\frac{\log t}{N_k}}$：置信区间上界（Exploration Bonus）
+- $c$ 是超参数，控制探索强度
+
+**直觉**：
+- 如果臂 $k$ 被拉的次数 $N_k$ 很少，$\sqrt{\frac{\log t}{N_k}}$ 很大，UCB 会倾向于选择它（探索）
+- 随着 $N_k$ 增加，置信区间缩小，逐渐转向利用
+
+**3. Thompson Sampling（贝叶斯方法）**
+
+- 为每个臂的期望奖励 $\mu_k$ 维护一个后验分布 $p(\mu_k | \mathcal{D}_k)$
+- 每次从后验分布中采样 $\tilde{\mu}_k \sim p(\mu_k | \mathcal{D}_k)$
+- 选择采样值最大的臂：$a_t = \arg\max_k \tilde{\mu}_k$
+
+**代码示例：10臂老虎机的三种策略对比**
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+class MultiArmedBandit:
+    """K 臂老虎机环境"""
+    def __init__(self, K=10, seed=42):
+        np.random.seed(seed)
+        self.K = K
+        # 真实的期望奖励（未知）
+        self.true_means = np.random.randn(K)
+        self.optimal_arm = np.argmax(self.true_means)
+        self.optimal_reward = self.true_means[self.optimal_arm]
+    
+    def pull(self, arm):
+        """拉臂，返回奖励（加高斯噪声）"""
+        return np.random.randn() + self.true_means[arm]
+
+class EpsilonGreedy:
+    """ε-Greedy 策略"""
+    def __init__(self, K, epsilon=0.1):
+        self.K = K
+        self.epsilon = epsilon
+        self.Q = np.zeros(K)  # 估计的期望奖励
+        self.N = np.zeros(K)  # 每个臂被拉的次数
+    
+    def select_arm(self):
+        if np.random.rand() < self.epsilon:
+            return np.random.randint(self.K)  # 探索
+        else:
+            return np.argmax(self.Q)  # 利用
+    
+    def update(self, arm, reward):
+        self.N[arm] += 1
+        # 增量更新平均值
+        self.Q[arm] += (reward - self.Q[arm]) / self.N[arm]
+
+class UCB:
+    """UCB 策略"""
+    def __init__(self, K, c=2.0):
+        self.K = K
+        self.c = c
+        self.Q = np.zeros(K)
+        self.N = np.zeros(K)
+        self.t = 0
+    
+    def select_arm(self):
+        self.t += 1
+        # 初始化：每个臂至少拉一次
+        if self.t <= self.K:
+            return self.t - 1
+        
+        # UCB 公式
+        ucb_values = self.Q + self.c * np.sqrt(np.log(self.t) / (self.N + 1e-5))
+        return np.argmax(ucb_values)
+    
+    def update(self, arm, reward):
+        self.N[arm] += 1
+        self.Q[arm] += (reward - self.Q[arm]) / self.N[arm]
+
+class ThompsonSampling:
+    """Thompson Sampling（假设高斯奖励）"""
+    def __init__(self, K, prior_mean=0.0, prior_std=1.0):
+        self.K = K
+        # 后验分布参数（高斯-高斯共轭）
+        self.mu = np.full(K, prior_mean)  # 后验均值
+        self.tau = np.full(K, 1.0 / prior_std**2)  # 后验精度
+        self.N = np.zeros(K)
+    
+    def select_arm(self):
+        # 从每个臂的后验分布中采样
+        samples = np.random.randn(self.K) / np.sqrt(self.tau) + self.mu
+        return np.argmax(samples)
+    
+    def update(self, arm, reward):
+        self.N[arm] += 1
+        # 贝叶斯更新（假设奖励方差为 1）
+        self.tau[arm] += 1.0
+        self.mu[arm] = (self.mu[arm] * (self.tau[arm] - 1) + reward) / self.tau[arm]
+
+def run_experiment(bandit, agent, T=1000):
+    """运行实验，返回累积 Regret"""
+    regrets = []
+    cumulative_regret = 0
+    
+    for t in range(T):
+        arm = agent.select_arm()
+        reward = bandit.pull(arm)
+        agent.update(arm, reward)
+        
+        # 计算 Regret
+        regret = bandit.optimal_reward - reward
+        cumulative_regret += regret
+        regrets.append(cumulative_regret)
+    
+    return regrets
+
+# 运行对比实验
+K = 10
+T = 1000
+num_runs = 100
+
+bandit = MultiArmedBandit(K=K)
+
+strategies = {
+    'ε-Greedy (ε=0.1)': lambda: EpsilonGreedy(K, epsilon=0.1),
+    'UCB (c=2)': lambda: UCB(K, c=2.0),
+    'Thompson Sampling': lambda: ThompsonSampling(K)
+}
+
+results = {name: [] for name in strategies}
+
+for name, agent_fn in strategies.items():
+    for run in range(num_runs):
+        agent = agent_fn()
+        regrets = run_experiment(bandit, agent, T)
+        results[name].append(regrets)
+
+# 绘图
+plt.figure(figsize=(10, 6))
+for name, regrets_list in results.items():
+    mean_regret = np.mean(regrets_list, axis=0)
+    std_regret = np.std(regrets_list, axis=0)
+    plt.plot(mean_regret, label=name)
+    plt.fill_between(range(T), mean_regret - std_regret, mean_regret + std_regret, alpha=0.2)
+
+plt.xlabel('Time Step')
+plt.ylabel('Cumulative Regret')
+plt.title('Multi-Armed Bandit: Strategy Comparison')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**预期结果**：
+- **$\epsilon$-Greedy**：Regret 线性增长（因为始终有 $\epsilon$ 概率探索次优臂）
+- **UCB**：Regret 对数增长 $O(\log T)$（理论最优）
+- **Thompson Sampling**：Regret 对数增长，实践中通常优于 UCB
+
+**从 MAB 到完整 RL**
+
+Multi-Armed Bandit 是 RL 的特例（只有一个状态）。在完整的 RL 问题中：
+- 有多个状态 $s \in \mathcal{S}$
+- 探索-利用权衡在每个状态都存在
+- 需要平衡"探索新状态"和"利用已知好策略"
+
+常见的探索策略：
+1. **$\epsilon$-Greedy**：在动作选择时加入随机性
+2. **Boltzmann Exploration**：根据 Q 值的 Softmax 分布采样
+3. **Entropy Regularization**：在策略优化目标中加入熵项（如 SAC）
+4. **Intrinsic Motivation**：为探索新状态提供内在奖励（如 Curiosity-driven RL）
+
+---
+
+**本节小结**
+
+我们从三个维度深入对比了 RL 与监督学习/无监督学习：
+
+1. **数据分布**：RL 的数据分布由策略决定，是非平稳的
+2. **反馈信号**：RL 的奖励是延迟、稀疏的，导致 Credit Assignment 问题
+3. **学习目标**：RL 优化的是期望累积奖励，而非单步损失
+
+我们还通过 Multi-Armed Bandit 问题深入理解了探索-利用困境，并实现了三种经典策略。这些概念是理解后续所有 RL 算法的基础。
+
+### 0.1.2 核心要素：Agent, Environment, State, Action, Reward
+
 ### 0.1.2 核心要素：Agent, Environment, State, Action, Reward
 
 强化学习的过程可以用一个标准的五元组 $(S, A, P, R, \gamma)$ 来形式化描述，但在此概览章节，我们先从直观概念入手：
@@ -49,30 +486,716 @@ graph LR
 
 <div data-component="AgentEnvironmentLoop"></div>
 
-**1. Agent（智能体）**
-感知环境并做出决策的主体。在代码中，它通常是一个神经网络（Policy Network）或一个查找表（Q-Table）。
+---
 
-**2. Environment（环境）**
-Agent 所在的外部世界。它遵循物理定律或游戏规则，接收 Agent 的动作，反馈新的状态和奖励。环境对 Agent 来说通常是**黑盒（Black Box）**，Agent 必须透过交互来"探测"环境的反应。
+#### Agent-Environment 交互循环的深度剖析
 
-**3. State（状态）$s$ vs Observation（观测）$o$**
-*   **State ($s$)**：对环境状况的**完整、客观描述**。例如：AlphaGo 能看到整个棋盘。
-*   **Observation ($o$)**：Agent 主观观察到的**部分信息**。例如：在 FPS 游戏中，你只能看到屏幕画面，看不到墙后的敌人。
-    *   *Fully Observable (MDP)*: $o_t = s_t$
-    *   *Partially Observable (POMDP)*: $o_t \neq s_t$，Agent 需要靠记忆力推断真实状态。
+**交互协议的形式化定义**
 
-**4. Action（动作）$a$**
-*   **离散动作 (Discrete)**：有限个选择（如：上下左右、开火）。
-*   **连续动作 (Continuous)**：实数值向量（如：方向盘转角 $\in [-540^\circ, 540^\circ]$，油门力度 $\in [0, 1]$）。
+在每个时间步 $t$，Agent 与环境的交互遵循以下协议：
 
-**5. Reward（奖励）$r$**
-环境给出的标量反馈信号，用于评估动作的好坏。
-> **The Reward Hypothesis (奖励假说)**
-> 
-> "所有我们所说的'目标'和'目的'，都可以被归结为：最大化接收到的标量信号（奖励）的累积和。" —— *Richard Sutton*
+1. **Agent 观察状态**：接收环境的观测 $o_t$（或完整状态 $s_t$）
+2. **Agent 选择动作**：根据策略 $\pi$ 选择动作 $a_t \sim \pi(\cdot | o_t)$
+3. **环境响应**：
+   - 根据转移动态 $p(s_{t+1}, r_{t+1} | s_t, a_t)$ 生成新状态和奖励
+   - 返回观测 $o_{t+1}$ 和奖励 $r_{t+1}$
+4. **循环继续**：$t \leftarrow t + 1$，回到步骤 1
 
-*   **稀疏奖励 (Sparse Reward)**：很难获得反馈（如：只有赢了才有 +1，其他时候全是 0）。
-*   **密集奖励 (Dense Reward)**：每一步都有反馈（如：离目标越近分越高）。
+**时间步的伪代码**
+
+```python
+# 初始化
+s_0 = env.reset()
+t = 0
+
+while not done:
+    # 1. Agent 选择动作
+    a_t = agent.select_action(s_t)
+    
+    # 2. 环境执行动作
+    s_{t+1}, r_{t+1}, done, info = env.step(a_t)
+    
+    # 3. Agent 学习（可选，取决于算法）
+    agent.update(s_t, a_t, r_{t+1}, s_{t+1}, done)
+    
+    # 4. 更新状态
+    s_t = s_{t+1}
+    t += 1
+```
+
+**信息流向图（带时间下标）**
+
+```
+时刻 t:
+    Agent 状态: s_t
+    ↓ (策略 π)
+    动作: a_t
+    ↓ (环境转移 P)
+    环境反馈: (s_{t+1}, r_{t+1})
+    ↓
+时刻 t+1:
+    Agent 状态: s_{t+1}
+    ...
+```
+
+**实现示例：自定义简单环境**
+
+让我们实现一个简单的"网格世界"环境，理解环境的内部机制：
+
+```python
+import numpy as np
+from typing import Tuple, Optional
+
+class GridWorld:
+    """
+    简单的网格世界环境
+    - 5x5 网格
+    - Agent 从 (0,0) 出发，目标是到达 (4,4)
+    - 动作：上下左右
+    - 奖励：到达目标 +10，每步 -0.1（鼓励快速到达）
+    """
+    def __init__(self, size=5):
+        self.size = size
+        self.action_space = ['up', 'down', 'left', 'right']
+        self.n_actions = len(self.action_space)
+        
+        # 动作对应的位置变化
+        self.action_effects = {
+            0: (-1, 0),  # up
+            1: (1, 0),   # down
+            2: (0, -1),  # left
+            3: (0, 1)    # right
+        }
+        
+        self.goal = (size-1, size-1)
+        self.reset()
+    
+    def reset(self) -> Tuple[int, int]:
+        """重置环境，返回初始状态"""
+        self.agent_pos = (0, 0)
+        return self.agent_pos
+    
+    def step(self, action: int) -> Tuple[Tuple[int, int], float, bool, dict]:
+        """
+        执行动作，返回 (next_state, reward, done, info)
+        
+        这是环境的核心：转移动态 P(s', r | s, a)
+        """
+        # 计算新位置
+        dx, dy = self.action_effects[action]
+        new_x = max(0, min(self.size-1, self.agent_pos[0] + dx))
+        new_y = max(0, min(self.size-1, self.agent_pos[1] + dy))
+        
+        self.agent_pos = (new_x, new_y)
+        
+        # 计算奖励
+        if self.agent_pos == self.goal:
+            reward = 10.0
+            done = True
+        else:
+            reward = -0.1  # 每步小惩罚，鼓励快速到达
+            done = False
+        
+        info = {'steps': 1}
+        return self.agent_pos, reward, done, info
+    
+    def render(self):
+        """可视化当前状态"""
+        grid = np.full((self.size, self.size), '.')
+        grid[self.agent_pos] = 'A'
+        grid[self.goal] = 'G'
+        
+        for row in grid:
+            print(' '.join(row))
+        print()
+
+# 使用示例
+env = GridWorld(size=5)
+state = env.reset()
+env.render()
+
+for _ in range(10):
+    action = np.random.randint(4)  # 随机动作
+    state, reward, done, info = env.step(action)
+    print(f"Action: {env.action_space[action]}, Reward: {reward:.2f}")
+    env.render()
+    
+    if done:
+        print("Goal reached!")
+        break
+```
+
+**关键洞察**：
+- 环境的 `step()` 函数封装了转移动态 $P(s', r | s, a)$
+- Agent 无法直接访问这个函数的内部逻辑（黑盒）
+- Agent 只能通过反复交互来"探测"环境的规律
+
+---
+
+#### State vs Observation：MDP vs POMDP
+
+**完全可观测：马尔可夫决策过程（MDP）**
+
+当 Agent 能够观察到环境的**完整状态** $s_t$ 时，问题被建模为 **MDP（Markov Decision Process）**。
+
+**MDP 的形式化定义**：五元组 $(S, A, P, R, \gamma)$
+
+1. **$S$**：状态空间（State Space）
+   - 所有可能状态的集合
+   - 例如：棋盘的所有可能局面
+
+2. **$A$**：动作空间（Action Space）
+   - 所有可能动作的集合
+   - 例如：围棋的所有合法落子位置
+
+3. **$P$**：状态转移概率（Transition Dynamics）
+   - $P(s' | s, a) = \Pr(S_{t+1} = s' | S_t = s, A_t = a)$
+   - 给定当前状态 $s$ 和动作 $a$，转移到下一状态 $s'$ 的概率
+   - **马尔可夫性质**：未来只依赖于现在，与过去无关
+     $$P(S_{t+1} | S_t, A_t, S_{t-1}, A_{t-1}, \ldots) = P(S_{t+1} | S_t, A_t)$$
+
+4. **$R$**：奖励函数（Reward Function）
+   - $R(s, a)$ 或 $R(s, a, s')$
+   - 在状态 $s$ 采取动作 $a$ 后获得的期望奖励
+
+5. **$\gamma$**：折现因子（Discount Factor）
+   - $\gamma \in [0, 1]$
+   - 控制对未来奖励的重视程度
+
+**马尔可夫性质的直观理解**
+
+> "现在包含了所有相关的历史信息"
+
+例如，在国际象棋中：
+- **状态 $s$**：当前棋盘局面（包含所有棋子的位置）
+- **马尔可夫性**：下一步的局面只取决于当前局面和你的走法，与之前的走法序列无关
+- 当前棋盘已经"总结"了所有历史信息
+
+**部分可观测：POMDP（Partially Observable MDP）**
+
+在很多实际问题中，Agent 无法观察到完整状态，只能看到部分信息（观测 $o_t$）。
+
+**POMDP 的形式化定义**：七元组 $(S, A, P, R, \Omega, O, \gamma)$
+
+在 MDP 基础上增加：
+- **$\Omega$**：观测空间（Observation Space）
+- **$O$**：观测函数 $O(o | s, a) = \Pr(O_t = o | S_t = s, A_{t-1} = a)$
+
+**核心挑战**：Agent 需要根据观测序列 $o_{1:t}$ 推断真实状态 $s_t$
+
+**Belief State（信念状态）**
+
+由于无法直接观察 $s_t$，Agent 维护一个**信念状态** $b_t(s)$，表示对当前状态的概率分布：
+
+$$
+b_t(s) = \Pr(S_t = s | o_{1:t}, a_{1:t-1})
+$$
+
+这是一个**贝叶斯滤波**问题，可以递归更新：
+
+$$
+b_{t+1}(s') = \frac{O(o_{t+1} | s') \sum_s P(s' | s, a_t) b_t(s)}{\sum_{s'} O(o_{t+1} | s') \sum_s P(s' | s, a_t) b_t(s)}
+$$
+
+**实际案例对比**
+
+| 环境 | 可观测性 | 说明 |
+|:---|:---|:---|
+| **围棋、国际象棋** | 完全可观测（MDP） | 棋盘是公开的，双方都能看到完整局面 |
+| **扑克牌** | 部分可观测（POMDP） | 看不到对手的手牌，需要根据出牌历史推断 |
+| **自动驾驶** | 部分可观测（POMDP） | 传感器只能看到周围环境，看不到远处或被遮挡的物体 |
+| **FPS 游戏** | 部分可观测（POMDP） | 只能看到视野内的敌人，墙后的敌人需要推断 |
+| **Atari 游戏（单帧）** | 部分可观测（POMDP） | 单张图片无法判断物体的速度 |
+| **Atari 游戏（堆叠帧）** | 近似完全可观测 | 通过堆叠 4 帧图片，可以推断速度信息 |
+
+**处理 POMDP 的方法**
+
+1. **Frame Stacking（帧堆叠）**
+   - 将最近的 $k$ 个观测拼接：$o_t' = [o_t, o_{t-1}, \ldots, o_{t-k+1}]$
+   - DQN 使用 4 帧堆叠来推断 Atari 游戏中物体的速度
+
+2. **循环神经网络（RNN/LSTM）**
+   - 使用 LSTM 隐藏状态 $h_t$ 来"记忆"历史信息
+   - $h_t = \text{LSTM}(o_t, h_{t-1})$
+   - $a_t = \pi(h_t)$
+
+3. **Transformer**
+   - 使用自注意力机制处理观测序列
+   - 可以捕捉长距离依赖关系
+
+**代码示例：Frame Stacking**
+
+```python
+import numpy as np
+from collections import deque
+
+class FrameStack:
+    """
+    将最近的 k 帧堆叠成一个观测
+    用于处理部分可观测问题（如 Atari 游戏）
+    """
+    def __init__(self, k=4):
+        self.k = k
+        self.frames = deque(maxlen=k)
+    
+    def reset(self, obs):
+        """重置时，用初始观测填充所有帧"""
+        for _ in range(self.k):
+            self.frames.append(obs)
+        return self._get_obs()
+    
+    def step(self, obs):
+        """添加新观测，自动丢弃最旧的帧"""
+        self.frames.append(obs)
+        return self._get_obs()
+    
+    def _get_obs(self):
+        """返回堆叠后的观测"""
+        return np.stack(self.frames, axis=0)
+
+# 使用示例
+import gymnasium as gym
+
+env = gym.make("Pong-v5")
+frame_stack = FrameStack(k=4)
+
+obs, info = env.reset()
+stacked_obs = frame_stack.reset(obs)
+print(f"单帧形状: {obs.shape}")  # (210, 160, 3)
+print(f"堆叠后形状: {stacked_obs.shape}")  # (4, 210, 160, 3)
+
+# 现在 Agent 可以从 4 帧中推断球的速度方向
+```
+
+---
+
+#### Action Space 的设计哲学
+
+动作空间的设计直接影响算法的选择和性能。
+
+**离散动作空间（Discrete Action Space）**
+
+**定义**：有限个离散选项
+
+$$
+\mathcal{A} = \{a_1, a_2, \ldots, a_n\}
+$$
+
+**表示方式**：
+- One-hot encoding：$a = [0, 0, 1, 0, \ldots, 0]$（第 3 个动作）
+- 整数索引：$a = 2$
+
+**适用算法**：
+- **Value-based**：DQN, Rainbow, C51
+  - 对每个动作估计 Q 值：$Q(s, a_1), Q(s, a_2), \ldots, Q(s, a_n)$
+  - 选择最大 Q 值的动作：$a^* = \arg\max_a Q(s, a)$
+
+**优势**：
+- 简单直观
+- 可以用 $\arg\max$ 直接选择最优动作
+
+**劣势**：
+- **维度灾难**：如果有多个独立的离散选择，组合数爆炸
+  - 例如：10 个开关，每个有 2 个状态，总共 $2^{10} = 1024$ 种组合
+- 无法表示连续控制（如方向盘角度）
+
+**连续动作空间（Continuous Action Space）**
+
+**定义**：实数值向量
+
+$$
+\mathcal{A} = \mathbb{R}^d \quad \text{或} \quad \mathcal{A} = [a_{\min}, a_{\max}]^d
+$$
+
+**表示方式**：
+- 高斯分布：$a \sim \mathcal{N}(\mu_\theta(s), \sigma_\theta(s))$
+- 确定性策略：$a = \mu_\theta(s)$
+
+**适用算法**：
+- **Policy Gradient**：REINFORCE, PPO, TRPO
+  - 直接输出动作分布的参数（均值和方差）
+- **Deterministic Policy Gradient**：DDPG, TD3, SAC
+  - 输出确定性动作，使用 Critic 估计梯度
+
+**优势**：
+- 适用于连续控制任务（机器人、自动驾驶）
+- 可以精细调节动作（如油门 0.73，而非只能选 0 或 1）
+
+**劣势**：
+- 探索困难（连续空间无限大）
+- 无法用 $\arg\max$ 找最优动作（需要优化算法）
+
+**Reparameterization Trick（重参数化技巧）**
+
+在连续动作空间中，我们通常需要从策略分布中采样：
+
+$$
+a \sim \pi_\theta(a | s) = \mathcal{N}(\mu_\theta(s), \sigma_\theta(s))
+$$
+
+但直接采样无法反向传播梯度。**重参数化技巧**将随机性分离出来：
+
+$$
+a = \mu_\theta(s) + \sigma_\theta(s) \odot \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)
+$$
+
+现在 $a$ 是 $\theta$ 的确定性函数，可以反向传播！
+
+**代码示例：不同 Action Space 的处理**
+
+```python
+import torch
+import torch.nn as nn
+import torch.distributions as dist
+
+class DiscretePolicy(nn.Module):
+    """离散动作空间的策略网络"""
+    def __init__(self, state_dim, action_dim):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, action_dim)
+        )
+    
+    def forward(self, state):
+        logits = self.net(state)
+        return dist.Categorical(logits=logits)
+    
+    def select_action(self, state):
+        action_dist = self(state)
+        action = action_dist.sample()
+        log_prob = action_dist.log_prob(action)
+        return action.item(), log_prob
+
+class ContinuousPolicy(nn.Module):
+    """连续动作空间的策略网络（高斯策略）"""
+    def __init__(self, state_dim, action_dim):
+        super().__init__()
+        self.mean_net = nn.Sequential(
+            nn.Linear(state_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, action_dim),
+            nn.Tanh()  # 限制在 [-1, 1]
+        )
+        # 学习对数标准差（确保 σ > 0）
+        self.log_std = nn.Parameter(torch.zeros(action_dim))
+    
+    def forward(self, state):
+        mean = self.mean_net(state)
+        std = torch.exp(self.log_std)
+        return dist.Normal(mean, std)
+    
+    def select_action(self, state):
+        action_dist = self(state)
+        # 重参数化采样
+        action = action_dist.rsample()  # rsample 支持梯度
+        log_prob = action_dist.log_prob(action).sum(dim=-1)
+        return action.detach().numpy(), log_prob
+
+# 使用示例
+state = torch.randn(1, 4)  # batch_size=1, state_dim=4
+
+# 离散动作
+discrete_policy = DiscretePolicy(state_dim=4, action_dim=2)
+action, log_prob = discrete_policy.select_action(state)
+print(f"离散动作: {action}, log_prob: {log_prob.item():.4f}")
+
+# 连续动作
+continuous_policy = ContinuousPolicy(state_dim=4, action_dim=2)
+action, log_prob = continuous_policy.select_action(state)
+print(f"连续动作: {action}, log_prob: {log_prob.item():.4f}")
+```
+
+**混合动作空间的处理**
+
+某些任务同时包含离散和连续动作（如星际争霸：选择单位 + 移动位置）。
+
+**解决方案**：
+1. **分层策略**：先选离散动作，再选连续参数
+2. **Multi-head 网络**：一个网络输出多个分支
+3. **Parameterized Action Space**：将离散动作参数化
+
+---
+
+#### Reward Engineering：艺术与科学
+
+**The Reward Hypothesis（奖励假说）**
+
+> "所有我们所说的'目标'和'目的'，都可以被归结为：最大化接收到的标量信号（奖励）的累积和。"  
+> —— *Richard Sutton*
+
+这是 RL 的哲学基础：**所有智能行为都可以通过奖励信号来引导**。
+
+**但现实很复杂**：如何设计奖励函数，使得"最大化奖励"等价于"完成任务"？
+
+**Reward Shaping（奖励塑造）**
+
+**问题**：稀疏奖励导致学习困难
+
+例如，在迷宫中：
+- **稀疏奖励**：只有到达终点才有 +1，其他时候全是 0
+- **问题**：Agent 可能永远找不到终点（探索困难）
+
+**解决方案**：添加中间奖励（Shaping Reward）
+
+例如：
+- 每靠近终点一步，给 +0.1
+- 远离终点，给 -0.1
+
+**但要小心！错误的 Reward Shaping 会改变最优策略**
+
+**Potential-based Shaping（基于势函数的塑造）**
+
+Ng et al. (1999) 证明了一种**保持最优策略不变**的 Shaping 方法：
+
+$$
+F(s, a, s') = \gamma \Phi(s') - \Phi(s)
+$$
+
+其中 $\Phi: S \to \mathbb{R}$ 是**势函数**（Potential Function）。
+
+**定理**：如果将原始奖励 $R(s, a, s')$ 替换为 $R'(s, a, s') = R(s, a, s') + F(s, a, s')$，则最优策略不变。
+
+**直觉**：
+- $\Phi(s)$ 可以理解为"状态 $s$ 离目标的距离"
+- $F(s, a, s')$ 奖励"缩短距离"的动作
+- 但由于折现因子 $\gamma$，长期累积奖励不变
+
+**证明（简化版）**：
+
+原始累积奖励：
+$$
+G_t = \sum_{k=0}^\infty \gamma^k R_{t+k+1}
+$$
+
+加入 Shaping 后：
+$$
+\begin{align}
+G_t' &= \sum_{k=0}^\infty \gamma^k [R_{t+k+1} + \gamma \Phi(s_{t+k+1}) - \Phi(s_{t+k})] \\
+&= \sum_{k=0}^\infty \gamma^k R_{t+k+1} + \sum_{k=0}^\infty \gamma^k [\gamma \Phi(s_{t+k+1}) - \Phi(s_{t+k})] \\
+&= G_t + \sum_{k=0}^\infty [\gamma^{k+1} \Phi(s_{t+k+1}) - \gamma^k \Phi(s_{t+k})] \\
+&= G_t + [-\Phi(s_t) + \lim_{k \to \infty} \gamma^{k+1} \Phi(s_{t+k+1})] \\
+&= G_t - \Phi(s_t) \quad \text{(假设 } \lim_{k \to \infty} \gamma^k \Phi(s_k) = 0 \text{)}
+\end{align}
+$$
+
+由于 $\Phi(s_t)$ 只依赖于初始状态，不影响策略的相对优劣！
+
+**常见的 Reward Hacking 案例**
+
+**1. OpenAI 的船竞速 Agent**
+
+- **任务**：赛船比赛，目标是最快完成赛道
+- **奖励设计**：每经过一个检查点 +10 分
+- **问题**：Agent 学会了在起点附近打转，反复触发同一个检查点刷分，而不是完成赛道！
+
+**2. YouTube 推荐系统**
+
+- **目标**：最大化用户长期满意度
+- **错误奖励**：点击率（CTR）
+- **问题**：推荐标题党、低质内容（短期点击高，长期用户流失）
+- **正确奖励**：观看时长 + 用户留存率
+
+**3. 机器人抓取**
+
+- **任务**：抓取物体并放入盒子
+- **错误奖励**：手爪与物体的距离
+- **问题**：Agent 学会了把手爪放在物体上方，但不实际抓取（距离为 0，但任务失败）
+- **正确奖励**：物体是否在盒子里（稀疏但正确）
+
+**稀疏奖励的解决方案**
+
+1. **Curiosity-driven Exploration（好奇心驱动探索）**
+   - 为"访问新状态"提供内在奖励（Intrinsic Reward）
+   - ICM (Intrinsic Curiosity Module)：奖励"难以预测"的状态转移
+
+2. **Hindsight Experience Replay (HER)**
+   - "事后诸葛亮"：即使失败了，也假装"目标就是到达失败的地方"
+   - 从失败中学习
+
+3. **Reward Shaping with Domain Knowledge**
+   - 利用领域知识设计中间奖励
+   - 使用 Potential-based Shaping 保证正确性
+
+**代码示例：Potential-based Reward Shaping**
+
+```python
+import numpy as np
+
+class MazeEnv:
+    """迷宫环境（稀疏奖励）"""
+    def __init__(self, size=10):
+        self.size = size
+        self.start = (0, 0)
+        self.goal = (size-1, size-1)
+        self.reset()
+    
+    def reset(self):
+        self.pos = self.start
+        return self.pos
+    
+    def step(self, action):
+        # 移动逻辑（省略）
+        new_pos = self._move(self.pos, action)
+        self.pos = new_pos
+        
+        # 原始稀疏奖励
+        if self.pos == self.goal:
+            reward = 1.0
+            done = True
+        else:
+            reward = 0.0
+            done = False
+        
+        return self.pos, reward, done, {}
+    
+    def _move(self, pos, action):
+        # 简化：上下左右移动
+        moves = [(-1,0), (1,0), (0,-1), (0,1)]
+        dx, dy = moves[action]
+        new_x = max(0, min(self.size-1, pos[0] + dx))
+        new_y = max(0, min(self.size-1, pos[1] + dy))
+        return (new_x, new_y)
+
+class ShapedMazeEnv(MazeEnv):
+    """加入 Potential-based Shaping 的迷宫"""
+    def __init__(self, size=10, gamma=0.99):
+        super().__init__(size)
+        self.gamma = gamma
+    
+    def potential(self, pos):
+        """势函数：负的曼哈顿距离"""
+        return -abs(pos[0] - self.goal[0]) - abs(pos[1] - self.goal[1])
+    
+    def step(self, action):
+        old_pos = self.pos
+        new_pos, reward, done, info = super().step(action)
+        
+        # 添加 Shaping Reward: F(s,a,s') = γΦ(s') - Φ(s)
+        shaping = self.gamma * self.potential(new_pos) - self.potential(old_pos)
+        shaped_reward = reward + shaping
+        
+        return new_pos, shaped_reward, done, info
+
+# 对比实验
+env_sparse = MazeEnv(size=10)
+env_shaped = ShapedMazeEnv(size=10)
+
+print("稀疏奖励环境：")
+s = env_sparse.reset()
+for _ in range(5):
+    s, r, done, _ = env_sparse.step(np.random.randint(4))
+    print(f"  State: {s}, Reward: {r:.2f}")
+
+print("\nShaped 奖励环境：")
+s = env_shaped.reset()
+for _ in range(5):
+    s, r, done, _ = env_shaped.step(np.random.randint(4))
+    print(f"  State: {s}, Reward: {r:.2f}")
+```
+
+---
+
+#### Discount Factor $\gamma$ 的深层含义
+
+**数学意义：未来奖励的现值折现**
+
+折现因子 $\gamma \in [0, 1]$ 控制对未来奖励的重视程度：
+
+$$
+G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \cdots = \sum_{k=0}^\infty \gamma^k r_{t+k+1}
+$$
+
+**直觉**：
+- $\gamma = 0$：只关心即时奖励（短视）
+- $\gamma = 1$：所有未来奖励同等重要（远视）
+- $\gamma = 0.99$：100 步后的奖励只值现在的 $0.99^{100} \approx 0.366$ 倍
+
+**收敛性保证**
+
+如果 $\gamma < 1$ 且奖励有界（$|r_t| \leq R_{\max}$），则累积奖励有界：
+
+$$
+G_t \leq \sum_{k=0}^\infty \gamma^k R_{\max} = \frac{R_{\max}}{1 - \gamma}
+$$
+
+这保证了价值函数的收敛性。
+
+**时间视野（Effective Horizon）**
+
+$\gamma$ 决定了 Agent 的"有效时间视野"：
+
+$$
+H_{\text{eff}} = \frac{1}{1 - \gamma}
+$$
+
+例如：
+- $\gamma = 0.9 \Rightarrow H_{\text{eff}} = 10$ 步
+- $\gamma = 0.99 \Rightarrow H_{\text{eff}} = 100$ 步
+- $\gamma = 0.999 \Rightarrow H_{\text{eff}} = 1000$ 步
+
+**实际选择**
+
+| 任务类型 | 推荐 $\gamma$ | 原因 |
+|:---|:---|:---|
+| 短期任务（CartPole） | 0.95 - 0.99 | 快速收敛 |
+| 长期任务（围棋） | 0.99 - 0.999 | 需要长远规划 |
+| 无限视野任务 | 0.99 | 平衡收敛性与长期性能 |
+
+**代码示例：不同 $\gamma$ 的影响**
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def compute_return(rewards, gamma):
+    """计算折现回报"""
+    G = 0
+    for r in reversed(rewards):
+        G = r + gamma * G
+    return G
+
+# 模拟一个奖励序列
+rewards = [1, 0, 0, 0, 10]  # 第 5 步有大奖励
+
+gammas = [0.0, 0.5, 0.9, 0.99, 1.0]
+returns = [compute_return(rewards, g) for g in gammas]
+
+plt.figure(figsize=(10, 6))
+plt.bar(gammas, returns)
+plt.xlabel('Discount Factor γ')
+plt.ylabel('Total Return')
+plt.title('Impact of Discount Factor on Return')
+plt.grid(True, alpha=0.3)
+plt.show()
+
+for g, G in zip(gammas, returns):
+    print(f"γ = {g:.2f}: Return = {G:.2f}")
+```
+
+**预期输出**：
+```
+γ = 0.00: Return = 1.00   (只看第 1 步)
+γ = 0.50: Return = 1.62   (第 5 步的 10 被折现为 0.62)
+γ = 0.90: Return = 7.56
+γ = 0.99: Return = 10.41
+γ = 1.00: Return = 11.00  (所有奖励同等重要)
+```
+
+---
+
+**本节小结**
+
+我们深入探讨了 RL 的五大核心要素：
+
+1. **Agent-Environment 交互**：形式化的交互协议与实现
+2. **State vs Observation**：MDP vs POMDP，马尔可夫性质，Belief State
+3. **Action Space**：离散 vs 连续，算法选择，重参数化技巧
+4. **Reward Engineering**：Reward Shaping，Potential-based 方法，Reward Hacking 案例
+5. **Discount Factor**：数学意义，时间视野，实际选择
+
+这些概念是理解所有 RL 算法的基础。在后续章节中，我们将看到这些概念如何在具体算法中体现。
 
 ### 0.1.3 RL 的应用场景
 

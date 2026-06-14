@@ -1,0 +1,249 @@
+{
+  "chapters": [
+    {
+      "id": "00-introduction",
+      "file": "00-introduction.md",
+      "title": "课程导引",
+      "description": "计算机组成原理课程概述与学习路径",
+      "order": 0
+    },
+    {
+      "id": "01-system-introduction",
+      "file": "01-system-introduction.md",
+      "title": "第一章 计算机系统概论",
+      "description": "计算机系统简介、基本组成、主要技术指标",
+      "order": 1
+    },
+    {
+      "id": "02-development-and-applications",
+      "file": "02-development-and-applications.md",
+      "title": "第二章 计算机的发展及应用",
+      "description": "计算机发展史、应用领域与未来展望",
+      "order": 2
+    },
+    {
+      "id": "03-number-system-and-coding",
+      "file": "03-number-system-and-coding.md",
+      "title": "第三章 数制与编码基础",
+      "description": "进位计数制转换、BCD码、字符编码、校验码（奇偶校验、海明码、CRC码）",
+      "order": 3
+    },
+    {
+      "id": "04-fixed-point-representation",
+      "file": "04-fixed-point-representation.md",
+      "title": "第四章 定点数的表示",
+      "description": "原码、反码、补码、移码的表示方法与溢出检测机制",
+      "order": 4
+    },
+    {
+      "id": "05-addition-and-subtraction",
+      "file": "05-addition-and-subtraction.md",
+      "title": "第五章 定点运算 — 加减法",
+      "description": "补码加减法运算、溢出判断、串行进位与超前进位加法器设计",
+      "order": 5
+    },
+    {
+      "id": "06-multiplication",
+      "file": "06-multiplication.md",
+      "title": "第六章 定点运算 — 乘法",
+      "description": "原码一位乘法、Booth算法、基4 Booth算法、阵列乘法器",
+      "order": 6
+    },
+    {
+      "id": "07-division",
+      "file": "07-division.md",
+      "title": "第七章 定点运算 — 除法",
+      "description": "原码恢复余数法、不恢复余数法（加减交替法）、补码除法",
+      "order": 7
+    },
+    {
+      "id": "08-floating-point",
+      "file": "08-floating-point.md",
+      "title": "第八章 浮点数的表示与运算",
+      "description": "IEEE 754标准、浮点数规格化、浮点加减乘除运算与精度问题",
+      "order": 8
+    },
+    {
+      "id": "09-alu",
+      "file": "09-alu.md",
+      "title": "第九章 算术逻辑单元（ALU）",
+      "description": "ALU功能与结构、标志位产生、74181芯片、运算器组织",
+      "order": 9
+    },
+    {
+      "id": "10-data-arithmetic-summary",
+      "file": "10-data-arithmetic-summary.md",
+      "title": "第十章 数据表示与运算综合",
+      "description": "各编码综合对比、典型考研题型汇编、常见误区辨析",
+      "order": 10
+    },
+    {
+      "id": "11-instruction-format",
+      "file": "11-instruction-format.md",
+      "title": "第十一章 指令格式与操作码设计",
+      "description": "指令基本格式、地址码位数、定长与变长操作码、扩展操作码设计",
+      "order": 11
+    },
+    {
+      "id": "12-addressing-modes",
+      "file": "12-addressing-modes.md",
+      "title": "第十二章 寻址方式",
+      "description": "立即/直接/间接/寄存器/基址/变址/相对/堆栈寻址的原理与应用",
+      "order": 12
+    },
+    {
+      "id": "13-cisc-vs-risc",
+      "file": "13-cisc-vs-risc.md",
+      "title": "第十三章 CISC与RISC",
+      "description": "复杂指令集与精简指令集的设计哲学、关键技术与发展趋势",
+      "order": 13
+    },
+    {
+      "id": "14-instruction-set-examples",
+      "file": "14-instruction-set-examples.md",
+      "title": "第十四章 指令系统设计与实例分析",
+      "description": "MIPS/x86指令集分析、指令系统设计原则、从高级语言到机器码",
+      "order": 14
+    },
+    {
+      "id": "15-cpu-overview",
+      "file": "15-cpu-overview.md",
+      "title": "第十五章 CPU概述与数据通路",
+      "description": "CPU功能与组成、寄存器组、数据通路的基本概念与组织方式",
+      "order": 15
+    },
+    {
+      "id": "16-instruction-cycle",
+      "file": "16-instruction-cycle.md",
+      "title": "第十六章 指令周期与数据通路操作",
+      "description": "取指/间址/执行/中断四个周期的微操作序列与数据通路分析",
+      "order": 16
+    },
+    {
+      "id": "17-hardwired-control-unit",
+      "file": "17-hardwired-control-unit.md",
+      "title": "第十七章 硬布线控制器",
+      "description": "硬布线控制器原理、控制信号产生、时序系统、设计步骤",
+      "order": 17
+    },
+    {
+      "id": "18-microprogrammed-control-unit",
+      "file": "18-microprogrammed-control-unit.md",
+      "title": "第十八章 微程序控制器",
+      "description": "微命令/微操作/微指令/微程序、控制存储器、水平型与垂直型微指令",
+      "order": 18
+    },
+    {
+      "id": "19-pipeline-basics",
+      "file": "19-pipeline-basics.md",
+      "title": "第十九章 流水线技术 — 基本原理",
+      "description": "流水线基本概念、时空图、吞吐率/加速比/效率性能指标",
+      "order": 19
+    },
+    {
+      "id": "20-pipeline-hazards",
+      "file": "20-pipeline-hazards.md",
+      "title": "第二十章 流水线的冒险与处理",
+      "description": "结构冒险、数据冒险（前递/旁路）、控制冒险（分支预测）",
+      "order": 20
+    },
+    {
+      "id": "21-pipeline-advanced",
+      "file": "21-pipeline-advanced.md",
+      "title": "第二十一章 流水线的高级技术",
+      "description": "超标量、超流水线、Tomasulo算法、推测执行、多线程技术",
+      "order": 21
+    },
+    {
+      "id": "22-interrupt-system",
+      "file": "22-interrupt-system.md",
+      "title": "第二十二章 中断系统",
+      "description": "中断分类、中断判优、中断响应、中断处理、多重中断与屏蔽字",
+      "order": 22
+    },
+    {
+      "id": "23-memory-overview",
+      "file": "23-memory-overview.md",
+      "title": "第二十三章 存储器概述与主存储器",
+      "description": "存储器分类、层次结构、SRAM/DRAM原理、ROM、刷新机制",
+      "order": 23
+    },
+    {
+      "id": "24-memory-expansion",
+      "file": "24-memory-expansion.md",
+      "title": "第二十四章 主存容量扩展与CPU连接",
+      "description": "位扩展、字扩展、字位同时扩展、片选信号产生、CPU连接",
+      "order": 24
+    },
+    {
+      "id": "25-cache",
+      "file": "25-cache.md",
+      "title": "第二十五章 高速缓冲存储器（Cache）",
+      "description": "Cache基本原理、直接/全相联/组相联映射、替换算法、写策略",
+      "order": 25
+    },
+    {
+      "id": "26-cache-performance",
+      "file": "26-cache-performance.md",
+      "title": "第二十六章 Cache性能分析与优化",
+      "description": "3C模型、多级Cache、降低缺失率/缺失代价的技术",
+      "order": 26
+    },
+    {
+      "id": "27-virtual-memory",
+      "file": "27-virtual-memory.md",
+      "title": "第二十七章 虚拟存储器",
+      "description": "页式/段式/段页式虚拟存储、TLB、多级页表、缺页中断",
+      "order": 27
+    },
+    {
+      "id": "28-secondary-storage",
+      "file": "28-secondary-storage.md",
+      "title": "第二十八章 辅助存储器与存储系统综合",
+      "description": "磁盘存储器、RAID、SSD、存储系统综合性能分析",
+      "order": 28
+    },
+    {
+      "id": "29-bus-overview",
+      "file": "29-bus-overview.md",
+      "title": "第二十九章 总线概述与总线仲裁",
+      "description": "总线分类、性能指标、总线结构、三种集中仲裁与分布式仲裁",
+      "order": 29
+    },
+    {
+      "id": "30-bus-standards",
+      "file": "30-bus-standards.md",
+      "title": "第三十章 总线标准与总线通信",
+      "description": "ISA/PCI/PCIe/USB/SATA/NVMe标准、同步/异步/半同步/分离式通信",
+      "order": 30
+    },
+    {
+      "id": "31-io-overview",
+      "file": "31-io-overview.md",
+      "title": "第三十一章 I/O系统概述与程序查询方式",
+      "description": "I/O系统组成、I/O编址、I/O接口、程序查询方式原理",
+      "order": 31
+    },
+    {
+      "id": "32-interrupt-io",
+      "file": "32-interrupt-io.md",
+      "title": "第三十二章 程序中断方式",
+      "description": "中断驱动I/O原理、完整过程、性能分析、多设备中断处理",
+      "order": 32
+    },
+    {
+      "id": "33-dma",
+      "file": "33-dma.md",
+      "title": "第三十三章 DMA方式",
+      "description": "DMA控制器组成、三种传送方式、DMA传送过程与性能分析",
+      "order": 33
+    },
+    {
+      "id": "34-io-summary",
+      "file": "34-io-summary.md",
+      "title": "第三十四章 通道方式与I/O系统综合",
+      "description": "通道类型与工作过程、I/O方式综合对比、课程总结",
+      "order": 34
+    }
+  ]
+}

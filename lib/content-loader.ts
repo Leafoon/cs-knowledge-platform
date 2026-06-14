@@ -11,6 +11,7 @@ import { rehypeInteractiveComponents } from "./rehype-interactive-components";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import rehypePrism from "rehype-prism-plus";
+import rehypeRaw from "rehype-raw";
 import { Module, TOCItem } from "@/types/content";
 
 export function getModules(): Module[] {
@@ -78,6 +79,7 @@ export async function getModuleContent(moduleId: string) {
         .use(remarkMath)
         .use(remarkAlerts)
         .use(remarkRehype, { allowDangerousHtml: true })  // Convert markdown to HTML AST
+        .use(rehypeRaw)  // Parse raw HTML (div[data-component], etc.) into HAST elements
         .use(rehypeInteractiveComponents)  // Transform <InteractiveComponent> tags
         .use(rehypeKatex, { strict: false })  // Disable strict mode to allow \\ in aligned/matrix environments
         .use(rehypePrism, { showLineNumbers: true, ignoreMissing: true })

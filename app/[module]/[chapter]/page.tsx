@@ -6,22 +6,10 @@ import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-    const modules = getModules();
-    const params: { module: string; chapter: string }[] = [];
-    
-    for (const module of modules) {
-        const chapters = getModuleChapters(module.id);
-        for (const chapter of chapters) {
-            params.push({
-                module: module.id,
-                chapter: chapter.id,
-            });
-        }
-    }
-    
-    return params;
-}
+// 不使用 generateStaticParams，章节页面保持纯动态路由，
+// 防止 Next.js 缓存 RSC Payload 导致新内容被旧缓存覆盖。
+export const dynamic = 'force-dynamic';
+
 
 export default async function ChapterPage({
     params,
@@ -41,6 +29,8 @@ export default async function ChapterPage({
     const currentChapter = chapters[currentChapterIndex];
     const prevChapter = currentChapterIndex > 0 ? chapters[currentChapterIndex - 1] : null;
     const nextChapter = currentChapterIndex < chapters.length - 1 ? chapters[currentChapterIndex + 1] : null;
+    const updated = (frontmatter as any).updated;
+    const updatedText = updated instanceof Date ? updated.toLocaleDateString("zh-CN") : updated ? String(updated) : "";
 
     return (
         <div className="flex gap-8 max-w-[1600px] mx-auto px-6">
@@ -81,14 +71,14 @@ export default async function ChapterPage({
                             </svg>
                             <span className="font-medium">Chapter {currentChapterIndex + 1} of {chapters.length}</span>
                         </div>
-                        {(frontmatter as any).updated && (
+                        {updatedText && (
                             <>
                                 <span>·</span>
                                 <div className="flex items-center gap-2">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span>更新于 {(frontmatter as any).updated}</span>
+                                    <span>更新于 {updatedText}</span>
                                 </div>
                             </>
                         )}
@@ -112,12 +102,12 @@ export default async function ChapterPage({
                     <ContentRenderer html={html} moduleId={params.module} />
                 </div>
 
-                {/* Chapter Navigation */}
+                {/* Chapter Navigation — 使用 <a> 强制全页加载，避免 Next.js 路由缓存污染 RSC payload */}
                 <nav className="mt-20 pt-8 border-t border-border-subtle max-w-3xl">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Previous */}
                         {prevChapter ? (
-                            <Link
+                            <a
                                 href={`/${params.module}/${prevChapter.id}`}
                                 className="group flex items-center gap-3 p-4 rounded-lg border border-border-subtle hover:border-accent-primary/50 hover:bg-bg-elevated transition-all"
                             >
@@ -128,13 +118,13 @@ export default async function ChapterPage({
                                     <div className="text-xs text-text-tertiary mb-1">上一章</div>
                                     <div className="text-sm font-medium text-text-primary truncate">{prevChapter.title}</div>
                                 </div>
-                            </Link>
+                            </a>
                         ) : (
                             <div />
                         )}
 
                         {/* Index */}
-                        <Link
+                        <a
                             href={`/${params.module}`}
                             className="flex items-center justify-center gap-2 p-4 rounded-lg bg-bg-elevated hover:bg-accent-primary/10 border border-border-subtle hover:border-accent-primary/50 transition-all"
                         >
@@ -142,11 +132,11 @@ export default async function ChapterPage({
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                             <span className="text-sm font-medium text-text-primary">目录</span>
-                        </Link>
+                        </a>
 
                         {/* Next */}
                         {nextChapter ? (
-                            <Link
+                            <a
                                 href={`/${params.module}/${nextChapter.id}`}
                                 className="group flex items-center gap-3 p-4 rounded-lg border border-border-subtle hover:border-accent-primary/50 hover:bg-bg-elevated transition-all"
                             >
@@ -157,7 +147,7 @@ export default async function ChapterPage({
                                 <svg className="w-5 h-5 text-text-tertiary group-hover:text-accent-primary group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
-                            </Link>
+                            </a>
                         ) : (
                             <div />
                         )}

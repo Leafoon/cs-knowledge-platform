@@ -56,6 +56,48 @@
             "description": "强化学习完整教程：从 MDP 到 RLHF",
             "icon": "/icons/rl.svg",
             "color": "#8b5cf6"
+        },
+        {
+            "id": "data-structures",
+            "title": "Data Structures & Algorithms",
+            "description": "数据结构与算法完整教程：从零基础到竞赛专家",
+            "icon": "/icons/dsa.svg",
+            "color": "#6366f1"
+        },
+        {
+            "id": "computer-network",
+            "title": "Computer Network",
+            "description": "计算机网络完整教程：从物理层到应用层，涵盖协议原理、网络安全与现代网络技术",
+            "icon": "/icons/network.svg",
+            "color": "#0ea5e9"
+        },
+        {
+            "id": "tvm",
+            "title": "TVM Deep Learning Compiler",
+            "description": "Apache TVM 深度学习编译器完整教程：从前端导入到多硬件部署，涵盖 Relay/TIR IR、自动优化、代码生成与运行时",
+            "icon": "/icons/tvm.svg",
+            "color": "#00845c"
+        },
+        {
+            "id": "triton",
+            "title": "Triton Parallel Programming & AI Compiler",
+            "description": "Triton 并行编程与 AI 编译器开发完整教程：从 Python DSL 到 MLIR 编译栈，涵盖 Tile 级编程、多硬件后端、性能优化与 AI Agent 辅助算子生成",
+            "icon": "/icons/triton.svg",
+            "color": "#7c3aed"
+        },
+        {
+            "id": "tilelang",
+            "title": "TileLang 分块编程与 AI 算子开发",
+            "description": "TileLang 分块编程与 AI 算子开发完整教程：从 Tile 编程模型到多硬件后端适配，涵盖三级编程接口、Layout 推理、Software Pipelining、工业级算子实战与性能调优",
+            "icon": "/icons/tilelang.svg",
+            "color": "#059669"
+        },
+        {
+            "id": "ai-agent",
+            "title": "AI Agent 智能体开发",
+            "description": "AI Agent 智能体开发完整教程：从感知-决策-执行循环到多智能体协作，涵盖大模型基座、提示词工程、工具调用、记忆系统、RAG、规划推理、多 Agent 协作、安全评测与生产部署",
+            "icon": "/icons/agent.svg",
+            "color": "#f43f5e"
         }
     ]
 }

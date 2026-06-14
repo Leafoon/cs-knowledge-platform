@@ -80,22 +80,22 @@ trainer.train()  # 完成所有训练逻辑
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        Trainer                               │
+│                        Trainer                              │
 ├─────────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ TrainingArgs │  │    Model     │  │   Dataset    │      │
-│  │   参数配置    │  │   模型实例    │  │   训练数据    │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │DataCollator  │  │  Optimizer   │  │   Scheduler  │      │
-│  │  批处理逻辑   │  │   优化器     │  │  学习率调度   │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │  Callbacks   │  │compute_metrics│ │   Logging    │      │
-│  │  回调函数     │  │  评估指标    │  │   日志系统    │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │ TrainingArgs │  │    Model     │  │   Dataset    │       │
+│  │   参数配置    │   │   模型实例    │  │   训练数据    │       |
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │DataCollator  │  │  Optimizer   │  │   Scheduler  │       │
+│  │  批处理逻辑    │  │   优化器      │  │  学习率调度    │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │  Callbacks   │  │compute_metrics│ │   Logging    │       │
+│  │  回调函数     │  │  评估指标      │  │   日志系统    │         │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -130,7 +130,7 @@ training_args = TrainingArguments(
     output_dir="./results",          # 输出目录
     num_train_epochs=3,              # 训练轮数
     per_device_train_batch_size=16,  # 批次大小
-    evaluation_strategy="epoch",     # 每个 epoch 评估一次
+    eval_strategy="epoch",     # 每个 epoch 评估一次
     save_strategy="epoch",           # 每个 epoch 保存一次
     logging_dir="./logs"             # 日志目录
 )
@@ -230,13 +230,13 @@ args = TrainingArguments(
     output_dir="./results",
     
     # === 评估策略 ===
-    evaluation_strategy="steps",     # 评估时机
+    eval_strategy="steps",     # 评估时机
     # 可选: "no"（不评估）, "steps"（每 N 步）, "epoch"（每个 epoch）
     eval_steps=500,                  # 每 500 步评估一次
     eval_delay=0,                    # 延迟评估（从第 N 步开始）
     
     # === 保存策略 ===
-    save_strategy="steps",           # 保存时机（同 evaluation_strategy）
+    save_strategy="steps",           # 保存时机（同 eval_strategy）
     save_steps=500,                  # 每 500 步保存一次
     save_total_limit=3,              # 最多保留 3 个检查点（删除旧的）
     
@@ -748,7 +748,7 @@ early_stopping = EarlyStoppingCallback(
 
 training_args = TrainingArguments(
     output_dir="./results",
-    evaluation_strategy="epoch",
+    eval_strategy="epoch",
     load_best_model_at_end=True,
     metric_for_best_model="eval_loss",
     greater_is_better=False
@@ -1266,7 +1266,7 @@ training_args = TrainingArguments(
     fp16=True,
     
     # 评估与保存
-    evaluation_strategy="steps",
+    eval_strategy="steps",
     eval_steps=200,
     save_strategy="steps",
     save_steps=200,

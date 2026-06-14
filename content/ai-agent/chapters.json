@@ -1,0 +1,270 @@
+{
+  "chapters": [
+    {
+      "id": "00-agent-overview",
+      "file": "00-agent-overview.md",
+      "title": "Chapter 0: AI Agent 智能体概览",
+      "description": "从宏观视角理解 AI Agent 的本质定义、核心特征与发展历程，掌握 Agent 与传统 AI 系统的本质区别，建立完整的 Agent 技术栈认知。",
+      "order": 0
+    },
+    {
+      "id": "01-perception-decision-action",
+      "file": "01-perception-decision-action.md",
+      "title": "Chapter 1: Agent 核心循环 — 感知-决策-执行",
+      "description": "深入理解 Agent 的感知-决策-执行（PDA）循环，掌握状态空间、动作空间与环境建模，理解 Agent 与环境交互的完整数据流。",
+      "order": 1
+    },
+    {
+      "id": "02-llm-backbone",
+      "file": "02-llm-backbone.md",
+      "title": "Chapter 2: 大模型基座 — Agent 的大脑",
+      "description": "深入理解 LLM 作为 Agent 推理引擎的核心能力，掌握 Transformer 架构、上下文窗口、Token 机制、温度与采样策略对 Agent 行为的影响。",
+      "order": 2
+    },
+    {
+      "id": "03-prompt-engineering",
+      "file": "03-prompt-engineering.md",
+      "title": "Chapter 3: 提示词工程 — Agent 的指令系统",
+      "description": "精通 Agent 场景下的提示词工程，掌握 System Prompt 设计、Few-Shot 学习、Chain-of-Thought 推理、Self-Consistency 与提示模板管理。",
+      "order": 3
+    },
+    {
+      "id": "04-react-pattern",
+      "file": "04-react-pattern.md",
+      "title": "Chapter 4: ReAct 范式 — 推理与行动的统一",
+      "description": "深入理解 ReAct（Reasoning + Acting）范式的理论基础与实现细节，掌握 Thought-Action-Observation 循环，对比纯推理与纯行动策略的优劣。",
+      "order": 4
+    },
+    {
+      "id": "05-function-calling",
+      "file": "05-function-calling.md",
+      "title": "Chapter 5: Function Calling — LLM 的工具调用机制",
+      "description": "深入理解 LLM Function Calling 的底层机制，掌握 OpenAI、Anthropic、Google 等主流 API 的工具定义、参数 schema、并行调用与流式调用。",
+      "order": 5
+    },
+    {
+      "id": "06-tool-construction",
+      "file": "06-tool-construction.md",
+      "title": "Chapter 6: 工具构建与编排 — Agent 的手和脚",
+      "description": "掌握 Agent 工具的完整生命周期：工具定义、描述优化、参数校验、错误处理、工具组合编排、动态工具生成与工具注册表管理。",
+      "order": 6
+    },
+    {
+      "id": "07-memory-systems",
+      "file": "07-memory-systems.md",
+      "title": "Chapter 7: 记忆系统 — Agent 的记忆与学习",
+      "description": "全面掌握 Agent 记忆架构：短期记忆（对话窗口）、工作记忆（ Scratchpad）、长期记忆（向量存储）、情景记忆与语义记忆的分离与协同。",
+      "order": 7
+    },
+    {
+      "id": "08-memory-implementation",
+      "file": "08-memory-implementation.md",
+      "title": "Chapter 8: 记忆工程实现 — 从理论到生产",
+      "description": "深入记忆系统的工程实现：对话历史管理、摘要压缩、向量检索记忆、实体记忆、记忆衰减机制、跨会话持久化与记忆一致性保证。",
+      "order": 8
+    },
+    {
+      "id": "09-rag-fundamentals",
+      "file": "09-rag-fundamentals.md",
+      "title": "Chapter 9: RAG 基础 — 检索增强生成",
+      "description": "全面掌握 RAG 系统的核心架构：文档加载、文本分块、Embedding 模型、向量数据库、相似度检索、上下文注入与生成质量评估。",
+      "order": 9
+    },
+    {
+      "id": "10-rag-advanced",
+      "file": "10-rag-advanced.md",
+      "title": "Chapter 10: 高级 RAG 策略 — 从 Naive 到 Production",
+      "description": "深入高级 RAG 技术：Multi-Query、HyDE、Parent-Child、RAPTOR、重排序（Rerank）、上下文压缩、Self-RAG、Corrective RAG 与 Graph RAG。",
+      "order": 10
+    },
+    {
+      "id": "11-planning-foundations",
+      "file": "11-planning-foundations.md",
+      "title": "Chapter 11: 规划基础 — Agent 的思维链",
+      "description": "深入理解 Agent 规划机制：Chain-of-Thought、Zero-Shot CoT、Self-Consistency、计划分解（Decomposition）与多步推理的理论基础。",
+      "order": 11
+    },
+    {
+      "id": "12-advanced-planning",
+      "file": "12-advanced-planning.md",
+      "title": "Chapter 12: 高级规划算法 — ToT、GoT 与 Plan-and-Solve",
+      "description": "掌握前沿规划算法：Tree of Thoughts（ToT）、Graph of Thoughts（GoT）、Plan-and-Solve、LATS、Self-Refine 与 Reflexion 的原理与实现。",
+      "order": 12
+    },
+    {
+      "id": "13-agent-architectures",
+      "file": "13-agent-architectures.md",
+      "title": "Chapter 13: Agent 架构设计 — 单体到分布式",
+      "description": "系统梳理 Agent 架构设计模式：单 Agent 循环、状态机 Agent、事件驱动 Agent、分层 Agent、微服务 Agent 架构与混合架构。",
+      "order": 13
+    },
+    {
+      "id": "14-langchain-agents",
+      "file": "14-langchain-agents.md",
+      "title": "Chapter 14: LangChain Agent 深度实战",
+      "description": "深入 LangChain/LangGraph 的 Agent 实现：AgentExecutor、OpenAI Tools Agent、create_react_agent、自定义 Agent、工具集成与错误恢复。",
+      "order": 14
+    },
+    {
+      "id": "15-langgraph-stateful-agents",
+      "file": "15-langgraph-stateful-agents.md",
+      "title": "Chapter 15: LangGraph 有状态 Agent — 超越线性链",
+      "description": "掌握 LangGraph 的状态图 Agent 构建：StateGraph、条件边、循环、检查点持久化、Human-in-the-Loop、时间旅行调试与流式执行。",
+      "order": 15
+    },
+    {
+      "id": "16-autogen-framework",
+      "file": "16-autogen-framework.md",
+      "title": "Chapter 16: AutoGen 多智能体框架",
+      "description": "深入 Microsoft AutoGen 框架：ConversableAgent、Agent 会话协议、代码执行器、工具集成、GroupChat 与嵌套对话。",
+      "order": 16
+    },
+    {
+      "id": "17-crewai-framework",
+      "file": "17-crewai-framework.md",
+      "title": "Chapter 17: CrewAI 协作智能体框架",
+      "description": "掌握 CrewAI 的角色定义、任务编排、协作流程、记忆集成、工具系统与层级管理（Hierarchical Process）。",
+      "order": 17
+    },
+    {
+      "id": "18-semantic-kernel",
+      "file": "18-semantic-kernel.md",
+      "title": "Chapter 18: Semantic Kernel 企业级 Agent",
+      "description": "深入 Microsoft Semantic Kernel：Kernel 架构、Plugin 系统、Planner、Memory Store、AI Service 抽象与企业级集成模式。",
+      "order": 18
+    },
+    {
+      "id": "19-openai-agents-sdk",
+      "file": "19-openai-agents-sdk.md",
+      "title": "Chapter 19: OpenAI Agents SDK 与原生 Agent",
+      "description": "掌握 OpenAI Assistants API、GPTs、Agents SDK（Swarm 继任者）的架构设计、工具集成、代码解释器与文件搜索。",
+      "order": 19
+    },
+    {
+      "id": "20-multi-agent-patterns",
+      "file": "20-multi-agent-patterns.md",
+      "title": "Chapter 20: 多智能体协作模式",
+      "description": "系统梳理多 Agent 协作范式：主从模式、对等协作、辩论模式、投票机制、流水线模式、黑板模式与市场机制。",
+      "order": 20
+    },
+    {
+      "id": "21-agent-communication",
+      "file": "21-agent-communication.md",
+      "title": "Chapter 21: Agent 通信协议与消息传递",
+      "description": "深入 Agent 间通信机制：消息格式标准化（A2A 协议、MCP）、发布-订阅模式、事件总线、状态同步与分布式一致性。",
+      "order": 21
+    },
+    {
+      "id": "22-code-generation-agents",
+      "file": "22-code-generation-agents.md",
+      "title": "Chapter 22: 代码生成 Agent — AI 编程助手",
+      "description": "深入代码生成 Agent 的架构设计：代码理解、生成、调试、测试闭环，掌握 Codex、Cursor、Devin 等系统的原理。",
+      "order": 22
+    },
+    {
+      "id": "23-web-browser-agents",
+      "file": "23-web-browser-agents.md",
+      "title": "Chapter 23: Web 浏览器 Agent — 自动化操作",
+      "description": "掌握 Web Agent 的设计与实现：页面理解、DOM 操作、视觉定位、表单填写、导航规划与 WebArena 评测。",
+      "order": 23
+    },
+    {
+      "id": "24-data-analysis-agents",
+      "file": "24-data-analysis-agents.md",
+      "title": "Chapter 24: 数据分析 Agent — 自动化数据洞察",
+      "description": "构建数据分析 Agent：数据加载、探索性分析、可视化生成、统计推理、报告撰写与 Data Interpreter 框架。",
+      "order": 24
+    },
+    {
+      "id": "25-safety-alignment",
+      "file": "25-safety-alignment.md",
+      "title": "Chapter 25: 安全与对齐 — Agent 的安全护栏",
+      "description": "全面掌握 Agent 安全体系：提示注入防御、工具权限控制、输出过滤、沙箱执行、红队测试与 Constitutional AI。",
+      "order": 25
+    },
+    {
+      "id": "26-evaluation-benchmarks",
+      "file": "26-evaluation-benchmarks.md",
+      "title": "Chapter 26: 评测与基准 — Agent 能力度量",
+      "description": "掌握 Agent 评测体系：SWE-bench、WebArena、GAIA、AgentBench 等基准，LLM-as-Judge、任务成功率、效率指标与评测管线构建。",
+      "order": 26
+    },
+    {
+      "id": "27-production-deployment",
+      "file": "27-production-deployment.md",
+      "title": "Chapter 27: 生产级部署 — 从原型到上线",
+      "description": "掌握 Agent 生产部署全流程：容器化、微服务架构、API 网关、负载均衡、缓存策略、错误恢复、灰度发布与成本优化。",
+      "order": 27
+    },
+    {
+      "id": "28-observability-monitoring",
+      "file": "28-observability-monitoring.md",
+      "title": "Chapter 28: 可观测性与监控 — Agent 的运维之眼",
+      "description": "构建 Agent 可观测性体系：分布式追踪（LangSmith/Phoenix/Langfuse）、日志聚合、指标监控、告警规则与调试工作流。",
+      "order": 28
+    },
+    {
+      "id": "29-mcp-a2a-protocols",
+      "file": "29-mcp-a2a-protocols.md",
+      "title": "Chapter 29: MCP 与 A2A 协议 — Agent 互操作标准",
+      "description": "深入 Model Context Protocol（MCP）与 Agent-to-Agent（A2A）协议：设计哲学、消息格式、传输层、工具暴露、资源管理与跨框架互操作。",
+      "order": 29
+    },
+    {
+      "id": "30-workflow-orchestration",
+      "file": "30-workflow-orchestration.md",
+      "title": "Chapter 30: 工作流编排 — 复杂 Agent Pipeline",
+      "description": "掌握复杂 Agent 工作流编排：DAG 执行、条件分支、并行处理、人工审批、错误补偿、Saga 模式与 Temporal/Cadence 集成。",
+      "order": 30
+    },
+    {
+      "id": "31-cost-optimization",
+      "file": "31-cost-optimization.md",
+      "title": "Chapter 31: 成本优化 — Token 经济学",
+      "description": "系统讲解 Agent 成本优化：Token 计数与预算、模型路由策略、缓存复用、Prompt 压缩、小模型蒸馏与 ROI 分析。",
+      "order": 31
+    },
+    {
+      "id": "32-agent-security-advanced",
+      "file": "32-agent-security-advanced.md",
+      "title": "Chapter 32: Agent 安全工程进阶",
+      "description": "深入 Agent 安全工程：间接提示注入、工具链攻击面分析、权限最小化原则、审计日志、合规框架（SOC2/GDPR）与安全开发生命周期。",
+      "order": 32
+    },
+    {
+      "id": "33-agent-in-production",
+      "file": "33-agent-in-production.md",
+      "title": "Chapter 33: 企业级 Agent 实战案例",
+      "description": "真实企业场景 Agent 案例：智能客服、自动化运维、金融分析、法律助手、医疗问诊、教育辅导等领域的架构设计与落地经验。",
+      "order": 33
+    },
+    {
+      "id": "34-future-frontiers",
+      "file": "34-future-frontiers.md",
+      "title": "Chapter 34: Agent 前沿与未来展望",
+      "description": "探索 Agent 技术前沿：自主学习 Agent、世界模型、具身智能、Agent 社会模拟、通用人工智能（AGI）路径与 2025-2030 技术展望。",
+      "order": 34
+    },
+    {
+      "id": "appendix-a-framework-comparison",
+      "file": "appendix-a-framework-comparison.md",
+      "title": "Appendix A: Agent 框架对比速查表",
+      "description": "LangChain vs AutoGen vs CrewAI vs Semantic Kernel vs OpenAI Agents SDK 的全面功能对比、适用场景分析与选型指南。",
+      "order": 100
+    },
+    {
+      "id": "appendix-b-api-reference",
+      "file": "appendix-b-api-reference.md",
+      "title": "Appendix B: API 与配置速查",
+      "description": "主流 Agent 框架的核心 API、环境变量、配置文件格式、模型参数与常用工具的快速参考。",
+      "order": 101
+    },
+    {
+      "id": "appendix-c-troubleshooting",
+      "file": "appendix-c-troubleshooting.md",
+      "title": "Appendix C: 常见问题与调试指南",
+      "description": "Agent 开发中的常见错误诊断：无限循环、工具调用失败、记忆溢出、Token 超限、幻觉问题与性能瓶颈排查。",
+      "order": 102
+    }
+  ]
+}

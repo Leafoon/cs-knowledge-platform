@@ -1,0 +1,249 @@
+{
+  "chapters": [
+    {
+      "id": "00-triton-introduction",
+      "file": "00-triton-introduction.md",
+      "title": "Chapter 0: Triton 概论与设计哲学",
+      "description": "理解 Triton 的诞生背景与核心设计哲学，掌握 Tile 级抽象的本质含义，对比 CUDA/TVM/XLA 的编程范式差异，建立对 Triton 完整技术栈的宏观认识。",
+      "order": 0
+    },
+    {
+      "id": "01-environment-setup",
+      "file": "01-environment-setup.md",
+      "title": "Chapter 1: 开发环境搭建与源码结构",
+      "description": "掌握 Triton 的完整安装流程（pip 源码编译、conda、Docker），理解官方仓库（openai/triton）的目录结构与构建系统（CMake/Python），配置 CUDA/ROCM 开发环境。",
+      "order": 1
+    },
+    {
+      "id": "02-python-frontend-basics",
+      "file": "02-python-frontend-basics.md",
+      "title": "Chapter 2: Python 前端基础与 JIT 编译机制",
+      "description": "深入理解 Triton 的 Python DSL 前端设计，掌握 @triton.jit 装饰器的完整工作机制（AST 捕获、AST 到 Triton IR 的转换、JIT 缓存），理解 tl.program_id()、tl.arange() 等基础 API。",
+      "order": 2
+    },
+    {
+      "id": "03-tensor-operations",
+      "file": "03-tensor-operations.md",
+      "title": "Chapter 3: 张量操作与计算原语",
+      "description": "掌握 Triton 的张量创建（tl.zeros、tl.full、tl.load/tl.store）、算术运算（加减乘除、矩阵乘法 tl.dot）、归约操作（tl.sum、tl.max）、类型转换与广播机制。",
+      "order": 3
+    },
+    {
+      "id": "04-block-pointer",
+      "file": "04-block-pointer.md",
+      "title": "Chapter 4: Block Pointer 与内存访问模式",
+      "description": "深入理解 Triton 的 Block Pointer 抽象（tl.make_block_ptr、Advance），掌握边界检查（boundary_check）、内存访问模式（连续/跨步/广播），对比传统指针算术与 Block Pointer 的优劣。",
+      "order": 4
+    },
+    {
+      "id": "05-program-structure",
+      "file": "05-program-structure.md",
+      "title": "Chapter 5: 程序结构与 Grid/Block 映射",
+      "description": "理解 Triton kernel 的程序结构（program_id、num_programs、grid），掌握多维 Grid 的设计与索引计算，理解 Triton 与 CUDA Grid/Block 概念的映射关系。",
+      "order": 5
+    },
+    {
+      "id": "06-control-flow",
+      "file": "06-control-flow.md",
+      "title": "Chapter 6: 控制流与条件执行",
+      "description": "掌握 Triton 中的条件语句（if/else）、循环（for/while）、掩码操作（masked load/store），理解控制流在 SIMT 架构下的执行模型与性能影响。",
+      "order": 6
+    },
+    {
+      "id": "07-matmul-tutorial",
+      "file": "07-matmul-tutorial.md",
+      "title": "Chapter 7: 矩阵乘法实战——从朴素到高性能",
+      "description": "通过矩阵乘法的完整优化过程，掌握 Triton kernel 的系统优化方法论：朴素实现→分块（Tiling）→共享内存→循环展开→自动调优，理解每个优化步骤的性能收益。",
+      "order": 7
+    },
+    {
+      "id": "08-softmax-fused-kernel",
+      "file": "08-softmax-fused-kernel.md",
+      "title": "Chapter 8: 融合 Softmax 与 Online 算法",
+      "description": "深入理解融合算子的设计思想，掌握 Online Softmax 算法的数学推导与 Triton 实现，理解单遍扫描（single-pass）归约的技术细节与数值稳定性。",
+      "order": 8
+    },
+    {
+      "id": "09-flash-attention",
+      "file": "09-flash-attention.md",
+      "title": "Chapter 9: FlashAttention 原理与 Triton 实现",
+      "description": "深入理解 FlashAttention 的 IO-aware 算法设计（tiling、online softmax、recomputation），掌握 FlashAttention-2 的 Triton 实现细节，分析内存访问模式与计算强度。",
+      "order": 9
+    },
+    {
+      "id": "10-triton-ir-overview",
+      "file": "10-triton-ir-overview.md",
+      "title": "Chapter 10: Triton IR 概述与核心指令",
+      "description": "深入理解 Triton IR 的设计目标与语法结构，掌握核心指令（tt.make_range、tt.expand_dims、tt.dot、tt.load/tt.store），理解 Triton IR 与 LLVM IR 的关系。",
+      "order": 10
+    },
+    {
+      "id": "11-mlir-dialect-stack",
+      "file": "11-mlir-dialect-stack.md",
+      "title": "Chapter 11: MLIR 方言栈与 Triton Dialect",
+      "description": "深入理解 MLIR 的多层方言设计哲学，掌握 Triton 方言（tt/ttir）的 ODS 定义、Operation 类型、Type 系统，理解 Triton 方言在 MLIR 生态中的定位。",
+      "order": 11
+    },
+    {
+      "id": "12-compilation-pipeline",
+      "file": "12-compilation-pipeline.md",
+      "title": "Chapter 12: 编译管线全景——从 Python 到机器码",
+      "description": "完整走读 Triton 的编译管线：Python DSL → Triton IR → MLIR Triton Dialect → TritonGPU Dialect → LLVM Dialect → PTX/HSACO，理解每个阶段的转换逻辑与关键 Pass。",
+      "order": 12
+    },
+    {
+      "id": "13-tritongpu-dialect",
+      "file": "13-tritongpu-dialect.md",
+      "title": "Chapter 13: TritonGPU Dialect 与硬件映射",
+      "description": "深入理解 TritonGPU 方言的核心概念（SharedMemory、DotOperand、BlockedEncoding、MmaEncoding），掌握从 Triton IR 到 TritonGPU Dialect 的转换过程与硬件亲和性优化。",
+      "order": 13
+    },
+    {
+      "id": "14-memory-model",
+      "file": "14-memory-model.md",
+      "title": "Chapter 14: 内存模型与共享内存管理",
+      "description": "深入理解 Triton 的内存层次（Global Memory、Shared Memory、Register），掌握共享内存的分配、填充（fill）、转换（convert）机制，理解内存合并（coalescing）与 Bank Conflict。",
+      "order": 14
+    },
+    {
+      "id": "15-pass-pipeline",
+      "file": "15-pass-pipeline.md",
+      "title": "Chapter 15: MLIR Pass 管线与关键变换",
+      "description": "深入理解 Triton 编译器的 Pass 管线设计，掌握关键 Pass（TritonGPUCombineOps、TritonGPURemoveLayoutConversions、TritonGPUOptimizeDotOperands）的实现逻辑与优化策略。",
+      "order": 15
+    },
+    {
+      "id": "16-software-pipelining",
+      "file": "16-software-pipelining.md",
+      "title": "Chapter 16: 软件流水线与指令调度",
+      "description": "深入理解软件流水线（Software Pipelining）的原理与实现，掌握 Triton 的 Pipeline Scheduler 设计，理解 prologue/epilogue 生成与寄存器压力管理。",
+      "order": 16
+    },
+    {
+      "id": "17-auto-tuning",
+      "file": "17-auto-tuning.md",
+      "title": "Chapter 17: 自动调优与启发式搜索",
+      "description": "掌握 Triton 的自动调优框架（@triton.autotune），理解调优空间定义（configs）、性能模型（perf_model）、搜索策略（PreemptionConfig），对比 GridSearch 与 Bayesian 优化。",
+      "order": 17
+    },
+    {
+      "id": "18-nvidia-backend",
+      "file": "18-nvidia-backend.md",
+      "title": "Chapter 18: NVIDIA GPU 后端——PTX 代码生成",
+      "description": "深入理解 Triton 的 NVIDIA 后端实现，掌握从 LLVM Dialect 到 PTX 的代码生成过程，理解 Tensor Core 指令映射（mma.sync、ldmatrix）、Warp 级同步与 PTX 调优。",
+      "order": 18
+    },
+    {
+      "id": "19-amd-backend",
+      "file": "19-amd-backend.md",
+      "title": "Chapter 19: AMD GPU 后端——ROCm/HIP 适配",
+      "description": "深入理解 Triton 的 AMD 后端实现，掌握 ROCm 环境配置、HIP 代码生成、Matrix Core（MFMA）指令映射，理解 AMD Instinct MI300X 的硬件特性与优化策略。",
+      "order": 19
+    },
+    {
+      "id": "20-ascend-backend",
+      "file": "20-ascend-backend.md",
+      "title": "Chapter 20: 华为昇腾后端——triton-ascend 适配",
+      "description": "深入理解 triton-ascend 项目的架构设计，掌握昇腾 NPU（CANN）的算子适配策略、Ascend Dialect 的实现、Triton IR 到昇腾 TBE/ATEN 的映射，了解跨硬件迁移的技术挑战。",
+      "order": 20
+    },
+    {
+      "id": "21-spirv-backend",
+      "file": "21-spirv-backend.md",
+      "title": "Chapter 21: SPIR-V 后端与跨平台部署",
+      "description": "理解 Triton 的 SPIR-V 后端设计，掌握从 Triton IR 到 SPIR-V 的代码生成过程，了解 Intel GPU（Xe）适配与 Vulkan 计算着色器的部署策略。",
+      "order": 21
+    },
+    {
+      "id": "22-performance-profiling",
+      "file": "22-performance-profiling.md",
+      "title": "Chapter 22: 性能剖析与瓶颈定位",
+      "description": "掌握 Triton kernel 的性能剖析方法论，使用 ncu/nsys/rocprof 进行硬件级分析，理解 Triton 内置的性能指标（memory bandwidth、arithmetic intensity、occupancy）。",
+      "order": 22
+    },
+    {
+      "id": "23-memory-optimization",
+      "file": "23-memory-optimization.md",
+      "title": "Chapter 23: 内存优化与带宽利用",
+      "description": "深入理解 GPU 内存层次的性能特性，掌握内存合并访问、共享内存优化、寄存器分配策略，理解 Triton 的内存访问模式分析与优化建议。",
+      "order": 23
+    },
+    {
+      "id": "24-compute-optimization",
+      "file": "24-compute-optimization.md",
+      "title": "Chapter 24: 计算优化与指令级并行",
+      "description": "掌握计算密集型 kernel 的优化策略：Tensor Core 利用、循环展开、指令流水线、异步拷贝，理解 Triton 的 compute-sanitizer 集成与性能调优工具。",
+      "order": 24
+    },
+    {
+      "id": "25-operator-fusion",
+      "file": "25-operator-fusion.md",
+      "title": "Chapter 25: 算子融合与编译器级优化",
+      "description": "深入理解 Triton 编译器的算子融合策略，掌握 Pointwise Fusion、Reduction Fusion、Producer-Consumer Fusion 的实现机制，对比 Triton 手动融合与编译器自动融合的效果。",
+      "order": 25
+    },
+    {
+      "id": "26-cuda-comparison",
+      "file": "26-cuda-comparison.md",
+      "title": "Chapter 26: Triton vs CUDA 深度对比",
+      "description": "从编程模型、性能天花板、开发效率、可维护性四个维度深度对比 Triton 与 CUDA，通过多个实际算子（gemm、conv、attention）的实现对比分析各自的优劣。",
+      "order": 26
+    },
+    {
+      "id": "27-tvm-xla-comparison",
+      "file": "27-tvm-xla-comparison.md",
+      "title": "Chapter 27: Triton vs TVM vs XLA 编译器对比",
+      "description": "从编译器架构、IR 设计、优化策略、生态支持四个维度对比 Triton、TVM、XLA 三大 AI 编译器，分析各自的适用场景与技术路线。",
+      "order": 27
+    },
+    {
+      "id": "28-real-world-kernels",
+      "file": "28-real-world-kernels.md",
+      "title": "Chapter 28: 工业级 Kernel 实战案例",
+      "description": "深入分析 Triton 在工业界的典型应用案例：FlashAttention（OpenAI）、vLLM PagedAttention、PyTorch 编译器后端（torch.compile）、Hugging Face 加速库。",
+      "order": 28
+    },
+    {
+      "id": "29-debugging",
+      "file": "29-debugging.md",
+      "title": "Chapter 29: 调试技术与常见问题排查",
+      "description": "掌握 Triton kernel 的调试方法论：Triton 的 IR dump 机制、compute-sanitizer 集成、内存错误定位、数值精度问题排查、性能回归检测。",
+      "order": 29
+    },
+    {
+      "id": "30-testing-framework",
+      "file": "30-testing-framework.md",
+      "title": "Chapter 30: 测试框架与质量保障",
+      "description": "掌握 Triton 的测试体系：单元测试（pytest）、回归测试、性能基准测试（TritonBench）、正确性验证（reference implementation），理解 CI/CD 流程。",
+      "order": 30
+    },
+    {
+      "id": "31-agent-introduction",
+      "file": "31-agent-introduction.md",
+      "title": "Chapter 31: AI Agent 辅助算子生成导论",
+      "description": "理解 AI Agent 辅助 Triton 算子生成的动机与技术路线，掌握 GEAK-Agent 的系统架构（Generator-Reflector-Evaluator-Optimizer），理解 Reflexion 调试机制。",
+      "order": 31
+    },
+    {
+      "id": "32-agent-deep-dive",
+      "file": "32-agent-deep-dive.md",
+      "title": "Chapter 32: Agent 系统深度剖析——GEAK 与 Triton-Copilot",
+      "description": "深入走读 GEAK-Agent 的四模块闭环实现（生成器→反思器→评估器→优化器），对比 Triton-Copilot、KernelBench 等同类系统，分析 Prompt Engineering 与 Few-shot 策略。",
+      "order": 32
+    },
+    {
+      "id": "33-agent-evaluation",
+      "file": "33-agent-evaluation.md",
+      "title": "Chapter 33: Agent 评测体系与 TritonBench",
+      "description": "深入理解 TritonBench 评测框架的设计，掌握算子正确性验证、性能基准测试、生成质量评估的方法论，分析当前 AI Agent 在 Triton 算子生成上的性能数据。",
+      "order": 33
+    },
+    {
+      "id": "34-future-directions",
+      "file": "34-future-directions.md",
+      "title": "Chapter 34: Triton 生态前沿与未来展望",
+      "description": "了解 Triton 的最新技术动态（Triton 3.0/4.0 特性路线图）、新兴硬件适配（Intel Falcon Shores、Apple Silicon）、社区生态（triton-lang/triton 迁移）、与 PyTorch 2.0 深度集成。",
+      "order": 34
+    }
+  ]
+}

@@ -66,16 +66,17 @@ const components: Component[] = [
     category: 'community',
     connections: ['langchain-core'],
     features: ['模板共享', '版本管理', 'hub.pull()', 'hub.push()'],
-    installCommand: 'langchainhub package included'
+    installCommand: 'pip install langchainhub'
   }
 ];
 
-const categoryColors = {
-  core: 'from-blue-500 to-cyan-500',
-  graph: 'from-purple-500 to-pink-500',
-  observability: 'from-green-500 to-emerald-500',
-  deployment: 'from-orange-500 to-red-500',
-  community: 'from-yellow-500 to-amber-500'
+// 优化后的专业色彩系统 (更柔和、更具科技感)
+const themeColors = {
+  core: { text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-500/30', bg: 'bg-blue-50/50 dark:bg-blue-500/10', glow: 'shadow-blue-500/20' },
+  graph: { text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-500/30', bg: 'bg-purple-50/50 dark:bg-purple-500/10', glow: 'shadow-purple-500/20' },
+  observability: { text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/30', bg: 'bg-emerald-50/50 dark:bg-emerald-500/10', glow: 'shadow-emerald-500/20' },
+  deployment: { text: 'text-orange-600 dark:text-orange-400', border: 'border-orange-500/30', bg: 'bg-orange-50/50 dark:bg-orange-500/10', glow: 'shadow-orange-500/20' },
+  community: { text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-500/30', bg: 'bg-amber-50/50 dark:bg-amber-500/10', glow: 'shadow-amber-500/20' }
 };
 
 const categoryLabels = {
@@ -86,248 +87,269 @@ const categoryLabels = {
   community: '生态集成'
 };
 
+// 绝对画布配置 (彻底解决相对定位坍缩问题)
+const CANVAS_SIZE = 640;
+const CENTER = CANVAS_SIZE / 2;
+const RADIUS = 220;
+
 export default function LangChainEcosystemMap() {
   const [selectedComponent, setSelectedComponent] = useState<Component | null>(null);
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null);
 
-  const getPosition = (index: number, total: number) => {
-    const angle = (index * 2 * Math.PI) / total - Math.PI / 2;
-    const radius = 180;
-    return {
-      x: Math.cos(angle) * radius,
-      y: Math.sin(angle) * radius
-    };
-  };
+  // 精准计算绝对像素坐标 (中心点坐标)
+  const nodePositions: Record<string, { x: number, y: number }> = {};
+  const orbitNodes = components.filter(c => c.id !== 'langchain-core');
+  
+  components.forEach(comp => {
+    if (comp.id === 'langchain-core') {
+      nodePositions[comp.id] = { x: CENTER, y: CENTER };
+    } else {
+      const index = orbitNodes.findIndex(c => c.id === comp.id);
+      const angle = (index * 2 * Math.PI) / orbitNodes.length - Math.PI / 2;
+      nodePositions[comp.id] = {
+        x: CENTER + Math.cos(angle) * RADIUS,
+        y: CENTER + Math.sin(angle) * RADIUS
+      };
+    }
+  });
 
-  const isConnected = (comp1: string, comp2: string) => {
-    const component = components.find(c => c.id === comp1);
-    return component?.connections.includes(comp2) || false;
+  const isLineHighlighted = (comp1: string, comp2: string) => {
+    if (!hoveredComponent && !selectedComponent) return false;
+    const activeId = hoveredComponent || selectedComponent?.id;
+    return activeId === comp1 || activeId === comp2;
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-8 shadow-2xl">
+    <div className="w-full bg-white dark:bg-[#0A0A0A] rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-200/60 dark:border-slate-800/60 transition-colors duration-300">
+      
+      {/* 头部区域 */}
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-white mb-2">
-          LangChain 生态系统架构图
+        <h3 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">
+          LangChain 生态架构
         </h3>
-        <p className="text-slate-400">
-          点击组件查看详细信息，悬停查看连接关系
+        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+          点击节点探索组件能力，悬停查看依赖链路。全组件协同构建现代化 AI Agent 应用。
         </p>
       </div>
 
-      {/* 主可视化区域 */}
-      <div className="relative h-[500px] flex items-center justify-center">
-        {/* 中心核心 */}
-        <div className="absolute flex items-center justify-center">
-          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-2xl">
-            <div className="text-center">
-              <div className="text-white font-bold text-lg">LangChain</div>
-              <div className="text-blue-200 text-xs">Core</div>
-            </div>
+      {/* 画布区域：限制最小宽度并允许横向滚动，确保坐标绝对正确 */}
+      <div className="w-full overflow-x-auto overflow-y-hidden no-scrollbar py-10">
+        <div 
+          className="relative mx-auto" 
+          style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
+        >
+          {/* 背景雷达圈 (增强科技感) */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-30 dark:opacity-20">
+            <div className="w-[440px] h-[440px] rounded-full border border-dashed border-slate-400 dark:border-slate-500 animate-[spin_60s_linear_infinite]" />
           </div>
-        </div>
 
-        {/* 连接线 */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none">
-          {components.map((comp1, i) => {
-            const pos1 = getPosition(i, components.length);
-            return comp1.connections.map(connId => {
-              const comp2Index = components.findIndex(c => c.id === connId);
-              if (comp2Index === -1) return null;
-              const pos2 = getPosition(comp2Index, components.length);
-              
-              const isHighlighted = 
-                hoveredComponent === comp1.id || 
-                hoveredComponent === connId ||
-                selectedComponent?.id === comp1.id ||
-                selectedComponent?.id === connId;
+          {/* SVG 连线层 */}
+          <svg 
+            width={CANVAS_SIZE} 
+            height={CANVAS_SIZE} 
+            className="absolute inset-0 pointer-events-none z-0"
+          >
+            {components.map((comp) => (
+              comp.connections.map(targetId => {
+                const pos1 = nodePositions[comp.id];
+                const pos2 = nodePositions[targetId];
+                if (!pos1 || !pos2) return null;
+                
+                const highlighted = isLineHighlighted(comp.id, targetId);
 
-              return (
-                <motion.line
-                  key={`${comp1.id}-${connId}`}
-                  x1={250 + pos1.x}
-                  y1={250 + pos1.y}
-                  x2={250 + pos2.x}
-                  y2={250 + pos2.y}
-                  stroke={isHighlighted ? '#60a5fa' : '#334155'}
-                  strokeWidth={isHighlighted ? 3 : 1.5}
-                  strokeDasharray={isHighlighted ? '0' : '5,5'}
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.5, delay: i * 0.1 }}
-                />
-              );
-            });
-          })}
-        </svg>
-
-        {/* 组件节点 */}
-        {components.map((component, index) => {
-          const position = getPosition(index, components.length);
-          const isSelected = selectedComponent?.id === component.id;
-          const isHovered = hoveredComponent === component.id;
-
-          return (
-            <motion.div
-              key={component.id}
-              className="absolute"
-              style={{
-                left: '50%',
-                top: '50%',
-                transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: index * 0.15, type: 'spring' }}
-            >
-              <motion.button
-                className={`
-                  relative w-28 h-28 rounded-xl cursor-pointer
-                  bg-gradient-to-br ${categoryColors[component.category]}
-                  shadow-lg hover:shadow-2xl transition-all
-                  ${isSelected ? 'ring-4 ring-white' : ''}
-                `}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedComponent(
-                  isSelected ? null : component
-                )}
-                onMouseEnter={() => setHoveredComponent(component.id)}
-                onMouseLeave={() => setHoveredComponent(null)}
-              >
-                <div className="p-3 text-center h-full flex flex-col justify-center">
-                  <div className="text-white font-bold text-sm mb-1">
-                    {component.name.split(' ').map((word, i) => (
-                      <div key={i}>{word}</div>
-                    ))}
-                  </div>
-                  <div className="text-xs text-white/80">
-                    {categoryLabels[component.category]}
-                  </div>
-                </div>
-
-                {/* 脉冲效果 */}
-                {isHovered && (
-                  <motion.div
-                    className="absolute inset-0 rounded-xl bg-white"
-                    initial={{ opacity: 0.3, scale: 1 }}
-                    animate={{ opacity: 0, scale: 1.3 }}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
+                return (
+                  <motion.line
+                    key={`${comp.id}-${targetId}`}
+                    x1={pos1.x}
+                    y1={pos1.y}
+                    x2={pos2.x}
+                    y2={pos2.y}
+                    // 默认状态使用极细的半透明线，高亮时加粗变色
+                    stroke={highlighted ? (document.documentElement.classList.contains('dark') ? '#94a3b8' : '#64748b') : (document.documentElement.classList.contains('dark') ? '#33415580' : '#cbd5e180')}
+                    strokeWidth={highlighted ? 2 : 1.5}
+                    strokeDasharray={highlighted ? '0' : '4,6'}
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
                   />
-                )}
-              </motion.button>
-            </motion.div>
+                );
+              })
+            ))}
+          </svg>
+
+          {/* DOM 节点层 */}
+          {components.map((component, index) => {
+            const pos = nodePositions[component.id];
+            const isSelected = selectedComponent?.id === component.id;
+            const isCore = component.id === 'langchain-core';
+            const size = isCore ? 140 : 120; // 定义节点的宽/高绝对像素
+            const colors = themeColors[component.category];
+
+            return (
+              <motion.div
+                key={component.id}
+                className="absolute z-10"
+                style={{
+                  // 通过中心点坐标减去自身一半尺寸，实现绝对居中定位
+                  left: pos.x - size / 2,
+                  top: pos.y - size / 2,
+                  width: size,
+                  height: size
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: index * 0.1, type: 'spring', stiffness: 200, damping: 20 }}
+              >
+                <button
+                  className={`
+                    w-full h-full flex flex-col items-center justify-center cursor-pointer
+                    transition-all duration-300 backdrop-blur-xl
+                    ${isCore ? 'rounded-full' : 'rounded-2xl'}
+                    bg-white/80 dark:bg-[#111111]/90 
+                    border ${colors.border}
+                    hover:-translate-y-1 hover:shadow-xl hover:${colors.glow}
+                    ${isSelected ? `ring-2 ring-offset-4 dark:ring-offset-[#0A0A0A] ring-${colors.border.split('-')[1]}-400` : 'shadow-sm dark:shadow-none'}
+                  `}
+                  onClick={() => setSelectedComponent(isSelected ? null : component)}
+                  onMouseEnter={() => setHoveredComponent(component.id)}
+                  onMouseLeave={() => setHoveredComponent(null)}
+                >
+                  <div className="p-2 text-center flex flex-col items-center">
+                    {/* 小圆点装饰 */}
+                    <div className={`w-2 h-2 rounded-full mb-2 ${colors.bg.split(' ')[0]} border ${colors.border}`} />
+                    
+                    <div className={`font-bold text-[14px] leading-tight mb-2 text-slate-800 dark:text-slate-100`}>
+                      {component.name.split(' ').map((word, i) => (
+                        <div key={i}>{word}</div>
+                      ))}
+                    </div>
+                    
+                    <div className={`text-[10px] px-2 py-0.5 rounded-full border ${colors.border} ${colors.text} bg-transparent`}>
+                      {categoryLabels[component.category]}
+                    </div>
+                  </div>
+                </button>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 图例区域 */}
+      <div className="flex flex-wrap justify-center gap-6 mt-4 mb-8">
+        {Object.entries(categoryLabels).map(([key, label]) => {
+          const catColor = themeColors[key as keyof typeof themeColors];
+          return (
+            <div key={key} className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-md ${catColor.bg.split(' ')[0]} dark:${catColor.bg.split(' ')[1]} border ${catColor.border}`} />
+              <span className="text-slate-600 dark:text-slate-400 text-sm font-medium">{label}</span>
+            </div>
           );
         })}
       </div>
 
-      {/* 详细信息面板 */}
-      <AnimatePresence>
+      {/* 底部详细信息面板 */}
+      <AnimatePresence mode="wait">
         {selectedComponent && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="mt-8 bg-slate-800 rounded-xl p-6 border border-slate-700"
+            initial={{ opacity: 0, height: 0, y: 20 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
           >
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h4 className={`
-                  text-2xl font-bold bg-gradient-to-r ${categoryColors[selectedComponent.category]}
-                  bg-clip-text text-transparent
-                `}>
-                  {selectedComponent.name}
-                </h4>
-                <p className="text-slate-400 mt-1">
-                  {selectedComponent.description}
-                </p>
-              </div>
-              <button
-                onClick={() => setSelectedComponent(null)}
-                className="text-slate-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* 核心功能 */}
-              <div>
-                <h5 className="text-sm font-semibold text-slate-300 mb-3">
-                  核心功能
-                </h5>
-                <div className="space-y-2">
-                  {selectedComponent.features.map((feature, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-center gap-2"
-                    >
-                      <div className={`
-                        w-2 h-2 rounded-full
-                        bg-gradient-to-r ${categoryColors[selectedComponent.category]}
-                      `} />
-                      <span className="text-slate-300 text-sm">{feature}</span>
-                    </motion.div>
-                  ))}
+            <div className="bg-slate-50 dark:bg-[#111111] rounded-2xl p-6 lg:p-8 border border-slate-200 dark:border-slate-800 shadow-inner">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h4 className={`text-2xl font-bold mb-2 flex items-center gap-3 ${themeColors[selectedComponent.category].text}`}>
+                    {selectedComponent.name}
+                    <span className="text-xs font-normal px-2 py-1 rounded bg-slate-200/50 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                      {selectedComponent.id}
+                    </span>
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    {selectedComponent.description}
+                  </p>
                 </div>
+                <button
+                  onClick={() => setSelectedComponent(null)}
+                  className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors bg-white dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
               </div>
 
-              {/* 安装命令 */}
-              <div>
-                <h5 className="text-sm font-semibold text-slate-300 mb-3">
-                  安装/配置
-                </h5>
-                <div className="bg-slate-900 rounded-lg p-4 font-mono text-sm">
-                  <code className="text-green-400">
-                    {selectedComponent.installCommand}
-                  </code>
-                </div>
-
-                {selectedComponent.connections.length > 0 && (
-                  <div className="mt-4">
-                    <h5 className="text-sm font-semibold text-slate-300 mb-2">
-                      依赖关系
-                    </h5>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedComponent.connections.map(connId => {
-                        const conn = components.find(c => c.id === connId);
-                        return conn ? (
-                          <span
-                            key={connId}
-                            className={`
-                              px-3 py-1 rounded-full text-xs font-medium
-                              bg-gradient-to-r ${categoryColors[conn.category]}
-                              text-white
-                            `}
-                          >
-                            {conn.name}
-                          </span>
-                        ) : null;
-                      })}
-                    </div>
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* 核心功能 */}
+                <div className="space-y-4">
+                  <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                    <div className={`w-1.5 h-4 rounded-full ${themeColors[selectedComponent.category].bg.split(' ')[0]}`} />
+                    核心功能特性
+                  </h5>
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedComponent.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-2 text-slate-600 dark:text-slate-400 text-sm bg-white dark:bg-[#1A1A1A] p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                        <svg className={`w-4 h-4 mt-0.5 shrink-0 ${themeColors[selectedComponent.category].text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>{feature}</span>
+                      </div>
+                    ))}
                   </div>
-                )}
+                </div>
+
+                {/* 安装与依赖 */}
+                <div className="space-y-4">
+                  <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                    <div className={`w-1.5 h-4 rounded-full ${themeColors[selectedComponent.category].bg.split(' ')[0]}`} />
+                    快速起步
+                  </h5>
+                  
+                  {/* Terminal */}
+                  <div className="bg-[#0A0A0A] dark:bg-black rounded-xl p-4 font-mono text-sm flex items-center gap-3 border border-slate-800">
+                    <span className="text-slate-600 select-none">❯</span>
+                    <code className="text-emerald-400 flex-1">
+                      {selectedComponent.installCommand}
+                    </code>
+                    <button 
+                      className="text-slate-500 hover:text-white transition-colors p-1.5 bg-white/5 rounded-md"
+                      onClick={() => navigator.clipboard.writeText(selectedComponent.installCommand)}
+                      title="复制"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </div>
+
+                  {selectedComponent.connections.length > 0 && (
+                    <div className="pt-2">
+                      <div className="text-xs text-slate-500 mb-3 font-medium">相关组件关联</div>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedComponent.connections.map(connId => {
+                          const conn = components.find(c => c.id === connId);
+                          return conn ? (
+                            <span
+                              key={connId}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#1A1A1A] border shadow-sm ${themeColors[conn.category].border} ${themeColors[conn.category].text}`}
+                            >
+                              {conn.name}
+                            </span>
+                          ) : null;
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 图例 */}
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
-        {Object.entries(categoryLabels).map(([key, label]) => (
-          <div key={key} className="flex items-center gap-2">
-            <div className={`
-              w-4 h-4 rounded
-              bg-gradient-to-r ${categoryColors[key as keyof typeof categoryColors]}
-            `} />
-            <span className="text-slate-400 text-sm">{label}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

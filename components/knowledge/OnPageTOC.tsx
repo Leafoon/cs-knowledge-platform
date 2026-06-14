@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 
 interface OnPageTOCProps {
@@ -15,21 +15,45 @@ interface Heading {
 
 export function OnPageTOC({ className = '' }: OnPageTOCProps) {
   const [headings, setHeadings] = useState<Heading[]>([])
-  const activeId = useScrollSpy(headings.map(h => h.id))
+  // Memoize the ids array so useScrollSpy's effect doesn't re-run on every render
+  const headingIds = useMemo(() => headings.map(h => h.id), [headings])
+  const activeId = useScrollSpy(headingIds)
 
   useEffect(() => {
-    // Extract H2 and H3 headings from the page
-    const elements = Array.from(
-      document.querySelectorAll('.prose-content h2, .prose-content h3')
-    )
+    const scan = () => {
+      const elements = Array.from(
+        document.querySelectorAll('.prose-content h2, .prose-content h3')
+      ).filter((el) => (el as HTMLElement).id)
 
-    const headingData: Heading[] = elements.map((element) => ({
-      id: element.id,
-      text: element.textContent || '',
-      level: parseInt(element.tagName.substring(1)),
-    }))
+      const headingData: Heading[] = elements.map((element) => ({
+        id: (element as HTMLElement).id,
+        text: element.textContent || '',
+        level: parseInt(element.tagName.substring(1)),
+      }))
 
-    setHeadings(headingData)
+      setHeadings(headingData)
+    }
+
+    // Initial scan
+    scan()
+
+    // Re-scan whenever the prose-content subtree changes
+    // (triggered by router.refresh() replacing RSC payload)
+    const container = document.querySelector('.prose-content')
+    if (!container) return
+
+    const observer = new MutationObserver(() => {
+      // Wait for ContentRenderer's useEffect to assign IDs to headings first,
+      // then re-scan. rAF ensures we're after paint; setTimeout gives extra buffer.
+      requestAnimationFrame(() => setTimeout(scan, 80))
+    })
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+    })
+
+    return () => observer.disconnect()
   }, [])
 
   if (headings.length === 0) {

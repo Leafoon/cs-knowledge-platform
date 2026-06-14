@@ -1,0 +1,249 @@
+{
+  "chapters": [
+    {
+      "id": "00-tilelang-introduction",
+      "file": "00-tilelang-introduction.md",
+      "title": "Chapter 0: TileLang 概论与设计哲学",
+      "description": "理解 TileLang 的诞生背景、设计哲学与核心创新——数据流与调度解耦、Tile 级抽象的本质含义，对比 Triton/TVM/CUDA 的编程范式差异，建立对 TileLang 完整技术栈的宏观认识。",
+      "order": 0
+    },
+    {
+      "id": "01-environment-setup",
+      "file": "01-environment-setup.md",
+      "title": "Chapter 1: 开发环境搭建与源码结构",
+      "description": "掌握 TileLang 的完整安装流程（pip 源码编译、Docker），理解官方仓库（tile-lang/tile-lang）的目录结构与构建系统（CMake/TVM），配置 CUDA/HIP/Ascend C 开发环境。",
+      "order": 1
+    },
+    {
+      "id": "02-three-level-interfaces",
+      "file": "02-three-level-interfaces.md",
+      "title": "Chapter 2: 三级编程接口——Beginner/Developer/Expert",
+      "description": "深入理解 TileLang 的三级编程接口设计：Beginner（装饰器驱动，零调度知识）、Developer（显式内存管理与 Pipeline 注解）、Expert（Thread 级原语与 Layout 手动控制），掌握每级接口的适用场景与性能特征。",
+      "order": 2
+    },
+    {
+      "id": "03-tile-programming-model",
+      "file": "03-tile-programming-model.md",
+      "title": "Chapter 3: Tile 编程模型与核心抽象",
+      "description": "深入理解 TileLang 的核心编程模型：Tile（块）作为一等公民的设计思想、Thread Binding 机制、数据并行与计算并行的映射关系，掌握 T.Fragment/T.Shared/T.L1 的多级数据类型体系。",
+      "order": 3
+    },
+    {
+      "id": "04-explicit-memory-management",
+      "file": "04-explicit-memory-management.md",
+      "title": "Chapter 4: 显式内存层级管理",
+      "description": "深入理解 TileLang 的显式内存管理机制：T.alloc_shared（Shared Memory 分配）、T.alloc_L1（L1 Cache 分配）、T.alloc_fragment（Register/Fragment 分配），掌握多级内存（Global → Shared/L1 → Register/Local）的数据搬运与生命周期管理。",
+      "order": 4
+    },
+    {
+      "id": "05-gemm-tutorial",
+      "file": "05-gemm-tutorial.md",
+      "title": "Chapter 5: GEMM 实战——从朴素到工业级",
+      "description": "通过矩阵乘法的完整优化过程，掌握 TileLang 的系统优化方法论：朴素实现→Tiling→Shared Memory→Software Pipelining→Warp 级优化→自动调优，理解每个优化步骤的性能收益与 DeepSeek-V3 核心算子的实现精髓。",
+      "order": 5
+    },
+    {
+      "id": "06-layout-inference",
+      "file": "06-layout-inference.md",
+      "title": "Chapter 6: Layout 推理机制与 Bank Conflict 消除",
+      "description": "深入理解 TileLang 的 Layout 推理系统：Strict Inference 与 Common Inference 两种模式、Swizzled Layout 的自动推导机制、Bank Conflict 消除策略，掌握 Layout 如何连接 Tile 级逻辑与硬件线程映射。",
+      "order": 6
+    },
+    {
+      "id": "07-software-pipelining",
+      "file": "07-software-pipelining.md",
+      "title": "Chapter 7: Software Pipelining 与流水线优化",
+      "description": "深入理解 TileLang 的 Software Pipelining 自动推导机制：Pipeline Stage 划分、异步内存拷贝（cp.async）、Prologue/Epilogue 生成、寄存器压力管理，掌握通过 T.pipelined 注解实现计算与访存重叠的完整流程。",
+      "order": 7
+    },
+    {
+      "id": "08-dequantize-gemm",
+      "file": "08-dequantize-gemm.md",
+      "title": "Chapter 8: Dequantize GEMM 与低精度算子",
+      "description": "深入理解 TileLang 在低精度场景下的算子开发：INT8/FP8 量化 GEMM、Weight-only Quantization（GPTQ/AWQ）、Dequantize-then-Multiply 融合策略，掌握 TileLang 在大模型推理中压缩计算与显存的核心技术。",
+      "order": 8
+    },
+    {
+      "id": "09-flash-attention-tilelang",
+      "file": "09-flash-attention-tilelang.md",
+      "title": "Chapter 9: FlashAttention 的 TileLang 实现",
+      "description": "深入理解 FlashAttention 在 TileLang 中的实现细节：Online Softmax 算法、Tiling 策略、IO-aware 设计、Sparse Flash Attention 扩展，对比 PyTorch 原生实现与 CUDA 手写实现的代码行数与性能差异。",
+      "order": 9
+    },
+    {
+      "id": "10-flashmla-implementation",
+      "file": "10-flashmla-implementation.md",
+      "title": "Chapter 10: FlashMLA 算子压缩与 MLA 架构适配",
+      "description": "深入理解 Multi-head Latent Attention（MLA）架构的 TileLang 实现：KV Cache 压缩、低秩投影融合、与 DeepSeek-V3 推理管线的集成，掌握 TileLang 如何将 500 行 CUDA 代码压缩为 50 行而保持极致性能。",
+      "order": 10
+    },
+    {
+      "id": "11-tensorir-integration",
+      "file": "11-tensorir-integration.md",
+      "title": "Chapter 11: TileLang IR 与 TensorIR 的关系",
+      "description": "深入理解 TileLang 的中间表示层：TileLang IR 如何映射到 TVM 的 TensorIR、Buffer/Region 的抽象与 Lowering 过程、TileLang 与 TVM 的编译管线协同，理解 TileLang 在 TVM 生态中的定位。",
+      "order": 11
+    },
+    {
+      "id": "12-tvm-relax-pipeline",
+      "file": "12-tvm-relax-pipeline.md",
+      "title": "Chapter 12: TVM/Relax 编译管线集成",
+      "description": "深入理解 TileLang 与 TVM Relax 的集成方式：如何将 TileLang kernel 嵌入 Relax 计算图、算子注册与调度、端到端编译流程（Python DSL → TensorIR → LLVM/CUDA 汇编），掌握编译管线每个阶段的转换逻辑。",
+      "order": 12
+    },
+    {
+      "id": "13-compilation-pipeline",
+      "file": "13-compilation-pipeline.md",
+      "title": "Chapter 13: 编译管线全景——从 Python 到机器码",
+      "description": "完整走读 TileLang 的编译管线：Python DSL → Tile IR → TensorIR → LLVM Dialect → PTX/HSACO/Ascend C，理解每个阶段的关键 Pass、优化策略与硬件映射逻辑。",
+      "order": 13
+    },
+    {
+      "id": "14-thread-binding",
+      "file": "14-thread-binding.md",
+      "title": "Chapter 14: Thread Binding 与硬件线程映射",
+      "description": "深入理解 TileLang 的 Thread Binding 机制：如何将 Tile 维度映射到 CUDA Thread Block/Warp/Thread、AMD Wavefront/Thread、昇腾 AI Core，掌握 T.thread_binding 注解的使用与底层代码生成。",
+      "order": 14
+    },
+    {
+      "id": "15-warp-level-operations",
+      "file": "15-warp-level-operations.md",
+      "title": "Chapter 15: Warp 级原语与硬件亲和性优化",
+      "description": "深入理解 TileLang 中的 Warp 级操作：Warp Shuffle、Warp Reduce、Tensor Core 指令映射（mma.sync/wmma），掌握如何在 TileLang 中直接使用线程级原语实现极致性能优化。",
+      "order": 15
+    },
+    {
+      "id": "16-nvidia-backend",
+      "file": "16-nvidia-backend.md",
+      "title": "Chapter 16: NVIDIA GPU 后端——CUDA/PTX 代码生成",
+      "description": "深入理解 TileLang 的 NVIDIA 后端实现：从 TileLang IR 到 PTX 的代码生成过程、Tensor Core 指令映射（mma.sync、ldmatrix、cp.async）、Warp 级同步、Shared Memory 配置，理解 Hopper/Ada Lovelace 架构特性。",
+      "order": 16
+    },
+    {
+      "id": "17-amd-backend",
+      "file": "17-amd-backend.md",
+      "title": "Chapter 17: AMD GPU 后端——ROCm/HIP 适配",
+      "description": "深入理解 TileLang 的 AMD 后端实现：ROCm 环境配置、HIP 代码生成、Matrix Core（MFMA）指令映射，理解 AMD Instinct MI300X 的硬件特性（CDNA 3 架构）与 TileLang 的适配策略。",
+      "order": 17
+    },
+    {
+      "id": "18-ascend-backend",
+      "file": "18-ascend-backend.md",
+      "title": "Chapter 18: 华为昇腾后端——Ascend C 适配",
+      "description": "深入理解 TileLang-Ascend 的架构设计：TileLang IR 到 Ascend C 的多级 Lowering、毕昇编译器（BiSheng）协同工作流、Cube Core/Vector Core 双核调度、AI Cube 内存层级适配，掌握跨硬件迁移的技术挑战与解决方案。",
+      "order": 18
+    },
+    {
+      "id": "19-jit-compilation",
+      "file": "19-jit-compilation.md",
+      "title": "Chapter 19: JIT 动态编译与运行时机制",
+      "description": "深入理解 TileLang 的 JIT 编译机制：运行时代码生成、编译缓存策略、Kernel Launch 配置自动推导、与 PyTorch 的无缝集成（torch.compile 后端），掌握 TileLang 的即时编译与部署流程。",
+      "order": 19
+    },
+    {
+      "id": "20-auto-schedule",
+      "file": "20-auto-schedule.md",
+      "title": "Chapter 20: Auto Schedule 与智能调优",
+      "description": "深入理解 TileLang 的自动调优框架：搜索空间定义（Tile Size、Pipeline Stage、Thread Binding）、性能模型、搜索策略（Grid Search/Bayesian），对比 TileLang Auto Schedule 与 Triton autotune、TVM AutoTVM 的设计理念。",
+      "order": 20
+    },
+    {
+      "id": "21-performance-profiling",
+      "file": "21-performance-profiling.md",
+      "title": "Chapter 21: 性能剖析与瓶颈定位",
+      "description": "掌握 TileLang kernel 的性能剖析方法论：使用 ncu/nsys/rocprof 进行硬件级分析、TileLang 内置的性能指标（memory bandwidth、arithmetic intensity、occupancy）、编译器 IR dump 与 Pass 分析工具。",
+      "order": 21
+    },
+    {
+      "id": "22-memory-optimization",
+      "file": "22-memory-optimization.md",
+      "title": "Chapter 22: 内存优化与带宽利用",
+      "description": "深入理解 GPU/NPU 内存层次的性能特性，掌握内存合并访问、Shared Memory 优化、寄存器分配策略、L1 Cache 利用，理解 TileLang 的显式内存管理如何提供比 Triton 更精细的控制能力。",
+      "order": 22
+    },
+    {
+      "id": "23-compute-optimization",
+      "file": "23-compute-optimization.md",
+      "title": "Chapter 23: 计算优化与指令级并行",
+      "description": "掌握计算密集型 kernel 的优化策略：Tensor Core/MFMA 利用、循环展开（T.unroll）、指令流水线、异步拷贝与计算重叠、Warp 级特化，理解 TileLang 如何在保持简洁性的同时提供极致的计算利用率。",
+      "order": 23
+    },
+    {
+      "id": "24-operator-fusion",
+      "file": "24-operator-fusion.md",
+      "title": "Chapter 24: 算子融合与编译器级优化",
+      "description": "深入理解 TileLang 的算子融合策略：Elementwise Fusion、Reduction Fusion、Producer-Consumer Fusion 的实现机制，对比 TileLang 手动融合与编译器自动融合的效果，分析 DeepSeek-V3 中的算子融合实践。",
+      "order": 24
+    },
+    {
+      "id": "25-convolution-operators",
+      "file": "25-convolution-operators.md",
+      "title": "Chapter 25: 卷积算子与 Im2Col 变换",
+      "description": "掌握 TileLang 中卷积算子的实现策略：Im2Col + GEMM 方法、Winograd 变换、直接卷积实现，理解 TileLang 的 Tile 抽象如何简化卷积算子的并行化与内存访问优化。",
+      "order": 25
+    },
+    {
+      "id": "26-reduction-operators",
+      "file": "26-reduction-operators.md",
+      "title": "Chapter 26: 归约算子与 Softmax/BatchNorm",
+      "description": "深入理解 TileLang 中归约类算子的实现：Block-level Reduce、Online Softmax、LayerNorm/BatchNorm 融合实现，掌握 Tile 的 Partial Reduce → Cross-Tile Reduce 两阶段归约模式。",
+      "order": 26
+    },
+    {
+      "id": "27-moe-operators",
+      "file": "27-moe-operators.md",
+      "title": "Chapter 27: MoE 算子与专家并行",
+      "description": "深入理解 Mixture-of-Experts（MoE）架构中 TileLang 算子的实现：Expert GEMM 调度、Token 分发与汇聚、动态负载均衡，分析 TileLang 在 MoE 模型（如 DeepSeek-V3 MoE）中的工程实践。",
+      "order": 27
+    },
+    {
+      "id": "28-triton-comparison",
+      "file": "28-triton-comparison.md",
+      "title": "Chapter 28: TileLang vs Triton 深度对比",
+      "description": "从编程模型、内存管理、Layout 推理、Pipeline 机制、性能天花板、开发效率六个维度深度对比 TileLang 与 Triton，通过多个实际算子（GEMM、FlashAttention、Conv2d）的实现对比分析各自的优劣。",
+      "order": 28
+    },
+    {
+      "id": "29-tvm-cuda-comparison",
+      "file": "29-tvm-cuda-comparison.md",
+      "title": "Chapter 29: TileLang vs TVM vs CUDA 编译器对比",
+      "description": "从编译器架构、IR 设计、调度策略、硬件适配、性能表现五个维度对比 TileLang、TVM、原生 CUDA 三大方案，分析各自的适用场景、技术路线与社区生态。",
+      "order": 29
+    },
+    {
+      "id": "30-deepseek-integration",
+      "file": "30-deepseek-integration.md",
+      "title": "Chapter 30: DeepSeek-V3/V4 工程实践与 TileLang 算子",
+      "description": "深入分析 TileLang 在 DeepSeek-V3/V4 推理管线中的核心作用：FlashMLA 算子压缩（500行→50行）、MLA 架构适配、MoE 调度优化、端到端推理性能数据，理解 TileLang 在工业级大模型推理中的价值。",
+      "order": 30
+    },
+    {
+      "id": "31-real-world-kernels",
+      "file": "31-real-world-kernels.md",
+      "title": "Chapter 31: 工业级 Kernel 实战案例",
+      "description": "深入分析 TileLang 在工业界的典型应用案例：高性能 GEMM（cuBLAS 级别）、FlashAttention 系列、Grouped GEMM、Sparse 算子，对比厂商手写库（cuBLAS/CANN/matmul）的性能基准。",
+      "order": 31
+    },
+    {
+      "id": "32-debugging-testing",
+      "file": "32-debugging-testing.md",
+      "title": "Chapter 32: 调试技术与测试框架",
+      "description": "掌握 TileLang kernel 的调试方法论：IR dump 机制、内存错误定位、数值精度问题排查、单元测试（pytest）、正确性验证（reference implementation）、性能回归检测与 CI/CD 流程。",
+      "order": 32
+    },
+    {
+      "id": "33-sparse-operators",
+      "file": "33-sparse-operators.md",
+      "title": "Chapter 33: 稀疏算子与结构化稀疏",
+      "description": "深入理解 TileLang 在稀疏计算领域的应用：Structured Sparsity（2:4 稀疏）、Block Sparse、Sparse FlashAttention 实现，掌握 TileLang 的 Tile 抽象如何简化稀疏算子的编程复杂度。",
+      "order": 33
+    },
+    {
+      "id": "34-future-directions",
+      "file": "34-future-directions.md",
+      "title": "Chapter 34: TileLang 生态前沿与未来展望",
+      "description": "了解 TileLang 的最新技术动态与未来方向：更多硬件后端支持（Intel GPU、Apple Silicon）、AI Agent 辅助 TileLang 算子生成、Auto Schedule 智能调优进化、与 PyTorch 2.0/torch.compile 的深度集成。",
+      "order": 34
+    }
+  ]
+}

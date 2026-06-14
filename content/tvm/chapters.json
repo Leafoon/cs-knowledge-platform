@@ -1,0 +1,277 @@
+{
+  "chapters": [
+    {
+      "id": "00-introduction",
+      "file": "00-introduction.md",
+      "title": "Chapter 0: 深度学习编译器导论",
+      "description": "理解深度学习编译器的本质与动机，掌握计算图、张量、算子等核心概念，了解 TVM 在 DL 编译器生态中的定位，对比 XLA、MLIR、ONNX Runtime 等同类框架。",
+      "order": 0
+    },
+    {
+      "id": "01-tvm-architecture",
+      "file": "01-tvm-architecture.md",
+      "title": "Chapter 1: TVM 整体架构与代码导航",
+      "description": "深入理解 TVM 的分层架构设计（Python 前端 → Relay/TIR → Codegen → Runtime），掌握源码目录结构、构建系统与关键入口点，理解端到端编译流程。",
+      "order": 1
+    },
+    {
+      "id": "02-environment-setup",
+      "file": "02-environment-setup.md",
+      "title": "Chapter 2: TVM 开发环境搭建与源码编译",
+      "description": "掌握从源码编译 TVM 的完整流程，理解 LLVM/CUDA/CLML 等可选后端依赖，配置 Python 包装层，验证安装与运行首个端到端示例。",
+      "order": 2
+    },
+    {
+      "id": "03-frontend-import",
+      "file": "03-frontend-import.md",
+      "title": "Chapter 3: 前端模型导入：PyTorch/ONNX/TF",
+      "description": "深入理解 TVM 从前端框架导入模型的完整流程，掌握 PyTorch FX tracer、ONNX 解析器、TensorFlow frozen graph 导入的源码实现与常见问题排查。",
+      "order": 3
+    },
+    {
+      "id": "04-relay-ir-basics",
+      "file": "04-relay-ir-basics.md",
+      "title": "Chapter 4: Relay IR 基础：表达式、类型与模块",
+      "description": "深入理解 Relay IR 的设计动机与核心数据结构（Expr、Type、Module），掌握函数定义、算子调用、Let 绑定等基础构造，理解 Relay 的代数数据类型系统。",
+      "order": 4
+    },
+    {
+      "id": "05-relay-type-system",
+      "file": "05-relay-type-system.md",
+      "title": "Chapter 5: Relay 类型系统与形状推断",
+      "description": "深入理解 Relay 的类型系统设计（TensorType、FuncType、TupleType），掌握类型推断算法与形状推断流程，理解动态形状处理策略。",
+      "order": 5
+    },
+    {
+      "id": "06-relay-optimizer",
+      "file": "06-relay-optimizer.md",
+      "title": "Chapter 6: Relay 优化 Pass 框架",
+      "description": "深入理解 Relay 的 Pass Infrastructure 设计，掌握 Pass 注册、调度与依赖管理机制，理解 PassContext、PassInfo 等核心类。",
+      "order": 6
+    },
+    {
+      "id": "07-operator-fusion",
+      "file": "07-operator-fusion.md",
+      "title": "Chapter 7: 算子融合（Operator Fusion）",
+      "description": "深入理解 Relay 算子融合的核心算法（src/relay/transforms/fuse_ops.cc），掌握融合策略（horizontal/vertical/chunk），理解算子模式注册与匹配机制。",
+      "order": 7
+    },
+    {
+      "id": "08-relay-transforms",
+      "file": "08-relay-transforms.md",
+      "title": "Chapter 8: Relay 常用优化变换详解",
+      "description": "深入理解常量折叠（Deforestation）、死代码消除、部分求值、布局变换等核心 Relay 优化 Pass 的实现原理与源码走读。",
+      "order": 8
+    },
+    {
+      "id": "09-te-introduction",
+      "file": "09-te-introduction.md",
+      "title": "Chapter 9: Tensor Expression (TE) 入门",
+      "description": "深入理解 TE 的设计哲学（Schedule + Compute），掌握张量表达式定义、计算声明与调度原语的基本用法，理解 TE 与 Halide 的关系。",
+      "order": 9
+    },
+    {
+      "id": "10-te-schedule-primitives",
+      "file": "10-te-schedule-primitives.md",
+      "title": "Chapter 10: TE 调度原语深度解析",
+      "description": "深入理解 split、reorder、tile、fuse、unroll、vectorize、bind 等调度原语的语义与实现，掌握循环变换的数学表示与合法性验证。",
+      "order": 10
+    },
+    {
+      "id": "11-te-compute-at",
+      "file": "11-te-compute-at.md",
+      "title": "Chapter 11: 计算内联与 compute_at",
+      "description": "深入理解 compute_root、compute_at、compute_inline 的语义差异，掌握内联调度对缓存局部性的影响，理解 TE 阶段（Stage）依赖图的构建。",
+      "order": 11
+    },
+    {
+      "id": "12-tir-overview",
+      "file": "12-tir-overview.md",
+      "title": "Chapter 12: TIR（Tensor IR）概述",
+      "description": "深入理解 TIR 的设计定位（TE→TIR Lowering），掌握 PrimFunc、Buffer、Var 等核心数据结构，理解 TIR 与 LLVM IR 的对应关系。",
+      "order": 12
+    },
+    {
+      "id": "13-tir-transforms",
+      "file": "13-tir-transforms.md",
+      "title": "Chapter 13: TIR 变换 Pass 详解",
+      "description": "深入理解 Loop Partitioning、Storage Rewrite、Thread Sync、Vectorize、Unroll 等 TIR 变换 Pass 的源码实现与优化效果。",
+      "order": 13
+    },
+    {
+      "id": "14-tir-buffer",
+      "file": "14-tir-buffer.md",
+      "title": "Chapter 14: TIR Buffer 体系与内存模型",
+      "description": "深入理解 TIR 的 Buffer 抽象、内存作用域（global/shared/local/warp）、Buffer 定义与访问模式，理解 Storage Align 与 Double Buffer 优化。",
+      "order": 14
+    },
+    {
+      "id": "15-autotvm",
+      "file": "15-autotvm.md",
+      "title": "Chapter 15: AutoTVM 自动调优",
+      "description": "深入理解 AutoTVM 的模板定义、特征提取、搜索算法（GBT + XGBoost），掌握 Schedule Template 编写与调优脚本开发。",
+      "order": 15
+    },
+    {
+      "id": "16-meta-schedule",
+      "file": "16-meta-schedule.md",
+      "title": "Chapter 16: MetaSchedule（Ansor）无模板调优",
+      "description": "深入理解 MetaSchedule 的设计哲学（Program/Schedule/ScheduleRule/Postproc），掌握采样空间构建、代价模型训练与进化搜索算法。",
+      "order": 16
+    },
+    {
+      "id": "17-codegen-llvm",
+      "file": "17-codegen-llvm.md",
+      "title": "Chapter 17: LLVM 代码生成后端",
+      "description": "深入理解 TVM 的 LLVM CodeGen 实现（src/target/llvm/codegen_llvm.cc），掌握 TIR→LLVM IR 的映射、向量化指令生成与 CPU 调优策略。",
+      "order": 17
+    },
+    {
+      "id": "18-codegen-cuda",
+      "file": "18-codegen-cuda.md",
+      "title": "Chapter 18: CUDA 代码生成后端",
+      "description": "深入理解 TVM 的 CUDA CodeGen 实现（src/target/source/codegen_cuda.cc），掌握线程绑定、共享内存管理、Warp 级原语与 CUDA Kernel 生成。",
+      "order": 18
+    },
+    {
+      "id": "19-codegen-opencl-vulkan",
+      "file": "19-codegen-opencl-vulkan.md",
+      "title": "Chapter 19: OpenCL / Vulkan / Metal 后端",
+      "description": "深入理解 TVM 的跨平台 GPU 后端（OpenCL、Vulkan、Metal/SPIRV），掌握各后端的差异处理、SPIR-V 代码生成与设备特性适配。",
+      "order": 19
+    },
+    {
+      "id": "20-codegen-specialized",
+      "file": "20-codegen-specialized.md",
+      "title": "Chapter 20: 专用后端：Hexagon / WebAssembly / C",
+      "description": "深入理解 TVM 对 DSP（Hexagon）、WebAssembly、纯 C 源码等特殊后端的支持实现，掌握 Target 注册机制与外部代码生成接口。",
+      "order": 20
+    },
+    {
+      "id": "21-relay-to-te",
+      "file": "21-relay-to-te.md",
+      "title": "Chapter 21: Relay→TE/TIR 的 Lowering 管线",
+      "description": "深入理解 Relay 计算图到 TE 算子、再到 TIR 低级表示的完整 lowering 流程，掌握 FuseOps→TE Lower→Schedule→TIR Lower 的编译管线。",
+      "order": 21
+    },
+    {
+      "id": "22-graph-runtime",
+      "file": "22-graph-runtime.md",
+      "title": "Chapter 22: 图执行器（Graph Runtime）",
+      "description": "深入理解 TVM 的图执行器设计（GraphExecutor / DebugExecutor），掌握算子调度、内存分配与异步执行的实现机制。",
+      "order": 22
+    },
+    {
+      "id": "23-memory-management",
+      "file": "23-memory-management.md",
+      "title": "Chapter 23: 运行时内存管理",
+      "description": "深入理解 TVM 运行时的内存池、设备内存分配器（DeviceAPI）、PackedFunc 调度机制与零拷贝数据传输策略。",
+      "order": 23
+    },
+    {
+      "id": "24-packedfunc-rpc",
+      "file": "24-packedfunc-rpc.md",
+      "title": "Chapter 24: PackedFunc 与 RPC 机制",
+      "description": "深入理解 TVM 的 PackedFunc 类型擦除调用机制、Module 注册系统与远程过程调用（RPC）的实现，掌握跨设备调试技术。",
+      "order": 24
+    },
+    {
+      "id": "25-target-system",
+      "file": "25-target-system.md",
+      "title": "Chapter 25: Target 系统与硬件描述",
+      "description": "深入理解 TVM 的 Target 系统设计（TargetKind、Target JSON、Device API），掌握自定义 Target 注册与硬件特性声明机制。",
+      "order": 25
+    },
+    {
+      "id": "26-relay-executor",
+      "file": "26-relay-executor.md",
+      "title": "Chapter 26: Relay 执行器：VM 与 AOT",
+      "description": "深入理解 Relay VM（虚拟机执行）与 Relay AOT（提前编译）两种执行模式的设计、实现与适用场景，掌握字节码编译与代码生成流程。",
+      "order": 26
+    },
+    {
+      "id": "27-quantization",
+      "file": "27-quantization.md",
+      "title": "Chapter 27: 量化支持",
+      "description": "深入理解 TVM 的量化框架（QNN Dialect），掌握量化算子定义、校准流程、INT8/FP16 低精度推理与量化感知训练支持。",
+      "order": 27
+    },
+    {
+      "id": "28-sparse-computation",
+      "file": "28-sparse-computation.md",
+      "title": "Chapter 28: 稀疏计算支持",
+      "description": "深入理解 TVM 对稀疏张量（CSR/COO/BSR）的支持，掌握稀疏算子调度、稀疏代码生成与自动稀疏化策略。",
+      "order": 28
+    },
+    {
+      "id": "29-microtvm",
+      "file": "29-microtvm.md",
+      "title": "Chapter 29: microTVM 嵌入式部署",
+      "description": "深入理解 microTVM 的设计（CRT 运行时、虚拟机模式、AutoTVM 集成），掌握在 Arduino、Zephyr、CMSIS-NN 等嵌入式平台的部署流程。",
+      "order": 29
+    },
+    {
+      "id": "30-vta",
+      "file": "30-vta.md",
+      "title": "Chapter 30: VTA 可编程加速器",
+      "description": "深入理解 VTA（Versatile Tensor Accelerator）的硬件架构（GEMM/ALU/Load/Store 单元）、TVM 集成与 FPGA 部署流程。",
+      "order": 30
+    },
+    {
+      "id": "31-tvm-unity",
+      "file": "31-tvm-unity.md",
+      "title": "Chapter 31: TVM Unity 与 Relax IR",
+      "description": "深入理解 TVM Unity 的设计愿景（统一 Relay/TE/TIR），掌握 Relax IR 的核心设计（Expr、StructInfo、VM）与端到端编译流程。",
+      "order": 31
+    },
+    {
+      "id": "32-dynamic-shapes",
+      "file": "32-dynamic-shapes.md",
+      "title": "Chapter 32: 动态形状与符号推理",
+      "description": "深入理解 TVM 处理动态形状输入的技术方案，掌握 SymbolicShape、Dynamic TIR、Shape Func 推断机制与动态 Kernel 生成策略。",
+      "order": 32
+    },
+    {
+      "id": "33-profiling-benchmark",
+      "file": "33-profiling-benchmark.md",
+      "title": "Chapter 33: 性能剖析与基准测试",
+      "description": "深入理解 TVM 的 Profiler 基础设施、RPC 基准测试工具、Open Tuning Record 数据库与端到端性能分析方法论。",
+      "order": 33
+    },
+    {
+      "id": "34-custom-op",
+      "file": "34-custom-op.md",
+      "title": "Chapter 34: 自定义算子开发",
+      "description": "掌握在 TVM 中注册自定义算子（Relay 算子、TE Compute、外部函数调用）的完整流程，理解算子注册表与 FFI 机制。",
+      "order": 34
+    },
+    {
+      "id": "35-debugging",
+      "file": "35-debugging.md",
+      "title": "Chapter 35: 调试与错误排查",
+      "description": "掌握 TVM 开发中的常见编译错误、运行时错误与性能问题的排查方法，理解 Relay 可视化工具、TIR dump 与 Pass 调试技巧。",
+      "order": 35
+    },
+    {
+      "id": "36-tvm-vs-xla-mlir",
+      "file": "36-tvm-vs-xla-mlir.md",
+      "title": "Chapter 36: TVM vs XLA vs MLIR 深度对比",
+      "description": "从架构设计、IR 层次、优化策略、部署生态等维度全面对比 TVM 与 Google XLA、LLVM MLIR 等主流 DL 编译器的优劣与适用场景。",
+      "order": 36
+    },
+    {
+      "id": "37-case-studies",
+      "file": "37-case-studies.md",
+      "title": "Chapter 37: 生产实践与案例研究",
+      "description": "通过 ResNet、BERT、LLaMA 等经典模型的 TVM 编译部署案例，掌握从模型导入到性能优化的端到端实战经验与最佳实践。",
+      "order": 37
+    },
+    {
+      "id": "38-future-directions",
+      "file": "38-future-directions.md",
+      "title": "Chapter 38: TVM 前沿与未来方向",
+      "description": "了解 TVM 社区的发展动态、MLC-LLM 移动端推理、TVM Unity 全面落地、与 Triton/JAX 等新兴编译器的融合趋势。",
+      "order": 38
+    }
+  ]
+}

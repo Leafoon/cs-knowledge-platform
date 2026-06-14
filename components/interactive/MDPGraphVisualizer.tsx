@@ -2,216 +2,241 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { BookOpen, Coffee, Facebook, Moon, PartyPopper, CheckCircle2, XCircle } from "lucide-react";
 
-// Helper to generate SVG paths
-const getPath = (x1: number, y1: number, x2: number, y2: number, curvature = 0) => {
+// Helper to generate curved SVG paths
+const getCurvedPath = (x1: number, y1: number, x2: number, y2: number, curvature = 0) => {
     if (curvature === 0) return `M ${x1} ${y1} L ${x2} ${y2}`;
 
-    // Calculate midpoint with offset for quadratic bezier
     const midX = (x1 + x2) / 2;
     const midY = (y1 + y2) / 2;
-
-    // Normal vector (-dy, dx)
     const dx = x2 - x1;
     const dy = y2 - y1;
     const len = Math.sqrt(dx * dx + dy * dy);
 
-    if (len === 0) return ""; // Should handle self-loop differently if needed
+    if (len === 0) return "";
 
     const offsetX = -dy * (curvature / len);
     const offsetY = dx * (curvature / len);
-
     const cX = midX + offsetX;
     const cY = midY + offsetY;
 
     return `M ${x1} ${y1} Q ${cX} ${cY} ${x2} ${y2}`;
 };
 
-const getSelfLoopPath = (x: number, y: number, size = 40, direction: 'top' | 'left' | 'right' | 'bottom' = 'top') => {
-    // A simple cubic bezier loop
-    const offset = size;
-    switch (direction) {
-        case 'left':
-            return `M ${x - 20} ${y} C ${x - offset} ${y - 20}, ${x - offset} ${y + 20}, ${x - 20} ${y}`;
-        case 'top':
-        default:
-            return `M ${x} ${y - 20} C ${x - 20} ${y - offset}, ${x + 20} ${y - offset}, ${x} ${y - 20}`;
-    }
+// Self-loop path for Facebook state
+const getSelfLoopPath = (x: number, y: number) => {
+    return `M ${x - 30} ${y} C ${x - 60} ${y - 30}, ${x - 60} ${y + 30}, ${x - 30} ${y}`;
 };
 
-// Define types
+interface Node {
+    id: string;
+    label: string;
+    x: number;
+    y: number;
+    type: 'state' | 'terminal';
+    color: string;
+    icon?: any;
+}
+
 interface Edge {
     from: string;
     to: string;
-    label: string;
-    straight?: boolean;
-    dashed?: boolean;
+    action: string;
+    reward: string;
     curvature?: number;
-    loop?: 'top' | 'left' | 'right' | 'bottom';
-    labelIdx?: number;
-    labelOff?: { x: number; y: number };
+    selfLoop?: boolean;
 }
 
 export function MDPGraphVisualizer() {
     const [activeNode, setActiveNode] = useState<string | null>(null);
+    const [hoveredEdge, setHoveredEdge] = useState<number | null>(null);
 
-    // Optimized Coordinates for Expanded Layout (600x480 Canvas)
-    const nodes = [
-        // States
-        { id: "fb", label: "Facebook", x: 60, y: 240, type: "state", color: "indigo" },
-        { id: "class", label: "Class", x: 300, y: 240, type: "state", color: "blue" },
-        { id: "pass", label: "Pass", x: 540, y: 240, type: "term", color: "emerald" },
-        { id: "pub", label: "Pub", x: 300, y: 420, type: "state", color: "amber" },
-        { id: "sleep", label: "Sleep", x: 300, y: 60, type: "term", color: "slate" },
-
-        // Actions
-        { id: "act_fb", label: "F", x: 180, y: 240, type: "action", color: "slate" },      // Class -> FB
-        { id: "act_quit", label: "Q", x: 180, y: 160, type: "action", color: "slate" },    // FB -> Class
-        { id: "act_study", label: "S", x: 420, y: 240, type: "action", color: "slate" },   // Class -> Study
-        { id: "act_sleep", label: "Z", x: 300, y: 150, type: "action", color: "slate" },   // Class -> Sleep
-        { id: "act_cont", label: "C", x: 40, y: 160, type: "action", color: "slate" },     // FB -> FB (moved up-left)
-        { id: "act_pub", label: "P", x: 300, y: 340, type: "action", color: "slate" },     // Pub -> Class (Loop)
+    // Cleaner circular layout - 600x500 canvas
+    const nodes: Node[] = [
+        { id: "sleep", label: "Sleep", x: 300, y: 80, type: "state", color: "bg-blue-100 border-blue-300 text-blue-700", icon: Moon },
+        { id: "study", label: "Study", x: 480, y: 200, type: "state", color: "bg-green-100 border-green-300 text-green-700", icon: BookOpen },
+        { id: "class", label: "Class", x: 420, y: 350, type: "state", color: "bg-cyan-100 border-cyan-300 text-cyan-700", icon: BookOpen },
+        { id: "pub", label: "Pub", x: 220, y: 400, type: "state", color: "bg-orange-100 border-orange-300 text-orange-700", icon: Coffee },
+        { id: "facebook", label: "Facebook", x: 100, y: 250, type: "state", color: "bg-yellow-100 border-yellow-300 text-yellow-700", icon: Facebook },
+        { id: "pass", label: "Pass", x: 500, y: 480, type: "terminal", color: "bg-emerald-100 border-emerald-400 text-emerald-700", icon: CheckCircle2 },
+        { id: "fail", label: "Fail", x: 380, y: 480, type: "terminal", color: "bg-red-100 border-red-400 text-red-700", icon: XCircle },
     ];
 
     const edges: Edge[] = [
-        // CLASS Outgoing
-        { from: "class", to: "act_fb", label: "facebook (-1)", straight: true, labelIdx: 0.5, labelOff: { x: 0, y: -20 } },
-        { from: "act_fb", to: "fb", label: "", straight: true, dashed: true },
+        // From Sleep
+        { from: "sleep", to: "study", action: "study", reward: "+1", curvature: 0 },
+        { from: "sleep", to: "facebook", action: "facebook", reward: "-1", curvature: -30 },
 
-        { from: "class", to: "act_study", label: "study (-2)", straight: true, labelOff: { x: 0, y: -20 } },
-        { from: "act_study", to: "pass", label: "0.6 (+10)", straight: true, dashed: true, labelOff: { x: 0, y: -20 } },
-        { from: "act_study", to: "pub", label: "0.4 (+1)", curvature: -40, dashed: true, labelOff: { x: 35, y: 0 } },
+        // From Study
+        { from: "study", to: "sleep", action: "sleep", reward: "+1", curvature: 30 },
+        { from: "study", to: "class", action: "attend", reward: "+10", curvature: 0 },
 
-        { from: "class", to: "act_sleep", label: "sleep (0)", straight: true, labelOff: { x: 25, y: 0 } },
-        { from: "act_sleep", to: "sleep", label: "1.0", straight: true, dashed: true },
+        // From Facebook
+        { from: "facebook", to: "facebook", action: "scroll", reward: "-1", selfLoop: true },
+        { from: "facebook", to: "sleep", action: "quit", reward: "+1", curvature: 30 },
+        { from: "facebook", to: "study", action: "study", reward: "+1", curvature: -40 },
 
-        // FACEBOOK Outgoing
-        { from: "fb", to: "act_quit", label: "quit (0)", curvature: -60, labelOff: { x: -10, y: -20 } },
-        { from: "act_quit", to: "class", label: "", curvature: -40, dashed: true },
+        // From Class
+        { from: "class", to: "pass", action: "pass", reward: "+10", curvature: 0 },
+        { from: "class", to: "pub", action: "pub", reward: "-2", curvature: 0 },
 
-        { from: "fb", to: "act_cont", label: "keep scrolling", curvature: -40, labelOff: { x: -20, y: 0 } }, // Curve to corner
-        { from: "act_cont", to: "fb", label: "-1", curvature: -20, dashed: true, labelOff: { x: -15, y: 10 } },
-
-        // PUB Outgoing
-        { from: "pub", to: "act_pub", label: "drink", straight: true, labelOff: { x: 20, y: 0 } },
-        { from: "act_pub", to: "class", label: "0.2 / 0.4 / 0.4", straight: true, dashed: true, labelOff: { x: 50, y: 0 } },
+        // From Pub
+        { from: "pub", to: "class", action: "study", reward: "+1", curvature: -20 },
+        { from: "pub", to: "sleep", action: "sleep", reward: "-1", curvature: 40 },
     ];
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-            <h3 className="text-lg font-bold mb-6 text-center text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                Student MDP Example
-            </h3>
+        <div className="w-full max-w-4xl mx-auto p-6 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
+            <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+                    Student MDP Example
+                </h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                    A student's daily decision-making process
+                </p>
+            </div>
 
-            <div className="relative h-[480px] w-full bg-[#f8fafc] dark:bg-[#0f172a] rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800 select-none">
-                {/* SVG Layer for Edges (Background) */}
+            <div className="relative h-[520px] w-full bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-inner">
+                {/* SVG Layer for Edges */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
                     <defs>
-                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="22" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+                        <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="20" refY="4" orient="auto">
+                            <polygon points="0 0, 8 4, 0 8" fill="#64748b" className="dark:fill-slate-400" />
                         </marker>
-                        <marker id="arrowhead-dash" markerWidth="10" markerHeight="7" refX="22" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#cbd5e1" />
+                        <marker id="arrowhead-hover" markerWidth="8" markerHeight="8" refX="20" refY="4" orient="auto">
+                            <polygon points="0 0, 8 4, 0 8" fill="#3b82f6" />
                         </marker>
                     </defs>
 
                     {edges.map((edge, idx) => {
                         const start = nodes.find(n => n.id === edge.from)!;
                         const end = nodes.find(n => n.id === edge.to)!;
+                        const isHovered = hoveredEdge === idx;
+                        const isActive = activeNode === edge.from || activeNode === edge.to;
 
                         let d = "";
-                        if (edge.loop) {
-                            d = getSelfLoopPath(start.x, start.y, 50, edge.loop as any);
+                        if (edge.selfLoop) {
+                            d = getSelfLoopPath(start.x, start.y);
                         } else {
-                            d = getPath(start.x, start.y, end.x, end.y, edge.curvature || 0);
+                            d = getCurvedPath(start.x, start.y, end.x, end.y, edge.curvature || 0);
                         }
 
                         return (
-                            <path
-                                key={idx}
-                                d={d}
-                                fill="none"
-                                stroke={edge.dashed ? "#cbd5e1" : "#94a3b8"}
-                                strokeWidth="2"
-                                strokeDasharray={edge.dashed ? "6,4" : "0"}
-                                markerEnd={edge.dashed ? "url(#arrowhead-dash)" : "url(#arrowhead)"}
-                                className="transition-all duration-300"
-                            />
+                            <g key={idx}>
+                                <path
+                                    d={d}
+                                    fill="none"
+                                    stroke={isHovered || isActive ? "#3b82f6" : "#94a3b8"}
+                                    strokeWidth={isHovered ? "3" : "2"}
+                                    markerEnd={isHovered ? "url(#arrowhead-hover)" : "url(#arrowhead)"}
+                                    className="transition-all duration-200"
+                                    opacity={isHovered || isActive ? 1 : 0.6}
+                                />
+                            </g>
                         );
                     })}
                 </svg>
 
-                {/* HTML Layer for Nodes (Middle) */}
-                {nodes.map(node => (
-                    <motion.div
-                        key={node.id}
-                        className={`absolute flex items-center justify-center text-xs font-bold shadow-soft-lg cursor-pointer transition-colors duration-300 z-10
-                            ${node.type === "state" ?
-                                `w-16 h-16 rounded-full border-2 ${activeNode === node.id ? 'bg-blue-600 text-white border-blue-700' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700'}` :
-                                node.type === "action" ?
-                                    `w-7 h-7 rounded-md bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 border border-transparent` :
-                                    `w-14 h-14 rounded-md border-2 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-500`
-                            }`}
-                        style={{
-                            left: node.x,
-                            top: node.y,
-                            marginLeft: node.type === "action" ? -14 : node.type === "term" ? -28 : -32, // Center offset
-                            marginTop: node.type === "action" ? -14 : node.type === "term" ? -28 : -32
-                        }}
-                        onClick={() => setActiveNode(node.id)}
-                        whileHover={{ scale: 1.05 }}
-                    >
-                        {node.type === "action" ? (
-                            <div className="transform rotate-45 w-full h-full absolute top-0 left-0 bg-inherit rounded-sm -z-10 border border-inherit shadow-md"></div>
-                        ) : null}
-                        <span className={`relative z-10 ${node.type === "action" ? "" : ""}`}>{node.label}</span>
-                    </motion.div>
-                ))}
+                {/* State Nodes */}
+                {nodes.map((node) => {
+                    const Icon = node.icon;
+                    const isActive = activeNode === node.id;
 
-                {/* HTML Layer for Labels (Top) -> Guaranteed visibility */}
+                    return (
+                        <motion.div
+                            key={node.id}
+                            className={`absolute flex flex-col items-center justify-center cursor-pointer transition-all duration-200 z-10
+                                ${node.type === 'state' ? 'w-20 h-20' : 'w-16 h-16'}
+                                rounded-full border-3 shadow-lg
+                                ${node.color}
+                                ${isActive ? 'ring-4 ring-blue-400 scale-110' : 'hover:scale-105'}
+                            `}
+                            style={{
+                                left: node.x - (node.type === 'state' ? 40 : 32),
+                                top: node.y - (node.type === 'state' ? 40 : 32),
+                            }}
+                            onClick={() => setActiveNode(node.id === activeNode ? null : node.id)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            {Icon && <Icon className="w-5 h-5 mb-0.5" />}
+                            <span className="text-[10px] font-bold">{node.label}</span>
+                        </motion.div>
+                    );
+                })}
+
+                {/* Edge Labels (Action + Reward) */}
                 {edges.map((edge, idx) => {
-                    if (!edge.label) return null;
-
                     const start = nodes.find(n => n.id === edge.from)!;
                     const end = nodes.find(n => n.id === edge.to)!;
+                    const isHovered = hoveredEdge === idx;
 
-                    // Simple midpoint calculation
-                    const midX = (start.x + end.x) / 2;
-                    const midY = (start.y + end.y) / 2;
+                    let labelX, labelY;
 
-                    let textX = midX;
-                    let textY = midY;
+                    if (edge.selfLoop) {
+                        labelX = start.x - 65;
+                        labelY = start.y;
+                    } else {
+                        labelX = (start.x + end.x) / 2;
+                        labelY = (start.y + end.y) / 2;
 
-                    // Curve approximation for midpoint
-                    if (edge.curvature) {
-                        textY += (edge.curvature > 0 ? 20 : -20);
-                    }
-
-                    // Apply manual offsets
-                    if (edge.labelOff) {
-                        textX += edge.labelOff.x;
-                        textY += edge.labelOff.y;
+                        if (edge.curvature) {
+                            const offset = edge.curvature > 0 ? 25 : -25;
+                            labelY += offset;
+                        }
                     }
 
                     return (
                         <div
                             key={`label-${idx}`}
-                            className="absolute flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none"
-                            style={{ left: textX, top: textY }}
+                            className="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-auto cursor-pointer"
+                            style={{ left: labelX, top: labelY }}
+                            onMouseEnter={() => setHoveredEdge(idx)}
+                            onMouseLeave={() => setHoveredEdge(null)}
                         >
-                            <span className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full px-2 py-0.5 text-[10px] font-mono font-medium text-slate-600 dark:text-slate-300 shadow-sm whitespace-nowrap">
-                                {edge.label}
-                            </span>
+                            <div className={`flex flex-col items-center gap-0.5 transition-all duration-200 ${isHovered ? 'scale-110' : ''}`}>
+                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-semibold whitespace-nowrap
+                                    ${isHovered
+                                        ? 'bg-blue-500 text-white shadow-md'
+                                        : 'bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600'
+                                    }`}>
+                                    {edge.action}
+                                </span>
+                                <span className={`px-1.5 py-0.5 rounded text-[8px] font-mono font-bold
+                                    ${edge.reward.startsWith('+')
+                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                        : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                                    }`}>
+                                    {edge.reward}
+                                </span>
+                            </div>
                         </div>
                     );
                 })}
             </div>
 
-            <div className="mt-4 flex justify-center gap-6 text-xs text-slate-400 font-mono">
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full border-2 border-slate-300 bg-white"></span> State</div>
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rotate-45 bg-slate-800"></span> Action</div>
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-md border-2 border-slate-300 bg-slate-100"></span> Terminal</div>
+            {/* Legend */}
+            <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+                    <div className="w-4 h-4 rounded-full bg-blue-100 border-2 border-blue-300"></div>
+                    <span className="text-slate-600 dark:text-slate-300 font-medium">State</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+                    <div className="w-4 h-4 rounded-full bg-emerald-100 border-2 border-emerald-400"></div>
+                    <span className="text-slate-600 dark:text-slate-300 font-medium">Terminal</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+                    <div className="flex items-center gap-1">
+                        <div className="w-3 h-0.5 bg-slate-400"></div>
+                        <div className="w-0 h-0 border-l-4 border-l-slate-400 border-y-2 border-y-transparent"></div>
+                    </div>
+                    <span className="text-slate-600 dark:text-slate-300 font-medium">Action</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-green-100 text-green-700">+10</span>
+                    <span className="text-slate-600 dark:text-slate-300 font-medium">Reward</span>
+                </div>
             </div>
         </div>
     );
