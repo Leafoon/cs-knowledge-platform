@@ -40,7 +40,6 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, Tool
 ```python
 from openai import OpenAI
 client = OpenAI()
-
 response = client.chat.completions.create(
     model="gpt-4o",
     messages=[{"role": "user", "content": "hello"}],
@@ -55,7 +54,6 @@ response = client.chat.completions.create(
 ```python
 import anthropic
 client = anthropic.Anthropic()
-
 response = client.messages.create(
     model="claude-sonnet-4-20250514",
     tools=[{"name": "...", "input_schema": {...}}],
