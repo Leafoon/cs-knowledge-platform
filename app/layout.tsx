@@ -27,8 +27,8 @@ export default function RootLayout({
     const modules = getModules();
 
     return (
-        <html lang="zh-CN" className={outfit.variable}>
-            <body className="antialiased flex flex-col min-h-screen">
+        <html lang="zh-CN" className={outfit.variable} suppressHydrationWarning>
+            <body className="antialiased flex flex-col min-h-screen" suppressHydrationWarning>
                 <SearchProvider>
                     <CommandMenu modules={modules} />
                     <Header />

@@ -98,6 +98,13 @@
             "description": "AI Agent 智能体开发完整教程：从感知-决策-执行循环到多智能体协作，涵盖大模型基座、提示词工程、工具调用、记忆系统、RAG、规划推理、多 Agent 协作、安全评测与生产部署",
             "icon": "/icons/agent.svg",
             "color": "#f43f5e"
+        },
+        {
+            "id": "python-async",
+            "title": "Python 异步编程",
+            "description": "Python 异步编程完整教程：从阻塞与非阻塞、同步与异步的基本概念出发，循序渐进掌握 asyncio、协程、事件循环、Task 调度、并发控制与生产级实战",
+            "icon": "/icons/python.svg",
+            "color": "#10b981"
         }
     ]
 }
